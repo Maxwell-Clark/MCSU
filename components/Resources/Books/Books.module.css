@@ -1,0 +1,54 @@
+.card {
+    height: rem(640px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .title {
+    font-family:
+      Greycliff CF,
+      sans-serif;
+    font-weight: 900;
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+    line-height: 1.2;
+    font-size: rem(32px);
+    align-items: center;
+    text-align: center;
+    justify-self: center;
+    margin-top: var(--mantine-spacing-xs);
+  }
+  
+  .category {
+    color: var(--mantine-color-white);
+    opacity: 0.7;
+    font-weight: 700;
+    /* text-transform: uppercase; */
+  }
+
+  .order_button {
+    /* background-color: #333333; Initial background color */
+    /* color: light-dark(var(--mantine-color-black), var(--mantine-color-white));; Text color */
+    border: 2px solid; /* 2px wide, solid style, black color */
+    border-radius: 4px; 
+    /* border-color: light-dark(var(--mantine-color-black), var(--mantine-color-white));; Color on hover (e.g., tomato) */
+    padding: 10px 20px;
+    /* border: none; */
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 40em;
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  .order_button:hover {
+    background-color: light-dark(var(--mantine-color-pale-blue), var(--mantine-color-black));; /* Color on hover (e.g., tomato) */
+  }
+
+  .btn_wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
