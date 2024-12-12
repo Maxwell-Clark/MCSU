@@ -5,7 +5,7 @@ import { LandingOfferings } from '../components/Landing/LandingOfferings/Landing
 import { LandingHero } from '../components/Landing/LandingHero/LandingHero';
 import '@mantine/carousel/styles.css';
 
-export function HomePage() {
+export default function HomePage() {
   return (
     <>
       <LandingHero />
@@ -16,4 +16,3 @@ export function HomePage() {
     </>
   );
 }
-export default HomePage;

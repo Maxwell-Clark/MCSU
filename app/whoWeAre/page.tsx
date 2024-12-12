@@ -1,7 +1,7 @@
 import { WWALeadership } from '@/components/WWALeadership/WWALeadership';
 import { WWAOverview } from '@/components/WWAOverview/WWAOverview'
 import { WWABoard } from '@/components/WWABoard/WWABoard';
-export function WhoWeArePage() {
+export default function WhoWeArePage() {
     const data = [
         {
           image:
@@ -49,5 +49,3 @@ export function WhoWeArePage() {
     </>
   );
 }
-
-export default WhoWeArePage;
