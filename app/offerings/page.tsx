@@ -3,7 +3,7 @@ import { EveryDayMindfulness } from '@/components/Offerings/EveryDayMindfulness/
 import { ContactUs } from '@/components/ContactUs/ContactUs';
 import { IntroToMindfulness } from '@/components/Offerings/IntroToMindfulness/IntroToMindfulness';
 import { MondayMindfulness } from '@/components/Offerings/MondayMindfulness/MondayMindfulness';
-export function OfferingsPage() {
+export default function OfferingsPage() {
     const data = [
         {
           image:
@@ -53,4 +53,3 @@ export function OfferingsPage() {
   );
 }
 
-export default OfferingsPage;
