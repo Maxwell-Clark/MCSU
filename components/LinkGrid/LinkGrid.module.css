@@ -1,0 +1,33 @@
+/* LinkGrid.module.css */
+.grid {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.card {
+    cursor: pointer;
+    text-align: center;
+    width: 9em;
+    height: 9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Add any other styles you want */
+
+  }
+
+  .card:hover {
+    /* Slightly enlarge the card on hover */
+    border: 2px solid;
+    transform: scale(1.05);
+  }
+
+  .label {
+    font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  font-size: rem(14px);
+  font-weight: 700;
+  vertical-align: middle;
+    line-height: 1.1;
+    padding: 0.5em;
+  }
