@@ -9,6 +9,14 @@
     padding: 8px 0;
   }
 
+  .linksContainer {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px; /* space between link rows */
+  }
+
   .title {
     font-family:
       Greycliff CF,

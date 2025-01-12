@@ -1,8 +1,6 @@
 // App.jsx (or wherever you need it)
 import React from 'react';
 import { MantineProvider, Title } from '@mantine/core';
-import { IconHome, IconMail } from '@tabler/icons-react';
-import { LinksCard } from './LinksCard';
 import { LinkGrid } from '@/components/LinkGrid/LinkGrid';
 
 import classes from './Links.module.css';
@@ -38,7 +36,7 @@ export default function Links() {
   ];
 
   return (
-      <div style={{ maxWidth: 400, margin: 'auto', padding: '1rem' }}>
+      <div style={{ maxWidth: 900, margin: 'auto', padding: '1rem' }} className={classes.linksContainer}>
         <Title className={classes.title} order={2}>
             Links    
         </Title>
