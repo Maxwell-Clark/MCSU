@@ -41,16 +41,19 @@ import { useState } from 'react';
     {
       icon: IconInfoCircle,
       title: 'Overview',
+      id: 'overview',
       description: 'Learn about our mission, values, and the work we do to foster mindfulness in communities.',
     },
     {
       icon: IconUsers,
       title: 'Leadership',
+      id: 'leadership',
       description: 'Meet our leadership team and see how they guide our vision and initiatives.',
     },
     {
       icon: IconBuilding,
       title: 'Board and Team',
+      id: 'board',
       description: 'Explore our dedicated board members and team, committed to promoting mindfulness.',
     }
   ];
@@ -59,17 +62,26 @@ import { useState } from 'react';
     {
       icon: IconFileText,
       title: 'Papers',
+      id: 'papers',
       description: 'Access research papers and articles on the science and benefits of mindfulness.',
     },
     {
       icon: IconVideo,
       title: 'Videos',
+      id: 'videos',
       description: 'Watch educational videos to deepen your understanding of mindfulness practices.',
     },
     {
       icon: IconBook,
       title: 'Books',
+      id: 'books',
       description: 'Browse recommended books for a more comprehensive study of mindfulness.',
+    },
+    {
+      icon: IconLink,
+      title: 'Links',
+      id: 'links',
+      description: 'Explore helpful resources and links to useful mindfulness resources.',
     }
   ];
   
@@ -77,54 +89,63 @@ import { useState } from 'react';
     {
       icon: IconHeadphones,
       title: 'Guided Meditation',
+      id: 'meditations',
       description: 'Listen to guided meditations to help you focus, relax, and cultivate mindfulness.',
     },
     {
       icon: IconMessageCircle,
       title: 'Short Talks',
+      id: 'talks',
       description: 'Explore brief talks on mindfulness topics, offering insights and inspiration.',
     },
     {
       icon: IconMusic,
       title: 'Music',
+      id: 'music',
       description: 'Discover calming music to accompany your mindfulness and meditation sessions.',
     },
     {
       icon: IconVideo,
       title: 'Videos',
+      id: 'videos',
       description: 'Watch videos on various aspects of mindfulness, including techniques and benefits.',
     },
     {
       icon: IconLink,
       title: 'Links',
+      id: 'links',
       description: 'Explore helpful resources and links to deepen your mindfulness practice.',
-    },
-    {
-      icon: IconBook,
-      title: 'Blog',
-      description: 'Read blog posts and articles on mindfulness practices and personal stories.',
-    },
+    }
+    // {
+    //   icon: IconBook,
+    //   title: 'Blog',
+    //   description: 'Read blog posts and articles on mindfulness practices and personal stories.',
+    // },
   ];
   
   const partnerWithUsData = [
     {
       icon: IconHeartHandshake,
       title: 'Community Partners',
+      id: 'partners',
       description: 'Join us as a community partner and make a difference by promoting mindfulness.',
     },
     {
       icon: IconUsers,
       title: 'Individuals',
+      id: 'individuals',
       description: 'Partner with us as an individual to support mindfulness initiatives.',
     },
     {
       icon: IconBuilding,
       title: 'Civic',
+      id: 'civic',
       description: 'Collaborate with us in civic programs to integrate mindfulness into the community.',
     },
     {
       icon: IconBriefcase,
       title: 'Business',
+      id: 'business',
       description: 'Discover ways your business can support mindfulness and well-being in the workplace.',
     },
   ];
@@ -133,28 +154,33 @@ import { useState } from 'react';
     {
       icon: IconChartPie,
       title: 'MBSR',
+      id: 'mbsr',
       description: 'Participate in our Mindfulness-Based Stress Reduction (MBSR) program for stress relief.',
     },
     {
       icon: IconSchool,
       title: 'Intro to Mindfulness',
+      id: 'intro',
       description: 'Join our introductory course to learn the fundamentals of mindfulness practice.',
     },
     {
       icon: IconSunset2,
       title: 'Everyday Mindfulness',
+      id: 'everyday',
       description: 'Learn practical tips to integrate mindfulness into your daily life.',
     },
     {
       icon: IconCalendar,
       title: 'Monday Mindfulness',
+      id: 'monday',
       description: 'Join us every Monday for a mindfulness session to start your week with calm.',
     },
   ];
   
   export function Header() {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-    const [linksOpened, setLinksOpened] = useState({});    const theme = useMantineTheme();
+    const [linksOpened, setLinksOpened] = useState({});    
+    const theme = useMantineTheme();
     const { toggleColorScheme } = useMantineColorScheme();
 
     const toggleLinks = (key) => {

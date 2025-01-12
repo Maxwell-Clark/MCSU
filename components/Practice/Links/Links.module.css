@@ -1,0 +1,51 @@
+.card {
+    /* Optional: add extra spacing or custom background */
+    margin: 1rem 0;
+    background-color: #fff; /* or any color you'd like */
+  }
+  
+  .cardSection {
+    /* border-bottom: 1px solid #eaeaea; */
+    padding: 8px 0;
+  }
+
+  .title {
+    font-family:
+      Greycliff CF,
+      var(--mantine-font-family);
+    font-size: rem(36px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--mantine-spacing-md);
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+    text-align: center;
+  }
+  
+  .linksContainer {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* space between link rows */
+  }
+  
+  .linkItem {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* space between icon and text */
+    justify-content: center;
+  }
+  
+  .linkIcon {
+    color: #1c7ed6; /* Mantine's default blue, for example */
+  }
+  
+  .linkAnchor {
+    text-decoration: underline;
+    color: #1c7ed6;
+    font-size: 0.875rem; /* same as Mantine's sm (14px) */
+  }
+  
+  .linkAnchor:hover {
+    color: #1864ab; /* darker shade on hover */
+  }
+  

@@ -1,6 +1,7 @@
 import React from 'react';
 import YouTube from 'react-youtube';
-import { Paper, Text } from '@mantine/core';
+import { Paper } from '@mantine/core';
+import styles from './YouTubePlayer.module.css'; // We'll define .videoContainer in here
 
 interface YouTubePlayerProps {
   videoId: string;
@@ -9,20 +10,16 @@ interface YouTubePlayerProps {
 
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId, title }) => {
   const opts = {
-    height: '405',
-    width: '500',
     playerVars: {
       autoplay: 0,
     },
   };
 
   return (
-    <Paper shadow="md" radius="md"  style={{ maxWidth: 720, margin: 'auto' }}>
-      {/* <Text size="lg"  mb="xs">
-        {title}
-      </Text> */}
-      <YouTube videoId={videoId} opts={opts} />
-      
+    <Paper shadow="md" radius="md" style={{ maxWidth: 1500, margin: 'auto' }}>
+      <div >
+        <YouTube  videoId={videoId} opts={opts} />
+      </div>
     </Paper>
   );
 };

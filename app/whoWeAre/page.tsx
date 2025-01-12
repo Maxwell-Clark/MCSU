@@ -42,10 +42,15 @@ export default function WhoWeArePage() {
       ];
   return (
     <>
-      <WWAOverview />
+    <div id='overview'>
+    <WWAOverview />
+    </div>
+    <div id='leadership'>
       <WWALeadership />
+    </div>
+    <div id='board'>
       <WWABoard />
-      {/* <CardsCarousel data={data} /> */}
+    </div>
     </>
   );
 }

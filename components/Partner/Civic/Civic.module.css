@@ -1,0 +1,76 @@
+/* The outer wrapper */
+.infinite-scroll-wrapper {
+    position: relative;
+    width: 100%;
+    height: 80px; /* Adjust as needed */
+    overflow: hidden;  /* hide the horizontal scrollbar */
+    border: 1px solid #ccc;
+    background: #f8f9fa;
+  }
+  
+  /* The inner content container */
+  .infinite-scroll-content {
+    display: inline-flex; /* to keep items side by side horizontally */
+    white-space: nowrap;
+    animation: scroll-left 10s linear infinite;
+  }
+  
+  /* Keyframes for the scrolling */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      /* This translates the width of one “copy” of your items.
+         If your combined items are 2000px wide, set it to -2000px, etc. */
+      transform: translateX(-50%);
+    }
+  }
+  .wrapper {
+    padding: calc(var(--mantine-spacing-xl) * 2) var(--mantine-spacing-xl);
+  }
+  
+  .title {
+    font-family:
+      Greycliff CF,
+      var(--mantine-font-family);
+    font-size: rem(36px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--mantine-spacing-md);
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  }
+
+  .description {
+    margin-bottom: 3em;
+  }
+
+  /* The outer wrapper */
+.infinite-scroll-wrapper {
+    position: relative;
+    width: 100%;
+    height: 80px; /* Adjust as needed */
+    overflow: hidden;  /* hide the horizontal scrollbar */
+    border: 1px solid #ccc;
+    background: #f8f9fa;
+  }
+  
+  /* The inner content container */
+  .infinite-scroll-content {
+    display: inline-flex; /* to keep items side by side horizontally */
+    white-space: nowrap;
+    animation: scroll-left 10s linear infinite;
+  }
+  
+  /* Keyframes for the scrolling */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      /* This translates the width of one “copy” of your items.
+         If your combined items are 2000px wide, set it to -2000px, etc. */
+      transform: translateX(-50%);
+    }
+  }
+  

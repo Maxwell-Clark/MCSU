@@ -3,7 +3,7 @@
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
 import { Paper, Text, Title, Button, useMantineTheme, rem } from '@mantine/core';
-import {ListDropdown} from '@/components/ListDropdown/ListDropdown'
+// import {ListDropdown} from '@/components/ListDropdown/ListDropdown'
 import classes from './Papers.module.css';
 
 interface CardProps {

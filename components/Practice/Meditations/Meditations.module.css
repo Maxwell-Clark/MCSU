@@ -1,0 +1,27 @@
+.title {
+    font-family:
+      Greycliff CF,
+      var(--mantine-font-family);
+    font-size: rem(36px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--mantine-spacing-md);
+    /* color: light-dark(var(--mantine-color-black), var(--mantine-color-white)); */
+    text-align: center;
+  }
+  
+  .wrapper {
+    margin-bottom: 20px;
+    /* background: #f8f8f8; or any background color you like */
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .audio_player {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  

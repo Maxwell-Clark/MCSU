@@ -1,0 +1,39 @@
+/* styles.css */
+
+/* 1. Wrapper: Hide overflow to clip the scrolling content */
+.marquee-wrapper {
+    position: relative;
+    width: 100%;
+    height: 140px; /* Adjust as needed */
+    overflow: hidden;
+    /* background: #f8f9fa; Example background color */
+  }
+  
+  /* 2. Scrolling content container */
+  .marquee-content {
+    display: inline-flex;
+    white-space: nowrap;
+    justify-content: space-between;
+    /* margin: 5em; */
+    animation: scroll-left 30s linear infinite; /* The marquee animation */
+  }
+  
+  /* 3. Each item in the marquee */
+  .marquee-item {
+    width: 12em;   /* So it doesn’t overflow the marquee content*/
+    height: 7em;     
+    object-fit: contain;
+    margin-left: 5em;  /* Space between items */
+  }
+  
+  /* 4. The keyframes for scrolling from right to left */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      /* -50% means you must have at least twice as many items as the container width */
+      transform: translateX(-50%);
+    }
+  }
+  

@@ -25,6 +25,7 @@ import {
   
     const fetchLinks = (data) => {
       return data.map((item) => (
+        <Link className={classes.subLink} href={`${endpoint}#${item.id}`}>
         <UnstyledButton className={classes.subLink} key={item.title}>
           <Group wrap="nowrap" align="justify-center">
             <ThemeIcon size={34} variant="default" radius="md">
@@ -40,6 +41,8 @@ import {
             </div>
           </Group>
         </UnstyledButton>
+        </Link>
+
       ));
     };
   

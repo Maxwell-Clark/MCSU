@@ -44,11 +44,21 @@ export default function OfferingsPage() {
       ];
   return (
     <>
+    <div id='intro'>
       <IntroToMindfulness />
+    </div>
+      <div id='mbsr'>
       <MBSR />
+      </div>
+      <div id='everyday'>
       <EveryDayMindfulness />
+      </div>
+      <div id='monday'>
       <MondayMindfulness />
+      </div>
+      <div id='contact'>
       <ContactUs />
+      </div>
     </>
   );
 }

@@ -1,0 +1,35 @@
+/* BlogPostPage.module.css */
+
+.pageContainer {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .date {
+    color: #888; /* Slightly gray text to differentiate from main text */
+    font-size: 0.875rem; /* 14px if Mantine’s base font-size is 16px */
+  }
+  
+  .postImage {
+    margin: 1rem 0;
+    border-radius: 6px;
+    /* You can add more styling like box-shadow if desired */
+  }
+  
+  .content {
+    margin-top: 1rem;
+    line-height: 1.6; /* Provide comfortable reading line spacing */
+  }
+  

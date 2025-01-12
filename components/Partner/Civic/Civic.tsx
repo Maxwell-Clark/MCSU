@@ -1,8 +1,8 @@
 'use client';
-import { Title, SimpleGrid, Text, Button, ThemeIcon, Grid, rem } from '@mantine/core';
+import { Title, SimpleGrid, Text, Button, ThemeIcon, Grid, rem, Group } from '@mantine/core';
 import { IconReceiptOff, IconFlame, IconCircleDotted, IconFileCode } from '@tabler/icons-react';
-import classes from './WWABoard.module.css';
-import { UserInfoIcons } from '../UserInfoIcons/UserInfoIcons';
+import classes from './Civic.module.css';
+import { UserInfoIcons } from '../../UserInfoIcons/UserInfoIcons';
 
 const features = [
   {
@@ -63,8 +63,8 @@ const data = [
     }
   ];
 
-export function WWABoard() {
-  const items = features.map((feature) => (
+export function Civic() {
+  const items = data.map((feature) => (
     <div key={feature.title}>
       <ThemeIcon
         size={44}
@@ -72,13 +72,13 @@ export function WWABoard() {
         variant="gradient"
         gradient={{ deg: 133, from: 'blue', to: 'cyan' }}
       >
-        <feature.icon style={{ width: rem(26), height: rem(26) }} stroke={1.5} />
+        {/* <feature.icon style={{ width: rem(26), height: rem(26) }} stroke={1.5} /> */}
       </ThemeIcon>
       <Text fz="lg" mt="sm" fw={500}>
         {feature.title}
       </Text>
       <Text c="dimmed" fz="sm">
-        {feature.description}
+        {/* {feature.description} */}
       </Text>
     </div>
   ));
@@ -86,23 +86,29 @@ export function WWABoard() {
   return (
     <div className={classes.wrapper}>
 <Grid gutter={80}>
-  <Grid.Col span={{ base: 12, md: 7 }}>
+<Grid.Col span={{ base: 12, md: 7 }}>
   <SimpleGrid cols={{ base: 1, md: 2 }} spacing={30}>
       {data.map((user, index) => (
-        <UserInfoIcons key={index} name={user.title} role={user.category} img={user.image} />
+        <UserInfoIcons key={index} name={user.title} img={user.image} />
       ))}
     </SimpleGrid>
   </Grid.Col>
-
-  <Grid.Col span={{ base: 12, md: 5 }}>
+<Grid.Col span={{ base: 12, md: 5 }}>
   <Title className={classes.title} order={2}>
-      Meet Our Board of Directors
+      Civic Partnerships
     </Title>
     <Text c="dimmed">
-      Build fully functional accessible web applications faster than ever – Mantine includes
-      more than 120 customizable components and hooks to cover you in any situation.
+        We are proud to partner with a variety of organizations and individuals to bring our programs to the community.
+        Our partners include local businesses, schools, and civic organizations. Together, we are working to create a more mindful and compassionate community.
     </Text>
+    <Group justify="center" mt="md">
+        <Button type="submit" className={classes.control}>
+        Become a Partner
+        </Button>
+    </Group>
   </Grid.Col>
+
+
 </Grid>
 
     </div>

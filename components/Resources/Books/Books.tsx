@@ -8,12 +8,13 @@ interface BookProps {
   image: string;
   title: string;
   description: string;
+  link: string;
 }
 
 function BookCard({ image, title, description, link }: BookProps) {
   return (
     <Paper shadow="md" p="md" radius="md" className={classes.card}>
-      <Stack spacing="xs">
+      <Stack>
         <Image src={image} alt={title} height={460} fit="contain" radius="md" />
         <Text className={classes.category} size="xs" color="dimmed">
           {description}

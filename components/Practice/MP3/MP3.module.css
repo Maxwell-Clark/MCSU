@@ -1,0 +1,27 @@
+.title {
+    margin-bottom: 1.5rem;
+    /* You can add more styling for the title here */
+  }
+  
+  .audio_container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* background: #f8f8f8; or any background color you like */
+    padding: 1rem;
+    border-radius: 8px;
+    /* max-width: 50%; */
+  }
+
+  .wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .audio_player {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  

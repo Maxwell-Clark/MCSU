@@ -4,7 +4,7 @@ import classes from './WWAOverview.module.css';
 
 export function WWAOverview() {
   return (
-    <div className={classes.wrapper}>
+    <div  className={classes.wrapper}>
       <Container size={950} className={classes.inner}>
         <h1 className={classes.title}>
           {' '}
