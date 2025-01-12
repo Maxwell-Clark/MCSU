@@ -3,8 +3,9 @@
 import React from 'react';
 import { Container, Title, Text, Image, Divider } from '@mantine/core';
 import classes from './BlogPost.module.css';
+import { BlogPostInterface } from '@/interfaces/General_Interfaces';
 
-const BlogPost = (post: any) => {
+const BlogPost = ({post}: BlogPostInterface) => {
   // Sample post data
   const post1 = {
     title: 'Cultivating Mindfulness: A Beginner’s Guide',

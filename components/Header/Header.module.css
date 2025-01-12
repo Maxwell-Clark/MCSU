@@ -6,10 +6,10 @@
     padding-left: var(--mantine-spacing-md);
     padding-right: var(--mantine-spacing-md);
     flex-direction: row;
+    width: 100%;
     border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
     @media screen and (max-width: $mantine-breakpoint-sm) {
       /* remove or change the width: 25%; */
-      width: 100%;
       flex-direction: row;
     }
 
@@ -20,6 +20,7 @@
     align-items: center;  /* if needed */
     justify-content: space-between; 
     flex-wrap: nowrap;    /* to prevent wrapping */
+    width: 100%;
     
     @media screen and (max-width: $mantine-breakpoint-sm) {
       /* remove or change the width: 25%; */
