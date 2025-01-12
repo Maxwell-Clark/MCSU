@@ -8,11 +8,12 @@ import classes from './Papers.module.css';
 
 interface CardProps {
   image: string;
+  url: string;
   title: string;
   category: string;
 }
 
-function Card({ image, title, category }: CardProps) {
+function Card({ image, url, title, category }: CardProps) {
   return (
     <Paper
       shadow="md"
@@ -25,11 +26,11 @@ function Card({ image, title, category }: CardProps) {
         <Text className={classes.category} size="xs">
           {category}
         </Text>
-        <Title order={3} className={classes.title}>
+        <Title order={3} className={classes.title} style={{ color: 'white' }}>
           {title}
         </Title>
       </div>
-      <Button variant="white" color="dark">
+      <Button variant="white" color="dark"  onClick={() => window.open(url, '_blank')}>
         Read article
       </Button>
     </Paper>
@@ -38,41 +39,31 @@ function Card({ image, title, category }: CardProps) {
 
 const data = [
   {
-    image:
-      'https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-    title: 'Best forests to visit in North America',
-    category: 'nature',
+    image:'https://www.apa.org/images/tile-stress-mindfulness-meditation_tcm7-264379.jpg',
+    url: 'https://www.apa.org/topics/mindfulness/meditation',
+    title: 'Mindfulness meditation: A research-proven way to reduce stress',
+    category: 'Mindfulness',
+  },
+  {
+    image:'https://newsinhealth.nih.gov/sites/newsinhealth/files/2021/June/jun-2021-cover-illustration-woman-focusing-butterfly-worries-float-away.jpg',
+    title: 'Mindfulness for Your Health ',
+    url: 'https://newsinhealth.nih.gov/2021/06/mindfulness-your-health',
+    category: 'Health',
   },
   {
     image:
-      'https://images.unsplash.com/photo-1559494007-9f5847c49d94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-    title: 'Hawaii beaches review: better than you think',
-    category: 'beach',
+      'https://freenaturestock.com/wp-content/uploads/freenaturestock-2287-768x1050.jpg',
+    title: 'Meditation: A simple, fast way to reduce stress',
+    url: 'https://www.mayoclinic.org/tests-procedures/meditation/in-depth/meditation/art-20045858',
+    category: 'Meditation',
   },
   {
     image:
-      'https://images.unsplash.com/photo-1608481337062-4093bf3ed404?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-    title: 'Mountains at night: 12 best locations to enjoy the view',
-    category: 'nature',
-  },
-  {
-    image:
-      'https://images.unsplash.com/photo-1507272931001-fc06c17e4f43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-    title: 'Aurora in Norway: when to visit for best experience',
-    category: 'nature',
-  },
-  {
-    image:
-      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-    title: 'Best places to visit this winter',
-    category: 'tourism',
-  },
-  {
-    image:
-      'https://images.unsplash.com/photo-1582721478779-0ae163c05a60?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-    title: 'Active volcanos reviews: travel at your own risk',
-    category: 'nature',
-  },
+      'https://freenaturestock.com/wp-content/uploads/freenaturestock-2285-768x1152.jpg',
+    title: 'When science meets mindfulness',
+    url: 'https://news.harvard.edu/gazette/story/2018/04/harvard-researchers-study-how-mindfulness-may-change-the-brain-in-depressed-patients/',
+    category: 'Mindfulness',
+  }
 ];
 
 export function Papers() {

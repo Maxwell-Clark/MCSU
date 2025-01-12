@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Paper, Text, Title, Button, Image, Stack, Box } from '@mantine/core';
+import { Paper, Text, Title, Button, Image, useMantineTheme, Stack, rem } from '@mantine/core';
 import classes from './Books.module.css';
+import { useMediaQuery } from '@mantine/hooks';
+import { Carousel } from '@mantine/carousel';
 
 interface BookProps {
   image: string;
@@ -11,17 +13,14 @@ interface BookProps {
   link: string;
 }
 
-function BookCard({ image, title, description, link }: BookProps) {
+function BookCard({ image, title, description, link }: BookProps) {  
   return (
     <Paper shadow="md" p="md" radius="md" className={classes.card}>
       <Stack>
-        <Image src={image} alt={title} height={460} fit="contain" radius="md" />
-        <Text className={classes.category} size="xs" color="dimmed">
-          {description}
-        </Text>
-        <Title order={4} className={classes.title}>
+      <Title order={4} className={classes.book_title}>
           {title}
         </Title>
+        <Image src={image} alt={title} height={460} fit="contain" radius="md" />
         <div className={classes.btn_wrapper}>
           <Button variant="outline" className={classes.order_button} onClick={() => window.open(link, '_blank')}>
             Order on Amazon
@@ -69,14 +68,29 @@ function BookCard({ image, title, description, link }: BookProps) {
   
 
 export function Books() {
+  const theme = useMantineTheme();
+  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const slides = data.map((item, index) => (
+    <Carousel.Slide key={item.title}>
+      <BookCard key={index} {...item} />
+    </Carousel.Slide>
+  ));
   return (
     <div className={classes.wrapper}>
       <Title ta="center" className={classes.title} >Books</Title>
-      <Stack>
+            <Carousel
+              // slideSize={{ base: '100%', sm: '50%' }}
+              // slideGap={{ base: rem(2), sm: 'xl' }}
+              // align="start"
+              slidesToScroll={1}
+            >
+              {slides}
+            </Carousel>
+      {/* <Stack>
         {data.map((item, index) => (
           <BookCard key={index} {...item} />
         ))}
-      </Stack>
+      </Stack> */}
     </div>
   );
 }

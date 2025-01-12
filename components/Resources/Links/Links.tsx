@@ -3,6 +3,7 @@ import React from 'react';
 import { MantineProvider, Title } from '@mantine/core';
 import { IconHome, IconMail } from '@tabler/icons-react';
 import { LinksCard } from './LinksCard';
+import { LinkGrid } from '@/components/LinkGrid/LinkGrid';
 
 import classes from './Links.module.css';
 
@@ -10,16 +11,28 @@ export default function Links() {
   const links = [
     {
       label: 'Jon Kabbot Zin & Mindfulness',
-      url: '/',
-      icon: IconHome,
+      url: 'https://palousemindfulness.com/index.html',
     },
     {
-      label: 'Other Meditation Center',
-      url: 'mailto:support@example.com',
+      label: 'Palouse Mindfulness',
+      url: 'https://palousemindfulness.com/index.html',
     },
     {
       label: 'Mindfulness in the Workplace',
-      url: 'https://example.com/docs',
+      url: 'https://palousemindfulness.com/index.html',
+      // no icon -> defaults to IconExternalLink
+    },
+    {
+      label: 'Meditation & Mindfulness',
+      url: 'https://palousemindfulness.com/index.html',
+    },
+    {
+      label: 'MBSR',
+      url: 'https://palousemindfulness.com/index.html',
+    },
+    {
+      label: 'Emptyness Meditation',
+      url: 'https://palousemindfulness.com/index.html',
       // no icon -> defaults to IconExternalLink
     },
   ];
@@ -29,7 +42,7 @@ export default function Links() {
         <Title className={classes.title} order={2}>
             Links    
         </Title>
-        <LinksCard title="Links" links={links} />
+        <LinkGrid links={links} />
       </div>
   );
 }

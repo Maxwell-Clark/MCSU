@@ -329,7 +329,7 @@ import { useState } from 'react';
           </UnstyledButton>
           <Collapse in={linksOpened['resources']}>{fetchLinks(resourcesData, '/practice')}</Collapse>
 
-          <a href="#" className={classes.link}>
+          <a href="/blog" className={classes.link}>
             Blog
           </a>
 
