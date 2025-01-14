@@ -86,14 +86,7 @@ export function Civic() {
   return (
     <div className={classes.wrapper}>
 <Grid gutter={80}>
-<Grid.Col span={{ base: 12, md: 7 }}>
-  <SimpleGrid cols={{ base: 1, md: 2 }} spacing={30}>
-      {data.map((user, index) => (
-        <UserInfoIcons key={index} name={user.title} img={user.image} />
-      ))}
-    </SimpleGrid>
-  </Grid.Col>
-<Grid.Col span={{ base: 12, md: 5 }}>
+<Grid.Col span={{ base: 12, md: 5 }} order={{ base: 1, md: 2 }}>
   <Title className={classes.title} order={2}>
       Civic Partnerships
     </Title>
@@ -101,14 +94,19 @@ export function Civic() {
         We are proud to partner with a variety of organizations and individuals to bring our programs to the community.
         Our partners include local businesses, schools, and civic organizations. Together, we are working to create a more mindful and compassionate community.
     </Text>
-    <Group justify="center" mt="md">
+    {/* <Group justify="center" mt="md">
         <Button type="submit" className={classes.control}>
         Become a Partner
         </Button>
-    </Group>
+    </Group> */}
   </Grid.Col>
-
-
+  <Grid.Col span={{ base: 12, md: 7 }} order={{ base: 2, md: 1 }}>
+    <SimpleGrid cols={{ base: 1, md: 2 }} spacing={30}>
+        {data.map((user, index) => (
+          <UserInfoIcons key={index} name={user.title} img={user.image} />
+        ))}
+      </SimpleGrid>
+    </Grid.Col>
 </Grid>
 
     </div>

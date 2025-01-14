@@ -86,16 +86,9 @@ export function WWABoard() {
   return (
     <div className={classes.wrapper}>
 <Grid gutter={80}>
-  <Grid.Col span={{ base: 12, md: 7 }}>
-  <SimpleGrid cols={{ base: 1, md: 2 }} spacing={30}>
-      {data.map((user, index) => (
-        <UserInfoIcons key={index} name={user.title} role={user.category} img={user.image} />
-      ))}
-    </SimpleGrid>
-  </Grid.Col>
-
-  <Grid.Col span={{ base: 12, md: 5 }}>
-  <Title className={classes.title} order={2}>
+  {/* Column that shows first on mobile, second on md and above */}
+  <Grid.Col span={{ base: 12, md: 5 }} order={{ base: 1, md: 2 }}>
+    <Title className={classes.title} order={2}>
       Meet Our Board of Directors
     </Title>
     <Text c="dimmed">
@@ -103,7 +96,17 @@ export function WWABoard() {
       more than 120 customizable components and hooks to cover you in any situation.
     </Text>
   </Grid.Col>
+
+  {/* Column that shows second on mobile, first on md and above */}
+  <Grid.Col span={{ base: 12, md: 7 }} order={{ base: 2, md: 1 }}>
+    <SimpleGrid cols={{ base: 1, md: 2 }} spacing={30}>
+      {data.map((user, index) => (
+        <UserInfoIcons key={index} name={user.title} role={user.category} img={user.image} />
+      ))}
+    </SimpleGrid>
+  </Grid.Col>
 </Grid>
+
 
     </div>
   );

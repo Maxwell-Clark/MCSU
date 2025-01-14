@@ -10,9 +10,12 @@ import {
     Button,
     rem,
     useMantineTheme,
+    Modal,
   } from '@mantine/core';
   import { IconPlant2, IconBrain, IconLungs, IconHeart } from '@tabler/icons-react'; // Replace these with relevant icons
   import classes from './IntroToMindfulness.module.css';
+  import { ClassCalendar } from '../../Calendar/Calendar';
+import { useState } from 'react';
   
   const mockdata = [
     {
@@ -52,6 +55,16 @@ import {
         </Text>
       </Card>
     ));
+
+    const [calendarOpened, setCalendarOpen] = useState(false);
+
+    function openCalendar() {
+      setCalendarOpen(true);
+    }
+    
+    function  closeCalendar() {
+      setCalendarOpen(false)
+    }
   
     return (
       <Container size="lg" py="xl" className={classes.wrapper}>
@@ -78,9 +91,13 @@ import {
             By practicing mindfulness, we can develop a greater awareness of our thoughts, emotions, and surroundings. These practices empower us to live more fully in each moment.
           </Text>
   
-          <Button variant="gradient" gradient={{ from: 'blue', to: 'blue' }} size="lg" mt="xl">
+          <Button variant="gradient" gradient={{ from: 'blue', to: 'blue' }} size="lg" mt="xl" onClick={openCalendar}>
             Join Us
           </Button>
+
+          <Modal opened={calendarOpened} onClose={closeCalendar} size='lg'>
+            <ClassCalendar />
+          </Modal>
         </Container>
       </Container>
     );

@@ -6,6 +6,8 @@ import { Header } from '../components/Header/Header';
 import { Footer } from '../components/Footer/Footer';
 import { theme } from '../theme';
 import '@mantine/carousel/styles.css';
+import '@mantine/dates/styles.css';
+
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 

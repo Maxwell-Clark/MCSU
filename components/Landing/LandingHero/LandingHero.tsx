@@ -20,7 +20,7 @@ export function LandingHero() {
         </Text>
 
         <Button  size="xl" radius="xl" className={classes.control}>
-          Get started
+          Donate
         </Button>
       </Container>
     </div>

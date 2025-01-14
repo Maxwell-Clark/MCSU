@@ -86,7 +86,7 @@ export function UserInfoIcons({title, name, description, role, img, opened, onOp
            { name }
           </Text>
 
-          <Group wrap="nowrap" gap={10} mt={3}>
+          {/* <Group wrap="nowrap" gap={10} mt={3}>
             <IconAt stroke={1.5} size="1rem" className={classes.icon} />
             <Text fz="xs" c="dimmed">
               robert@glassbreaker.io
@@ -98,7 +98,7 @@ export function UserInfoIcons({title, name, description, role, img, opened, onOp
             <Text fz="xs" c="dimmed">
               +11 (876) 890 56 23
             </Text>
-          </Group>
+          </Group> */}
         </div>
       </Group>
     </div>

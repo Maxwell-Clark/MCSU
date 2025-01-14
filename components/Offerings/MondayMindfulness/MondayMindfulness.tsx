@@ -1,7 +1,11 @@
 'use client';
-import { Title, SimpleGrid, Text, Button, ThemeIcon, Grid, rem } from '@mantine/core';
+import { Title, SimpleGrid, Text, Button, ThemeIcon, Grid, rem, Modal } from '@mantine/core';
 import { IconNotebook, IconUsers, IconCalendar, IconVideo } from '@tabler/icons-react';
+
+import { useState } from 'react';
+
 import classes from './MondayMindfulness.module.css';
+import { ClassCalendar } from '@/components/Calendar/Calendar';
 
 const features = [
   {
@@ -27,6 +31,18 @@ const features = [
 ];
 
 export function MondayMindfulness() {
+
+  
+  const [calendarOpened, setCalendarOpen] = useState(false);
+
+  function openCalendar() {
+    setCalendarOpen(true);
+  }
+  
+  function  closeCalendar() {
+    setCalendarOpen(false)
+  }
+
   const items = features.map((feature) => (
     <div key={feature.title}>
       <ThemeIcon
@@ -68,9 +84,13 @@ export function MondayMindfulness() {
             size="lg"
             radius="md"
             mt="xl"
+            onClick={openCalendar}
           >
             Join Us
           </Button>
+          <Modal opened={calendarOpened} onClose={closeCalendar} size='lg'>
+            <ClassCalendar />
+          </Modal>
         </Grid.Col>
       </Grid>
     </div>

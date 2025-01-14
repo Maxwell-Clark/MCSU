@@ -74,6 +74,12 @@ import { useState } from 'react';
       description: 'Watch educational videos to deepen your understanding of mindfulness practices.',
     },
     {
+      icon: IconMessageCircle,
+      title: 'Short Talks',
+      id: 'talks',
+      description: 'Explore brief talks on mindfulness topics, offering insights and inspiration.',
+    },
+    {
       icon: IconBook,
       title: 'Books',
       id: 'books',
@@ -93,12 +99,6 @@ import { useState } from 'react';
       title: 'Guided Meditation',
       id: 'meditations',
       description: 'Listen to guided meditations to help you focus, relax, and cultivate mindfulness.',
-    },
-    {
-      icon: IconMessageCircle,
-      title: 'Short Talks',
-      id: 'talks',
-      description: 'Explore brief talks on mindfulness topics, offering insights and inspiration.',
     },
     {
       icon: IconMusic,
