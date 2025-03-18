@@ -35,18 +35,18 @@ const data = [
     {
       image:
         'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-      title: 'Meet Our CEO, Sarah Johnson',
-      name: 'Sarah Johnson',
-      category: 'CEO',
-      description: 'As the Chief Executive Officer, Sarah Johnson is the guiding force behind the company’s mission and vision. With years of leadership experience, she has a proven track record of navigating complex business landscapes, fostering innovation, and inspiring teams to reach new heights. Sarah’s passion for growth, combined with her forward-thinking strategy, helps steer the company toward sustainable success and ensures that every decision aligns with our core values and purpose.'
+      title: 'Kirk A. Benson',
+      name: 'Kirk A. Benson',
+      category: 'Leadership',
+      description: 'With Gael’s support and direction, I’ve developed a keen interest in providing mindfulness programs in the community where we live.  I’ve received training to teach mindfulness based stress reduction through Brown University and have completed the Mindfulness Meditation Teacher Certification Program with Tara Barach and Jack Kornfield.  But most importantly, I’ve developed a consistent personal practice.'
     },
     {
       image:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-      title: 'Our Visionary CTO, Michael Lee',
-      name: 'Michael Lee',
-      description: 'As the Chief Technology Officer, Michael Lee is responsible for the company’s technical vision and strategy. With a background in software engineering and a passion for innovation, Michael leads the development of cutting-edge products and solutions that drive business growth and enhance customer experiences. His expertise in emerging technologies and commitment to excellence ensure that our products are always at the forefront of the industry.',
-      category: 'CTO',
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
+      title: 'Alieta Gael Benson',
+      name: 'Alieta Gael Benson',
+      description: 'I have been a practicing mother for 50 years.  I’ve discovered the importance of paying attention to what I experience – my friends, family, and community. A few years ago, I had the opportunity to visit with the Dalai Lama at his home and temple compound in Dharamsala, India.  Western scientists specializing in K-12 education presented to the Dalai Lama their research on the impact of mindfulness in education.  The Dalai Lama provided feedback in dialogue with the scientists. I was very impressed with the benefits mindfulness can provide our children and have since been a firm supporter of making mindfulness widely accessible.  Our efforts at the Mindfulness Center of Southern Utah is to that end.',
+      category: 'Leadership',
     },
     {
       image:
@@ -66,7 +66,7 @@ const data = [
     },
     {
       image:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
       title: 'Finance Lead, Jessica Miller',
       name: 'Jessica Miller',
       description: 'As the Finance Lead, Jessica Miller oversees the company’s financial operations and strategy. With a background in finance and a keen eye for detail, Jessica ensures that our financial processes are efficient, accurate, and compliant with industry standards. Her expertise in financial analysis and reporting helps drive informed decision-making',
