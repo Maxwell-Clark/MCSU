@@ -2,7 +2,7 @@ import Links from "@/components/Practice/Links/Links";
 import Meditations from "@/components/Practice/Meditations/Meditations";
 import Music from "@/components/Practice/Music/Music";
 import Videos from "@/components/Practice/Videos/Videos";
-
+import  GuidedMeditations from "@/components/Resources/Videos/Videos";
 export default function PracticePage() {
     const data = [
       ];
@@ -10,6 +10,9 @@ export default function PracticePage() {
     <>
     <div id='meditations'>
       <Meditations />
+    </div>
+    <div>
+      <GuidedMeditations />
     </div>
     <div id='music'>
       <Music />

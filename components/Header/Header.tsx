@@ -73,12 +73,7 @@ import { useState } from 'react';
       id: 'videos',
       description: 'Watch educational videos to deepen your understanding of mindfulness practices.',
     },
-    {
-      icon: IconMessageCircle,
-      title: 'Short Talks',
-      id: 'talks',
-      description: 'Explore brief talks on mindfulness topics, offering insights and inspiration.',
-    },
+    
     {
       icon: IconBook,
       title: 'Books',
@@ -173,9 +168,9 @@ import { useState } from 'react';
     },
     {
       icon: IconCalendar,
-      title: 'Monday Mindfulness',
-      id: 'monday',
-      description: 'Join us every Monday for a mindfulness session to start your week with calm.',
+      title: 'Drop-in Mindfulness',
+      id: 'drop_in',
+      description: 'Join us for optional drop-in mindfulness classes',
     },
   ];
   

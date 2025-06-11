@@ -4,7 +4,7 @@ import { IconReceiptOff, IconFlame, IconCircleDotted, IconFileCode } from '@tabl
 import classes from './WWALeadership.module.css';
 import { UserInfoIcons } from '../UserInfoIcons/UserInfoIcons';
 import { useDisclosure } from '@mantine/hooks';
-
+import NinaHeadshot from '@/assets/img/nina_headshot.jpg';
 const features = [
   {
     icon: IconReceiptOff,
@@ -45,16 +45,15 @@ const data = [
         'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
       title: 'Alieta Gael Benson',
       name: 'Alieta Gael Benson',
-      description: 'I have been a practicing mother for 50 years.  I’ve discovered the importance of paying attention to what I experience – my friends, family, and community. A few years ago, I had the opportunity to visit with the Dalai Lama at his home and temple compound in Dharamsala, India.  Western scientists specializing in K-12 education presented to the Dalai Lama their research on the impact of mindfulness in education.  The Dalai Lama provided feedback in dialogue with the scientists. I was very impressed with the benefits mindfulness can provide our children and have since been a firm supporter of making mindfulness widely accessible.  Our efforts at the Mindfulness Center of Southern Utah is to that end.',
+      description: 'I have been a practicing mother for 50 years.  I’ve discovered the importance of paying attention to what I experience – my friends, family, and community. A few years ago, I had the opportunity to visit with the Dalai Lama at his home and temple compound in Dharamsala, India.  Western scientists specializing in K-12 education presented to the Dalai Lama their research on the impact of mindfulness in education.  The Dalai Lama provided feedback in dialogue with the scientists. I was very impressed with the benefits mindfulness can provide our children and have since been a firm supporter of making mindfulness widely accessible.  Our efforts at the Mindfulnes\'As the Chief Executive Officer, Sarah Johnson is the guiding force behind the company’s mission and vision. With years of leadership experience, she has a proven track record of navigating complex business landscapes, fostering innovation, and inspiring teams to reach new heights. Sarah’s passion for growth, combined with her forward-thinking strategy, helps steer the company toward sustainable success and ensures that every decision aligns with our core values and purpose.s Center of Southern Utah is to that end.',
       category: 'Leadership',
     },
     {
-      image:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-      title: 'Head of Operations, Emily Davis',
-      name: 'Emily Davis',
-      description: 'As the Head of Operations, Emily Davis oversees the day-to-day activities that keep the company running smoothly. With a focus on efficiency and quality, Emily leads a team of dedicated professionals to ensure that our operations are streamlined, effective, and aligned with our strategic goals. Her commitment to excellence and passion for process improvement help drive the company forward and ensure that we deliver exceptional results to our customers.',
-      category: 'Operations',
+      image: NinaHeadshot.src,
+      title: 'Nina Barnes',
+      name: 'Nina Barnes',
+      description: 'Nina is passionate about community, education, politics, underserved populations, and helping others reach their full potential. Her quest for community involvement began as the general coordinator for Park Discovery, a project that united 10,000 volunteers to make a dream park for kids a reality. This experience led to her service as a Cedar City Councilwoman, a Southern Utah University Board of Trustees member, the Utah State Board of Regents, Utah Women Run, and past Vice-President of the Utah Federation of Republican Women. She is currently engaged with the Policy Project, Envision Utah. She is a leader in Political and Civic Engagement within the Bolder Way Forward Initiative, where she promotes political representation and drives policy initiatives.  Nina received her bachelor’s degree from Brigham Young University and a master’s in Public Administration from Southern Utah University, where she is also an adjunct professor. She owns and operates several businesses, is married to Keith Barnes, and has five children and a cherished granddaughter!',
+      category: 'Leadership',
     },
     {
       image:
@@ -76,6 +75,7 @@ const data = [
 
 export function WWALeadership() {
   const [opened, { close, open }] = useDisclosure(false);
+  console.log(NinaHeadshot)
 
   const items = features.map((feature) => (
     <div key={feature.title}>

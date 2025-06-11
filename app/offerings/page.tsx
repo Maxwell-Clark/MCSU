@@ -53,7 +53,7 @@ export default function OfferingsPage() {
       <div id='everyday'>
       <EveryDayMindfulness />
       </div>
-      <div id='monday'>
+      <div id='drop_in'>
       <MondayMindfulness />
       </div>
       <div id='contact'>

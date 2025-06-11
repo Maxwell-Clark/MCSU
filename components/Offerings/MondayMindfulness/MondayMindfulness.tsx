@@ -72,11 +72,12 @@ export function MondayMindfulness() {
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 5 }}>
         <Title className={classes.title} order={2}>
-            Monday Mindfulness: Start Your Week with Intention
+            Drop-in Mindfulness: Weekly Virtual Sessions
           </Title>
           <Text c="dimmed">
-            Join our weekly virtual mindfulness sessions every Monday. Together, we practice
-            techniques to bring calm, focus, and positivity into our lives.
+           Join our free virtual mindfulness sessions every Monday and Wednesday. 
+    Kirk Benson hosts the Monday evening class, and Dr. David Tate leads the Wednesday session.
+    Together, we practice techniques to bring calm, focus, and presence into our lives.
           </Text>
           <Button
             variant="gradient"
