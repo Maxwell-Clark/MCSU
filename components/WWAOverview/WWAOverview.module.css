@@ -4,14 +4,15 @@
     position: relative;
     background-size: cover;
     background-position: center;
-    background-image: url('../../assets/img/lotus.jpg');;
+    background-image: url('../../assets/img/lotus.jpg');
+    padding: rem(100px);
     /* background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8)); */
   }
   
   .inner {
     position: relative;
-    padding-top: rem(200px);
-    padding-bottom: rem(120px);
+    padding-top: rem(100px);
+    padding-bottom: rem(50px);
     display: flex;
     justify-content: center;
     flex-direction: column;

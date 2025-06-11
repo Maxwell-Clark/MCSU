@@ -34,7 +34,7 @@ export function UserInfoIcons({title, name, description, role, img, opened, onOp
 
       </Modal> */}
       <Group  wrap="nowrap">
-      <HoverCard width={320} shadow="md" withArrow openDelay={200} closeDelay={400}>
+      <HoverCard width={820} shadow="md" withArrow openDelay={200} closeDelay={400}>
         <HoverCard.Target>
         <Avatar
           src={img}

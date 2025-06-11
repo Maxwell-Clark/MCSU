@@ -11,7 +11,7 @@ const features = [
   {
     icon: IconCalendar,
     title: 'Weekly Sessions',
-    description: 'Join us every Monday to start your week with a guided mindfulness session.',
+    description: 'Join us every Monday evening @ 8:15pm to start your week with a guided mindfulness session.',
   },
   {
     icon: IconVideo,
