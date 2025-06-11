@@ -21,7 +21,7 @@ export function WWAOverview() {
     <div className={classes.wrapper}>
       <Container size={1000} className={classes.inner}>
         <Title order={1} ta="center" className={classes.title}>
-          <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'blue' }} inherit>
+          <Text component="span" variant="gradient" gradient={{ from: 'white', to: 'white' }} inherit>
             Overview
           </Text>
         </Title>
@@ -39,7 +39,7 @@ export function WWAOverview() {
         shadow="lg"
         withBorder
       >
-        <Stack spacing="md">
+        <Stack >
           <Text
             size="md"
             fw={900}

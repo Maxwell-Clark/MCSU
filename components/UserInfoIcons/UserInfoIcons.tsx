@@ -1,4 +1,5 @@
 import { Avatar, Text, Group, HoverCard, HoverCardDropdown, Stack, Anchor } from '@mantine/core';
+import type { StaticImageData } from 'next/image';
 import { IconPhoneCall, IconAt } from '@tabler/icons-react';
 import classes from './UserInfoIcons.module.css';
 
@@ -7,7 +8,7 @@ interface UserInfoIconsProps {
   name?: string;
   description?: string;
   role?: string;
-  img?: string;
+  img?: string | StaticImageData;
   opened?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
@@ -37,7 +38,7 @@ export function UserInfoIcons({title, name, description, role, img, opened, onOp
       <HoverCard width={820} shadow="md" withArrow openDelay={200} closeDelay={400}>
         <HoverCard.Target>
         <Avatar
-          src={img}
+          src={typeof img === 'string' ? img: img.src}
           size={94}
           radius="md"
           onMouseEnter={onOpen}
@@ -46,7 +47,7 @@ export function UserInfoIcons({title, name, description, role, img, opened, onOp
         <HoverCard.Dropdown>
           <Group>
           <Avatar
-          src={img}
+          src={typeof img === 'string' ? img: img.src}
           size={94}
           radius="md"
           onMouseEnter={onOpen}
