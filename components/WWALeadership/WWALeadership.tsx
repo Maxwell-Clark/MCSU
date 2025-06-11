@@ -93,7 +93,7 @@ corporation between 1996 and 2017. His activities included project development, 
 property, licensing, acquisitions, divestitures, and financing. He oversaw the legal staff and
 outside legal counsel, litigation, regulatory issues, contracts and he advised the officers and
 board of directors of the business. Prior to his corporate law career, Harlan was in private
-practice at a Seattle law firm where he was a partner.
+practice at a Seattle law firm where he was a partner. 
 In recent years, Harlan has served in various community and non-profit organizations. He and
 his wife served a full-time mission in Saint Louis, Missouri for the Church of Jesus Christ of
 Latter-day Saints. He was a founding director of the My Hometown Community Resource
