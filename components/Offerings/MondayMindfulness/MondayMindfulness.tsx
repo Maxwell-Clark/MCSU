@@ -1,99 +1,96 @@
 'use client';
-import { Title, SimpleGrid, Text, Button, ThemeIcon, Grid, rem, Modal } from '@mantine/core';
-import { IconNotebook, IconUsers, IconCalendar, IconVideo } from '@tabler/icons-react';
 
-import { useState } from 'react';
-
+import { Container, SimpleGrid, Text, ThemeIcon, Title, Overlay, useMantineTheme } from '@mantine/core';
+import { IconCalendar, IconUsers, IconBrain, IconHeart, IconClock } from '@tabler/icons-react';
 import classes from './MondayMindfulness.module.css';
-import { ClassCalendar } from '@/components/Calendar/Calendar';
 
-const features = [
+const MOCKDATA = [
   {
     icon: IconCalendar,
-    title: 'Weekly Sessions',
-    description: 'Join us every Monday evening @ 8:15pm to start your week with a guided mindfulness session.',
+    title: 'Weekly Virtual Session',
+    description: "Monday Mindfulness is a 45 minute offering beginning at 8:00 pm each Monday evening. Join to receive our weekly news letter and an invitation to our virtual platform. Participation in the mindfulness session is completely voluntary, just drop in when you can.",
   },
   {
-    icon: IconVideo,
-    title: 'Virtual Meetups',
-    description: 'Practice mindfulness from the comfort of your home through our virtual platform.',
+    icon: IconClock,
+    title: 'Weekly In-person Session',
+    description: "Wake-up Wednesday is an hour long offering beginning at 5:15 pm in the conference room of Dr. Tate's office. His address is 321 N. Mall Dr., Suite I-201, St. George, Utah. Just drop-in when you can.",
   },
   {
-    icon: IconNotebook,
+    icon: IconBrain,
     title: 'Mindfulness Techniques',
-    description: 'Explore different mindfulness practices, including breathing exercises and meditation.',
+    description:
+      'In both drop-in sessions, you have an opportunity to practice different mindfulness techniques like focused or open awareness, body scans, loving-kindness, and other meditations. We also discuss a mindfulness related topic like how the mind works, fostering joy, relationships, how to interact with difficult emotions, and many more.',
   },
   {
     icon: IconUsers,
-    title: 'Inclusive Community',
-    description: 'Connect with a supportive community focused on personal growth and well-being.',
+    title: 'Mindful Community',
+    description:
+      'We have the opportunity each week to practice together and hear the thoughts and feelings of other practitioners in our community. These classes help to build friendships and community.',
+  },
+  {
+    icon: IconHeart,
+    title: 'Personal Practice',
+    description:
+      'Each week a drop-in class can be a reminder to continue your personal practice. It is an opportunity to deepen and strengthen your personal practice.',
   },
 ];
 
-export function MondayMindfulness() {
+interface FeatureProps {
+  icon: React.FC<any>;
+  title: React.ReactNode;
+  description: React.ReactNode;
+}
 
-  
-  const [calendarOpened, setCalendarOpen] = useState(false);
-
-  function openCalendar() {
-    setCalendarOpen(true);
-  }
-  
-  function  closeCalendar() {
-    setCalendarOpen(false)
-  }
-
-  const items = features.map((feature) => (
-    <div key={feature.title}>
-      <ThemeIcon
-        size={44}
-        radius="md"
-        variant="gradient"
-        gradient={{ deg: 133, from: 'blue', to: 'blue' }}
-      >
-        <feature.icon style={{ width: rem(26), height: rem(26) }} stroke={1.5} />
+export function Feature({ icon: Icon, title, description }: FeatureProps) {
+  return (
+    <div>
+      <ThemeIcon variant="light" size={40} radius={40}>
+        <Icon size={18} stroke={1.5} />
       </ThemeIcon>
-      <Text fz="lg" mt="sm" fw={500}>
-        {feature.title}
+      <Text mt="sm" mb={7} fw={500}>
+        {title}
       </Text>
-      <Text c="dimmed" fz="sm">
-        {feature.description}
+      <Text size="sm" c="dimmed" lh={1.6}>
+        {description}
       </Text>
     </div>
-  ));
+  );
+}
+
+export function MondayMindfulness() {
+  const theme = useMantineTheme();
+  const features = MOCKDATA.map((feature, index) => <Feature {...feature} key={index} />);
 
   return (
-    <div className={classes.wrapper}>
-      <Grid gutter={80}>
-        <Grid.Col span={{ base: 12, md: 7 }}>
-        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={30}>
-            {items}
-          </SimpleGrid>
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 5 }}>
-        <Title className={classes.title} order={2}>
-            Drop-in Mindfulness: Weekly Virtual Sessions
+    <>
+      <div className={classes.wrapper}>
+        <Overlay color={theme.colors.blue[7]} opacity={0.85} zIndex={1} />
+
+        <div className={classes.inner}>
+          <Title className={classes.title}>
+            Drop-in{' '}
+            <Text component="span" inherit className={classes.highlight}>
+              Mindfulness
+            </Text>
           </Title>
-          <Text c="dimmed">
-           Join our free virtual mindfulness sessions every Monday and Wednesday. 
-    Kirk Benson hosts the Monday evening class, and Dr. David Tate leads the Wednesday session.
-    Together, we practice techniques to bring calm, focus, and presence into our lives.
-          </Text>
-          <Button
-            variant="gradient"
-            gradient={{ deg: 133, from: 'blue', to: 'blue' }}
-            size="lg"
-            radius="md"
-            mt="xl"
-            onClick={openCalendar}
-          >
-            Join Us
-          </Button>
-          <Modal opened={calendarOpened} onClose={closeCalendar} size='lg'>
-            <ClassCalendar />
-          </Modal>
-        </Grid.Col>
-      </Grid>
-    </div>
+
+          <Container size={560} p={0}>
+            <Text size="lg" className={classes.description}>
+              Monday Mindfulness is led by Kirk Benson and Wake-up Wednesday is led by Dr. David B. Tate.
+            </Text>
+          </Container>
+        </div>
+      </div>
+
+      <Container className={classes.content}>
+        <SimpleGrid
+          cols={{ base: 1, sm: 2, md: 3 }}
+          spacing={{ base: 'xl', md: 50 }}
+          verticalSpacing={{ base: 'xl', md: 50 }}
+        >
+          {features}
+        </SimpleGrid>
+      </Container>
+    </>
   );
 }

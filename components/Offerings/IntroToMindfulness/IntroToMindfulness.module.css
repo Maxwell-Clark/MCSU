@@ -1,15 +1,26 @@
 .wrapper {
-  padding-top: calc(var(--mantine-spacing-xl) * 4);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 4);
+  position: relative;
+  padding-top: rem(120px);
+  padding-bottom: rem(80px);
+  background-image: url('/images/mindfulness-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
 }
 
 .title {
   font-family:
     Greycliff CF,
     var(--mantine-font-family);
-  font-weight: 900;
+  font-weight: 700;
+  line-height: 1.1;
   margin-bottom: var(--mantine-spacing-md);
   text-align: center;
+  color: var(--mantine-color-white);
 
   @media (max-width: $mantine-breakpoint-sm) {
     font-size: rem(28px);
@@ -18,11 +29,19 @@
 }
 
 .description {
+  color: var(--mantine-color-white);
   text-align: center;
+  max-width: rem(640px);
+  margin: auto;
 
   @media (max-width: $mantine-breakpoint-sm) {
     text-align: left;
   }
+}
+
+.content {
+  padding-top: calc(var(--mantine-spacing-xl) * 2);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
 }
 
 .card {

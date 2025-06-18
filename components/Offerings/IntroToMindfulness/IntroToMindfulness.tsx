@@ -11,6 +11,7 @@ import {
     rem,
     useMantineTheme,
     Modal,
+    Overlay,
     Paper,
     List,
     Stack,
@@ -83,31 +84,46 @@ import { useState } from 'react';
     }
   
     return (
-      <Container className={classes.wrapper}>
-        <Title className={classes.title}>
-          Introduction to Mindfulness
-        </Title>
+      <>
+        <div className={classes.wrapper}>
+          <Overlay color={theme.colors.blue[7]} opacity={0.85} zIndex={1} />
+          <div className={classes.inner}>
+            <Title className={classes.title}>
+              Introduction to Mindfulness
+            </Title>
 
-        <Container size={560} p={0}>
-          <Text size="sm" className={classes.description}>
-            This offering consists of one 90 minute class per week for six weeks. It is an introduction to mindfulness and follows the general design of MBSR, but isn't as rigorous in its homework requirements.
-          </Text>
+            <Container size={640}>
+              <Text size="lg" className={classes.description}>
+                This offering consists of one 90 minute class per week for six weeks. It is an introduction to mindfulness and follows the general design of MBSR, but isn't as rigorous in its homework requirements.
+              </Text>
+            </Container>
+          </div>
+        </div>
+
+        <Container className={classes.content}>
+          <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
+            {features}
+          </SimpleGrid>
+
+          <Container size="sm" mt="xl" ta="center">
+            <Button variant="gradient" gradient={{ from: 'blue', to: 'blue' }} size="lg" mt="xl" onClick={openCalendar}>
+              Join Us
+            </Button>
+
+            <Modal opened={calendarOpened} onClose={closeCalendar} size='100%'   styles={{
+    header: {
+      height: 0,
+      minHeight: 0,
+      margin: 0,
+      padding: 0,
+      overflow: 'hidden',
+    },
+  }}>
+              <ClassCalendar />
+            </Modal>
+          </Container>
         </Container>
-
-        <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl" mt={50}>
-          {features}
-        </SimpleGrid>
-
-        <Container size="sm" mt="xl" ta="center">
-          <Button variant="gradient" gradient={{ from: 'blue', to: 'blue' }} size="lg" mt="xl" onClick={openCalendar}>
-            Join Us
-          </Button>
-
-          <Modal opened={calendarOpened} onClose={closeCalendar} size='lg'>
-            <ClassCalendar />
-          </Modal>
-        </Container>
-      </Container>
+      </>
     );
   }
   

@@ -8,29 +8,29 @@ import classes from './Links.module.css';
 export default function Links() {
   const links = [
     {
-      label: 'Jon Kabbot Zin & Mindfulness',
-      url: 'https://palousemindfulness.com/index.html',
+      label: 'Center for Healthy Minds',
+      url: 'https://centerhealthyminds.org/',
     },
     {
       label: 'Palouse Mindfulness',
       url: 'https://palousemindfulness.com/index.html',
     },
     {
-      label: 'Mindfulness in the Workplace',
-      url: 'https://palousemindfulness.com/index.html',
+      label: 'Mindfulness Utah',
+      url: 'https://www.mindfulnessutah.com',
       // no icon -> defaults to IconExternalLink
     },
     {
-      label: 'Meditation & Mindfulness',
-      url: 'https://palousemindfulness.com/index.html',
+      label: 'Mindfulness and Health Institute',
+      url: 'https://mindfulnessandhealthinstitute.org',
     },
     {
-      label: 'MBSR',
-      url: 'https://palousemindfulness.com/index.html',
+      label: 'Tara Brach',
+      url: 'https://www.tarabrach.com',
     },
     {
-      label: 'Emptyness Meditation',
-      url: 'https://palousemindfulness.com/index.html',
+      label: 'Insight Timer',
+      url: 'https://insighttimer.com/',
       // no icon -> defaults to IconExternalLink
     },
   ];

@@ -37,7 +37,7 @@ const features = [
 
 const data = [
     {
-      image: KirkHeadshot.src,
+      image: Generic,
       title: 'Kirk A. Benson',
       name: 'Kirk A. Benson',
       category: 'President & Chairman',

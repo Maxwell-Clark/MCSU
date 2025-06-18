@@ -27,9 +27,9 @@ function ContactIcon({ icon: Icon, title, description, ...others }: ContactIconP
 
 const MOCKDATA = [
   { title: 'Email', description: 'MCSU@gmail.com', icon: IconAt },
-  { title: 'Phone', description: '+1 (801) 555-555', icon: IconPhone },
-  { title: 'Address', description: '844 Morris Park avenue', icon: IconMapPin },
-  { title: 'Working hours', description: '8 a.m. – 11 p.m.', icon: IconSun },
+  // { title: 'Phone', description: '+1 (801) 555-555', icon: IconPhone },
+  // { title: 'Address', description: '844 Morris Park avenue', icon: IconMapPin },
+  // { title: 'Working hours', description: '8 a.m. – 11 p.m.', icon: IconSun },
 ];
 
 export function ContactIconsList() {
