@@ -16,11 +16,11 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId, title }) => {
   };
 
   return (
-    <Paper shadow="md" radius="md" style={{ maxWidth: 1500, margin: 'auto' }}>
+    // <Paper shadow="md" radius="md" style={{ maxWidth: 1500, margin: 'auto' }}>
       <div >
         <YouTube  videoId={videoId} opts={opts} />
       </div>
-    </Paper>
+    // </Paper>
   );
 };
 

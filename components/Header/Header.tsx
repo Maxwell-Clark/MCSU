@@ -68,13 +68,6 @@ import { useState } from 'react';
       description: 'Access research papers and articles on the science and benefits of mindfulness.',
     },
     {
-      icon: IconVideo,
-      title: 'Videos',
-      id: 'videos',
-      description: 'Watch educational videos to deepen your understanding of mindfulness practices.',
-    },
-    
-    {
       icon: IconBook,
       title: 'Books',
       id: 'books',
@@ -85,7 +78,20 @@ import { useState } from 'react';
       title: 'Links',
       id: 'links',
       description: 'Explore helpful resources and links to useful mindfulness resources.',
-    }
+    },
+    {
+      icon: IconFileText,
+      title: 'Poems',
+      id: 'poems',
+      description: 'Explore poems on mindfulness, love, and wisdom.',
+    },
+
+    {
+      icon: IconVideo,
+      title: 'Videos',
+      id: 'videos',
+      description: 'Watch educational videos to deepen your understanding of mindfulness practices.',
+    },
   ];
   
   const resourcesData = [

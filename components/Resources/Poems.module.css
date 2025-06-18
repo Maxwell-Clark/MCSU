@@ -1,0 +1,32 @@
+.card {
+    height: rem(440px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .title {
+    font-family:
+      Greycliff CF,
+      var(--mantine-font-family);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--mantine-spacing-md);
+    text-align: center;
+    color: var(--mantine-color-dark-7);
+
+    @media (max-width: $mantine-breakpoint-sm) {
+      font-size: rem(28px);
+      text-align: left;
+    }
+  }
+  
+  .category {
+    color: var(--mantine-color-white);
+    opacity: 0.7;
+    font-weight: 700;
+    text-transform: uppercase;
+  }

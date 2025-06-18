@@ -1,18 +1,36 @@
 'use client';
 
-import React from 'react';
-import { Card, Title, Container, Text, Box, Stack } from '@mantine/core';
+import React, { useState } from 'react';
+import { 
+  Card, 
+  Title, 
+  Container, 
+  Text, 
+  Box, 
+  Stack, 
+  Group, 
+  Button, 
+  ScrollArea,
+  useMantineTheme,
+  Tabs,
+  Badge,
+  Modal
+} from '@mantine/core';
+import { IconHeart } from '@tabler/icons-react';
+import classes from './Poems.module.css';
 
 type Poem = {
   title: string;
   author: string;
   lines: string[];
+  category?: string;
 };
 
 const poems: Poem[] = [
   {
     title: 'Allow',
     author: 'Dana Faulds',
+    category: 'Mindfulness',
     lines: [
       'There is no controlling life.',
       'Try corralling a lightning bolt, containing a tornado.',
@@ -32,9 +50,10 @@ const poems: Poem[] = [
   {
     title: 'With That Moon Language',
     author: 'Hafiz',
+    category: 'Love',
     lines: [
       'Admit something:',
-      'Everyone you see, you say to them, “Love me.”',
+      'Everyone you see, you say to them, "Love me."',
       'Of course you do not do this out loud, otherwise',
       'Someone would call the cops.',
       'Still, though, think about this, this great pull in us to connect.',
@@ -47,6 +66,7 @@ const poems: Poem[] = [
   {
     title: 'St. Teresa of Avilla',
     author: 'St. Teresa',
+    category: 'Wisdom',
     lines: [
       'Remember,',
       'if you want to make progress',
@@ -65,6 +85,7 @@ const poems: Poem[] = [
   {
     title: 'The Guest House',
     author: 'Rumi',
+    category: 'Mindfulness',
     lines: [
       'This being human is a guest house.',
       'Every morning a new arrival.',
@@ -72,7 +93,7 @@ const poems: Poem[] = [
       'some momentary awareness comes',
       'as an unexpected visitor.',
       'Welcome and entertain them all!',
-      'Even if they’re a crowd of sorrows,',
+      'Even if they\'re a crowd of sorrows,',
       'who violently sweep your house',
       'empty of its furniture,',
       'still, treat each guest honorably.',
@@ -89,6 +110,7 @@ const poems: Poem[] = [
   {
     title: 'Wild Geese',
     author: 'Mary Oliver',
+    category: 'Mindfulness',
     lines: [
       'You do not have to be good.',
       'You do not have to walk on your knees',
@@ -113,6 +135,7 @@ const poems: Poem[] = [
   {
     title: 'Your History is Here Inside Your Body',
     author: 'Martha Elliot',
+    category: 'Mindfulness',
     lines: [
       'Your history is here inside your body.',
       'Your body is your storehouse',
@@ -133,24 +156,132 @@ const poems: Poem[] = [
 ];
 
 const PoemDisplay: React.FC = () => {
+  const theme = useMantineTheme();
+  const [selectedPoem, setSelectedPoem] = useState<Poem | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>('all');
+
+  const categories = ['all', 'mindfulness', 'love', 'wisdom'];
+
+  const filteredPoems = activeTab === 'all' 
+    ? poems 
+    : poems.filter(poem => poem.category?.toLowerCase() === activeTab);
+
   return (
-	<Container>
-	<Title ta='center' >Poems</Title> 
-    <Box maw={900} mx="auto" mt="xl">
-      <Stack >
-        {poems.map((poem, index) => (
-          <Card key={index} shadow="md" radius="md" p="lg" withBorder>
-            <Title order={3} mb="xs">{poem.title}</Title>
-            <Text size="sm" c="dimmed" mb="sm">
-              {poem.author}
-            </Text>
-            <Text size="md" style={{ whiteSpace: 'pre-line', lineHeight: 1.7 }}>
-              {poem.lines.join('\n')}
-            </Text>
-          </Card>
-        ))}
-      </Stack>
-    </Box>
+    <Container size="xl" py="xl">
+      <Title className={classes.title} ta="center" mb="xl">Poems</Title>
+
+      <Tabs 
+        value={activeTab} 
+        onChange={setActiveTab}
+        mb="xl"
+      >
+        <Tabs.List>
+          {categories.map((category) => (
+            <Tabs.Tab 
+              key={category} 
+              value={category}
+              leftSection={<IconHeart size={16} />}
+            >
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </Tabs.Tab>
+          ))}
+        </Tabs.List>
+      </Tabs>
+
+      <Box maw={1000} mx="auto">
+        <Stack gap="xl">
+          {filteredPoems.map((poem, index) => (
+            <Card 
+              key={index} 
+              shadow="sm" 
+              radius="md" 
+              p="xl" 
+              withBorder
+              style={{ 
+                borderLeft: `4px solid ${theme.colors.blue[6]}`,
+                backgroundColor: theme.colors.blue[0]
+              }}
+            >
+              <Group justify="space-between" mb="md">
+                <Box>
+                  <Title order={3} mb="xs" c={theme.colors.dark[7]}>
+                    {poem.title}
+                  </Title>
+                  <Group gap="xs">
+                    <Text size="sm" fw={500} c="dimmed">
+                      {poem.author}
+                    </Text>
+                    {poem.category && (
+                      <Badge color="blue" variant="light">
+                        {poem.category}
+                      </Badge>
+                    )}
+                  </Group>
+                </Box>
+                <Button 
+                  variant="subtle" 
+                  color="blue"
+                  onClick={() => setSelectedPoem(poem)}
+                >
+                  Read Full Poem
+                </Button>
+              </Group>
+              <Text 
+                size="md" 
+                style={{ 
+                  whiteSpace: 'pre-line', 
+                  lineHeight: 1.8,
+                  color: theme.colors.dark[7]
+                }}
+              >
+                {poem.lines.slice(0, 3).join('\n')}...
+              </Text>
+            </Card>
+          ))}
+        </Stack>
+      </Box>
+
+      <Modal
+        opened={selectedPoem !== null}
+        onClose={() => setSelectedPoem(null)}
+        size="lg"
+        centered
+        styles={{
+          header: {
+            height: 0,
+            minHeight: 0,
+            margin: 0,
+            padding: 0,
+            overflow: 'hidden',
+          },
+          content: {
+            backgroundColor: theme.white
+          }
+        }}
+      >
+        {selectedPoem && (
+          <ScrollArea h={500}>
+            <Box p="xl">
+              <Title order={2} mb="xs" c={theme.colors.dark[7]}>
+                {selectedPoem.title}
+              </Title>
+              <Text size="sm" fw={500} c="dimmed" mb="xl">
+                {selectedPoem.author}
+              </Text>
+              <Text 
+                size="lg" 
+                style={{ 
+                  whiteSpace: 'pre-line', 
+                  lineHeight: 2,
+                  color: theme.colors.dark[7]
+                }}
+              >
+                {selectedPoem.lines.join('\n')}
+              </Text>
+            </Box>
+          </ScrollArea>
+        )}
+      </Modal>
     </Container>
   );
 };
