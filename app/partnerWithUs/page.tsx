@@ -9,12 +9,12 @@ export default function PartnerWithUs() {
     <div id='community'>
     <Community />
     </div>
-    <div id='individual'>
+    {/* <div id='individual'>
       <Individual />
     </div>
     <div id='civic'>
       <Civic />
-    </div>
+    </div> */}
     <div id='business'>
       <Business />
     </div>

@@ -133,18 +133,18 @@ import { useState } from 'react';
       id: 'partners',
       description: 'Join us as a community partner and make a difference by promoting mindfulness.',
     },
-    {
-      icon: IconUsers,
-      title: 'Individuals',
-      id: 'individuals',
-      description: 'Partner with us as an individual to support mindfulness initiatives.',
-    },
-    {
-      icon: IconBuilding,
-      title: 'Civic',
-      id: 'civic',
-      description: 'Collaborate with us in civic programs to integrate mindfulness into the community.',
-    },
+    // {
+    //   icon: IconUsers,
+    //   title: 'Individuals',
+    //   id: 'individuals',
+    //   description: 'Partner with us as an individual to support mindfulness initiatives.',
+    // },
+    // {
+    //   icon: IconBuilding,
+    //   title: 'Civic',
+    //   id: 'civic',
+    //   description: 'Collaborate with us in civic programs to integrate mindfulness into the community.',
+    // },
     {
       icon: IconBriefcase,
       title: 'Business',
