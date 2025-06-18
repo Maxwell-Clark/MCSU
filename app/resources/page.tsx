@@ -3,26 +3,32 @@ import Links from "@/components/Resources/Links/Links";
 import { Papers } from "@/components/Resources/Papers/Papers";
 import Videos  from "@/components/Resources/Videos/Videos";
 import PoemsDisplay from '@/components/Resources/Poems';
+import { Box, Divider } from "@mantine/core";
 export default function ResourcesPage() {
     const data = [
       ];
   return (
     <>
-      <div id='papers'>
+      <Box mb='xl' id='papers'>
       <Papers />
-      </div>
-      <div id='books'>
+      </Box>
+      <Divider my='xl' size='lg' color='var(--mantine-color-blue-7)' />
+      <Box mt='xl' id='books'>
       <Books />
-      </div>
-      <div id='links'>
+      </Box>
+      <Divider my='xl' size='lg' color='var(--mantine-color-blue-7)' />
+      <Box mt='xl' id='links'>
         <Links />
-      </div>
-      <div id='poems'>
+      </Box>
+      <Divider my='xl' size='lg' color='var(--mantine-color-blue-7)' />
+      <Box mt='xl' id='poems'>
         <PoemsDisplay />
-      </div>
-      <div id='videos'>
+      </Box>
+      <Divider my='xl' size='lg' color='var(--mantine-color-blue-7)' />
+
+      <Box mt='xl' id='videos'>
       <Videos />
-      </div>
+      </Box>
     </>
   );
 }
