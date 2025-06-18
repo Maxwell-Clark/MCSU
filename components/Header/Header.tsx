@@ -149,17 +149,18 @@ import { useState } from 'react';
   
   const offeringsData = [
     {
-      icon: IconChartPie,
-      title: 'MBSR',
-      id: 'mbsr',
-      description: 'Participate in our Mindfulness-Based Stress Reduction (MBSR) program for stress relief.',
-    },
-    {
       icon: IconSchool,
       title: 'Intro to Mindfulness',
       id: 'intro',
       description: 'Join our introductory course to learn the fundamentals of mindfulness practice.',
     },
+    {
+      icon: IconChartPie,
+      title: 'MBSR',
+      id: 'mbsr',
+      description: 'Participate in our Mindfulness-Based Stress Reduction (MBSR) program for stress relief.',
+    },
+
     {
       icon: IconSunset2,
       title: 'Everyday Mindfulness',

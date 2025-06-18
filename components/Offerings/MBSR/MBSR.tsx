@@ -1,116 +1,167 @@
 'use client';
 
+import { useState } from 'react';
 import {
   Title,
   SimpleGrid,
   Text,
-  ThemeIcon,
-  Grid,
-  rem,
-  Box,
-  Stack,
-  Divider,
-  Paper,
-  List,
+  Container,
   Card,
+  rem,
+  Button,
+  List,
+  useMantineTheme,
+  Overlay,
+  Modal,
+  ScrollArea,
+  Divider,
 } from '@mantine/core';
 import {
   IconLicense,
   IconBrain,
   IconMan,
   IconFirstAidKit,
+  IconMicroscope,
+  IconHeart,
 } from '@tabler/icons-react';
 import classes from './MBSR.module.css';
 
-const features = [
+interface FeatureItem {
+  title: string;
+  description: string;
+  icon: any;
+  list?: string[];
+}
+
+const mockdata: FeatureItem[] = [
   {
-    icon: IconLicense,
-    title: 'Evidence-Based Practice',
-    description:
-      'MBSR is backed by extensive scientific research demonstrating effectiveness for stress, chronic pain, and emotional health.',
-  },
-  {
-    icon: IconBrain,
-    title: 'Meditation & Mindfulness Techniques',
-    description:
-      'Practice mindful breathing, body scans, and gentle movement to cultivate present-moment awareness.',
-  },
-  {
+    title: 'Body Scan Meditation',
+    description: 'A guided practice where participants focus attention sequentially on different parts of the body, observing sensations without judgment to enhance body awareness and relaxation.',
     icon: IconMan,
-    title: 'Focus on Body Awareness',
-    description:
-      'Learn to recognize tension, manage stress responses, and reconnect with your physical body.',
   },
   {
+    title: 'Sitting Meditation',
+    description: 'Focused attention on the breath, bodily sensations, sounds, or thoughts, fostering non-reactive awareness. It often starts with breath awareness and may expand to open monitoring of all experiences.',
+    icon: IconBrain,
+  },
+  {
+    title: 'Mindful Yoga',
+    description: 'Gentle yoga poses performed with deliberate attention to movement, breath, and bodily sensations, promoting flexibility, strength, and mindfulness in motion.',
     icon: IconFirstAidKit,
-    title: 'Holistic Well-being',
-    description:
-      'Improve emotional regulation, sleep, physical health, and overall resilience through consistent practice.',
+  },
+  {
+    title: 'Walking Meditation',
+    description: 'Slow, intentional walking while focusing on the sensations of each step, such as foot placement or weight shifts, to integrate mindfulness into daily movement.',
+    icon: IconLicense,
+  },
+  {
+    title: 'Mindful Awareness of Thoughts and Emotions',
+    description: 'Observing thoughts and feelings as passing mental events rather than facts, often using techniques like labeling thoughts or noting their impermanence.',
+    icon: IconHeart,
+  },
+  {
+    title: 'Informal Mindfulness Practices',
+    description: 'Integrating mindfulness into daily activities, such as mindful eating, listening, or routine tasks, to cultivate ongoing awareness outside formal meditation.',
+    icon: IconMicroscope,
   },
 ];
 
 export function MBSR() {
-  const items = features.map((feature) => (
-    <Paper key={feature.title} shadow="xs" p="md" radius="md" withBorder>
-      <ThemeIcon
-        size={44}
-        radius="md"
-        variant="gradient"
-        gradient={{ deg: 133, from: 'blue', to: 'blue' }}
-      >
-        <feature.icon style={{ width: rem(26), height: rem(26) }} stroke={1.5} />
-      </ThemeIcon>
-      <Text fz="lg" mt="sm" fw={600}>
+  const theme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
+  const features = mockdata.map((feature) => (
+    <Card key={feature.title} shadow="md" radius="md" className={classes.card} padding="xl">
+      <feature.icon
+        style={{ width: rem(50), height: rem(50) }}
+        stroke={2}
+        color={theme.colors.blue[6]}
+      />
+      <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
         {feature.title}
       </Text>
-      <Text c="dimmed" fz="sm">
+      <Text fz="sm" c="dimmed" mt="sm">
         {feature.description}
       </Text>
-    </Paper>
+      {feature.list && (
+        <List size="sm" spacing="xs" mt="md">
+          {feature.list.map((item) => (
+            <List.Item key={item}>
+              <Text size="sm" c="dimmed">{item}</Text>
+            </List.Item>
+          ))}
+        </List>
+      )}
+    </Card>
   ));
 
   return (
-    <Box className={classes.wrapper}>
-      <Grid gutter={80}>
-        <Grid.Col span={{ base: 12, md: 5 }}>
-          <Title className={classes.title} order={2} mb="sm">
-            Discover the Benefits of Mindfulness-Based Stress Reduction (MBSR)
-          </Title>
-          <Text c="dimmed" mb="md">
-            MBSR is a structured eight-week program developed by Jon Kabat-Zinn. It combines
-            mindfulness practices and group learning to help individuals manage stress, pain,
-            and emotional challenges.
-          </Text>
-          <Text size="sm">
-            Originally created for patients unresponsive to traditional treatments, MBSR has
-            expanded to support individuals worldwide. It is secular, evidence-based, and
-            grounded in both science and experiential learning. The program includes weekly
-            classes, a full-day retreat, and daily home practices.
-          </Text>
-        <Stack>
-          <Title order={3} mt="sm">Science-Based Outcomes</Title>
-          <Text size="sm" c="dimmed">
-            MBSR is supported by hundreds of studies. In one study, adding MBSR to cardiac rehab
-            reduced mortality by 41% over two years (Linden, 1996). It also shows strong outcomes for
-            anxiety, depression (Khoury, 2013), and chronic pain (Anheyer et al., 2017).
-          </Text>
+    <>
+      <div className={classes.wrapper}>
+        <Overlay color={theme.colors.blue[7]} opacity={0.85} zIndex={1} />
 
-          <Title order={3}>Well-being & Quality of Life</Title>
-          <List size="sm" spacing="xs" center>
-            <List.Item>Reducing stress and anxiety through awareness training</List.Item>
-            <List.Item>Improving emotional regulation and self-compassion</List.Item>
-            <List.Item>Supporting better sleep and physical health</List.Item>
-            <List.Item>Increasing resilience and quality of life</List.Item>
-          </List>
-        </Stack>
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 7 }}>
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing={30}>
-            {items}
-          </SimpleGrid>
-        </Grid.Col>
-      </Grid>
-    </Box>
+        <div className={classes.inner}>
+          <Title className={classes.title}>
+            Discover the Benefits of{' '}
+            <Text component="span" inherit className={classes.highlight}>
+              Mindfulness-Based Stress Reduction
+            </Text>
+          </Title>
+
+          <Container size={640}>
+            <Text size="lg" className={classes.description}>
+            MBSR is an eight-week program developed by Jon Kabat-Zinn that uses mindfulness and group learning to help individuals manage stress, pain, and emotional challenges.
+            </Text>
+
+          </Container>
+
+          <div className={classes.controls}>
+            <Button className={classes.control} variant="white" gradient={{ from: 'blue', to: 'blue' }} size="lg">
+              Join Us
+            </Button>
+            <Button 
+              className={classes.control} 
+              variant="white" 
+              gradient={{ from: 'blue', to: 'blue' }} 
+              size="lg"
+              onClick={() => setOpened(true)}
+              ml="md"
+            >
+              Learn More
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        size="100%"
+        centered
+      >
+        <ScrollArea h={400}>
+          <Text ta="center" size="xl" fw={700} mb="xl">
+            Research on MBSR
+          </Text>
+          <Text size="md">
+            Research demonstrates that MBSR, an eight-week program combining mindfulness meditation, body awareness, and yoga, effectively reduces stress by lowering cortisol levels, as evidenced by studies like those published in Psychoneuroendocrinology (2013), which found decreased stress reactivity in participants. It improves mental health outcomes, with meta-analyses (e.g., JAMA Internal Medicine, 2014) showing moderate to large effect sizes in reducing anxiety, depression, and psychological distress in diverse populations, including those with chronic illnesses. MBSR enhances emotional regulation and cognitive function, with neuroimaging studies (e.g., Frontiers in Human Neuroscience, 2015) indicating increased gray matter density in brain regions like the hippocampus, linked to learning and memory, and reduced amygdala activity, associated with lower emotional reactivity. Physically, MBSR has been shown to alleviate chronic pain, improve sleep quality, and boost immune function, as seen in trials involving cancer patients (Journal of Clinical Oncology, 2010).
+          </Text>
+          <Divider mt="md" />
+          <Text mt="md" size="md">
+            MBSR is supported by hundreds of studies. In one study, adding MBSR to cardiac rehab reduced mortality by 41% over two years (Linden, 1996). It also shows strong outcomes for anxiety, depression (Khoury, 2013), and chronic pain (Anheyer et al., 2017). 
+          </Text>
+          <Divider mt="md" />
+          <Text mt="md" size="md">
+            Both Dr. David Tate and Kirk Benson are trained to teach MBSR. <br />  Dr. Tate wrote is Ph.D. dissertation on his research into the effect of MBSR and was taught MBSR principles by Jon Kabat-Zinn. <br /> Kirk Benson received his training at Brown University.
+          </Text>
+        </ScrollArea>
+      </Modal>
+
+      <Container className={classes.content}>
+        <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
+          {features}
+        </SimpleGrid>
+      </Container>
+    </>
   );
 }
 

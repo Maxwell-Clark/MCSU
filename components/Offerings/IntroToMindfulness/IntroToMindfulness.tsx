@@ -11,30 +11,37 @@ import {
     rem,
     useMantineTheme,
     Modal,
+    Paper,
+    List,
+    Stack,
+    Divider,
   } from '@mantine/core';
-  import { IconPlant2, IconBrain, IconLungs, IconHeart } from '@tabler/icons-react'; // Replace these with relevant icons
+  import { IconPlant2, IconBrain, IconLungs, IconHeart, IconBook, IconSchool, IconCalendar } from '@tabler/icons-react';
   import classes from './IntroToMindfulness.module.css';
   import { ClassCalendar } from '../../Calendar/Calendar';
 import { useState } from 'react';
   
   const mockdata = [
     {
-      title: 'Mindful Breathing',
-      description:
-        'Take a few moments throughout the day to focus on your breathing. It helps calm the mind and brings you back to the present moment.',
-      icon: IconLungs,
+      title: 'Mindfulness Techniques',
+      icon: IconBook,
+      list: [
+        'Body Scan',
+        'Focused Awareness',
+        'Mindful Movement (yoga or walking)',
+        'Loving Kindness',
+        'Open Awareness'
+      ]
     },
     {
-      title: 'Gratitude Practice',
-      description:
-        'Cultivate a sense of gratitude by reflecting on the positive aspects of your day, helping improve mood and overall well-being.',
-      icon: IconHeart,
+      title: 'Mindfulness Teachings',
+      description: 'The classes begin with a discussion of the body and its importance in helping us stay in the present moment. The classes also helps one understand the workings of the mind including our relationship to thoughts and emotions.',
+      icon: IconBrain,
     },
     {
-      title: 'Connecting with Nature',
-      description:
-        'Spend time outside to reconnect with nature. Observing your surroundings mindfully reduces stress and promotes inner peace.',
-      icon: IconPlant2,
+      title: 'Current Classes',
+      description: 'Currently the class is taught through the Institute for Continuing Learning, part of the continuing learning program associated with Utah Tech University. The course is taught twice in the fall and twice in the winter semesters. The class can also be taught virtually.',
+      icon: IconCalendar,
     },
   ];
   
@@ -53,6 +60,15 @@ import { useState } from 'react';
         <Text fz="sm" c="dimmed" mt="sm">
           {feature.description}
         </Text>
+        {feature.list && (
+          <List size="sm" spacing="xs" mt="md">
+            {feature.list.map((item) => (
+              <List.Item key={item}>
+                <Text size="sm" c="dimmed">{item}</Text>
+              </List.Item>
+            ))}
+          </List>
+        )}
       </Card>
     ));
 
@@ -67,30 +83,22 @@ import { useState } from 'react';
     }
   
     return (
-      <Container size="lg" py="xl" className={classes.wrapper}>
-        <Group justify="center">
-          <Badge variant="filled" size="lg" color="blue">
-            Mindfulness Practices
-          </Badge>
-        </Group>
-  
-        <Title order={2} className={classes.title} ta="center" mt="sm">
-          Embrace Mindfulness in Your Everyday Life
+      <Container className={classes.wrapper}>
+        <Title className={classes.title}>
+          Introduction to Mindfulness
         </Title>
-  
-        <Text c="dimmed" className={classes.description} ta="center" mt="md">
-          Discover simple mindfulness techniques to enhance your daily life, reduce stress, and promote well-being. Embrace the power of being present.
-        </Text>
-  
+
+        <Container size={560} p={0}>
+          <Text size="sm" className={classes.description}>
+            This offering consists of one 90 minute class per week for six weeks. It is an introduction to mindfulness and follows the general design of MBSR, but isn't as rigorous in its homework requirements.
+          </Text>
+        </Container>
+
         <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl" mt={50}>
           {features}
         </SimpleGrid>
-  
+
         <Container size="sm" mt="xl" ta="center">
-          <Text fz="md" c="dimmed" mt="md">
-            By practicing mindfulness, we can develop a greater awareness of our thoughts, emotions, and surroundings. These practices empower us to live more fully in each moment.
-          </Text>
-  
           <Button variant="gradient" gradient={{ from: 'blue', to: 'blue' }} size="lg" mt="xl" onClick={openCalendar}>
             Join Us
           </Button>
