@@ -63,11 +63,11 @@ import {
         </Group>
   
         <Title order={2} className={classes.title} ta="center" mt="sm">
-          Join us During Our Virtual Offerings
+          Join us During Our Offerings
         </Title>
   
         <Text c="dimmed" className={classes.description} ta="center" mt="md">
-          We meet regularly to discuss meditation and mindfulness topics and to sit together virtually
+          We meet regularly to discuss meditation and mindfulness topics and to sit together
         </Text>
   
         <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl" mt={50}>
