@@ -95,30 +95,31 @@ import { useState } from 'react';
   ];
   
   const resourcesData = [
-    {
-      icon: IconHeadphones,
-      title: 'Guided Meditation',
-      id: 'meditations',
-      description: 'Listen to guided meditations to help you focus, relax, and cultivate mindfulness.',
-    },
+      {
+        icon: IconFileText,
+        title: 'Meditation Instructions',
+        id: 'meditations-instructions',
+        description: 'Listen to guided meditations to help you focus, relax, and cultivate mindfulness.',
+      },
+      {
+        icon: IconHeadphones,
+        title: 'Guided Meditations',
+        id: 'guided-meditations',
+        description: 'Listen to guided meditations to help you focus, relax, and cultivate mindfulness.',
+      },
+      // {
+      //   icon: IconLink,
+      //   title: 'Links',
+      //   id: 'links',
+      //   description: 'Explore helpful resources and links to deepen your mindfulness practice.',
+      // },
     {
       icon: IconMusic,
       title: 'Music',
       id: 'music',
       description: 'Discover calming music to accompany your mindfulness and meditation sessions.',
     },
-    {
-      icon: IconVideo,
-      title: 'Videos',
-      id: 'videos',
-      description: 'Watch videos on various aspects of mindfulness, including techniques and benefits.',
-    },
-    {
-      icon: IconLink,
-      title: 'Links',
-      id: 'links',
-      description: 'Explore helpful resources and links to deepen your mindfulness practice.',
-    }
+
     // {
     //   icon: IconBook,
     //   title: 'Blog',

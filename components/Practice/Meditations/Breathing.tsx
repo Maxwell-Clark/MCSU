@@ -46,7 +46,7 @@ anchor, e.g., feet, hands, whole body, or sound outside the body will work equal
 export function MindfulnessOfBreathing() {
   return (
     <MindfulnessSection
-      title="🌬️ Mindfulness of Breathing"
+      title="Mindfulness of Breathing"
       sections={breathingSections}
     />
   );

@@ -9,6 +9,7 @@ import {
   Modal,
 } from '@mantine/core';
 import { useState } from 'react';
+import classes from './MindfulnessSection.module.css';
 
 type Point = {
   title: string;
@@ -47,8 +48,8 @@ export function MindfulnessSection({ title, sections }: MindfulnessSectionProps)
             style={{ width: '40%', cursor: 'pointer' }}
             onClick={() => openModal(point)}
           >
-            <Title order={4} mb={4}>{point.title}</Title>
-            <Text size="sm" c="dimmed" lineClamp={4}>
+            <Title order={4} mb={4} className={classes.title}>{point.title}</Title>
+            <Text size="sm" c="dimmed" className={classes.text} lineClamp={4}>
               {point.description}
             </Text>
           </Card>
@@ -59,7 +60,7 @@ export function MindfulnessSection({ title, sections }: MindfulnessSectionProps)
 
   return (
     <Box mx="auto" w="80%">
-      <Title order={2} mb="md" ta="center">
+      <Title order={2} mb="md" ta="center" className={classes.title}>
         {title}
       </Title>
 
@@ -67,7 +68,7 @@ export function MindfulnessSection({ title, sections }: MindfulnessSectionProps)
         {sections.map((section, idx) => (
           <Accordion.Item key={idx} value={section.label}>
             <Accordion.Control>
-              <Title order={4}>{section.label}</Title>
+              <Title order={4} className={classes.title}>{section.label}</Title>
             </Accordion.Control>
             <Accordion.Panel>{renderCardList(section.points)}</Accordion.Panel>
           </Accordion.Item>
@@ -78,7 +79,7 @@ export function MindfulnessSection({ title, sections }: MindfulnessSectionProps)
     opened={modalOpened}
     onClose={() => setModalOpened(false)}
     title={
-      <Title order={3} style={{ lineHeight: 1.2 }}>
+      <Title order={3} style={{ lineHeight: 1.2 }} className={classes.title}>
         {selectedPoint?.title}
       </Title>
     }
@@ -108,7 +109,7 @@ export function MindfulnessSection({ title, sections }: MindfulnessSectionProps)
         },
       }}
     >
-      <Text size="md" style={{ whiteSpace: 'pre-line', lineHeight: 1.6 }}>
+      <Text size="md" style={{ whiteSpace: 'pre-line', lineHeight: 1.6 }} className={classes.text}>
         {selectedPoint?.description}
       </Text>
     </Modal>

@@ -47,13 +47,13 @@ export function Community() {
                 h={100}
                 style={{ objectFit: 'contain' }}
               />
-              <Title order={3} c={theme.colors.dark[7]}>
+              <Title order={3} className={classes.title} c={theme.colors.dark[7]}>
                 SwitchPoint
               </Title>
               <Text size="lg" c="dimmed"> 
               Beyond food and shelter Switchpoint Community Resource Center is a stepping stone to independence for individuals experiencing homelessness. A switch point is a mechanism on a train track that with a little bit of a turn sends the train in a completely different direction. Switchpoint offers tools to get life back on track for those who need it most. 
               <br/> <br />
-              MCSU has developed a curriculum specifically designed to share mindfulness with the unhoused.  Through Switchpoint’s partnership with MCSU, we are sharing mindfulness to its clients.
+              MCSU has developed a curriculum specifically designed to share mindfulness with the unhoused.  Through Switchpoint's partnership with MCSU, we are sharing mindfulness to its clients.
               </Text>
               <Text size="sm" c="dimmed">
               Changing the Face of Poverty

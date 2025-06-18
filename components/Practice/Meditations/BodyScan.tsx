@@ -64,7 +64,7 @@ develop the ability to consciously shift our attention from one focus to another
 export function BodyScan() {
   return (
     <MindfulnessSection
-      title="🧘 A Journey Through the Body – A Body Scan"
+      title="A Journey Through the Body – A Body Scan"
       sections={bodyScanSections}
     />
   );

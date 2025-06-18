@@ -1,17 +1,21 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   Box,
   Text,
   Group,
   Title,
-  Divider,
   Stack,
   Container,
+  useMantineTheme,
+  Tabs,
+  TextInput,
+  Badge,
 } from '@mantine/core';
-import YouTubePlayer from '@/components/YoutubeComponent/YoutubeComponent';
+import { IconSearch } from '@tabler/icons-react';
+import classes from './Videos.module.css';
 
 type Video = {
   title: string;
@@ -105,48 +109,104 @@ const videoSections: VideoGroup[] = [
 ];
 
 const Videos: React.FC = () => {
+  const theme = useMantineTheme();
+  const [activeTab, setActiveTab] = useState<string | null>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const categories = ['all', ...videoSections.map(section => section.category.toLowerCase())];
+
+  const filteredVideos = videoSections
+    .filter(section => activeTab === 'all' || section.category.toLowerCase() === activeTab)
+    .flatMap(section => section.videos)
+    .filter(video => 
+      video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      video.instructor?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
   return (
-    <Container size="lg" py="lg">
-      <Title order={2} ta="center" mb="md">
-        Guided Meditation Library
-      </Title>
-
-      <Divider my="md" />
-
-      {videoSections.map((section, i) => (
-        <Box key={i} mb="xl">
-          <Title order={3} mb="sm">
-            {section.category}
+    <Container size="md" py="xl">
+      <Stack align="center" gap="xl" style={{ maxWidth: 800, margin: '0 auto' }}>
+        <div>
+          <Title className={classes.title} order={2} ta="center">
+            Guided Meditations
           </Title>
-          <Stack gap="lg">
-            {section.videos.map((video, j) => (
-              <Card
-                key={j}
-                shadow="sm"
-                padding="md"
-                radius="md"
-                withBorder
-                style={{ overflow: 'hidden' }}
+          <Text c="dimmed" className={classes.text} ta="center" mt="md">
+            Explore our collection of guided meditations designed to help you cultivate mindfulness and inner peace.
+            Each session is carefully crafted to support your practice, whether you're new to meditation or have been practicing for years.
+          </Text>
+        </div>
+
+        <Tabs 
+          value={activeTab} 
+          onChange={setActiveTab}
+          mb="xl"
+          style={{ width: '100%' }}
+        >
+          <Tabs.List>
+            {categories.map((category) => (
+              <Tabs.Tab 
+                key={category} 
+                value={category}
               >
-                <Group justify="space-between" mb="xs">
-                  <Text fw={600}>{video.title}</Text>
-                  {video.duration && (
-                    <Text size="sm" c="dimmed">
-                      {video.duration}
-                    </Text>
-                  )}
-                </Group>
-                {video.instructor && (
-                  <Text size="sm" c="dimmed" mb="xs">
-                    Guided by {video.instructor}
-                  </Text>
-                )}
-                <YouTubePlayer videoId={video.videoId} title={video.title} />
-              </Card>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </Tabs.Tab>
             ))}
-          </Stack>
-        </Box>
-      ))}
+          </Tabs.List>
+        </Tabs>
+
+        <TextInput
+          placeholder="Search videos..."
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          leftSection={<IconSearch size={16} />}
+          style={{ width: '100%' }}
+          mb="xl"
+        />
+
+        <Stack gap="xl" style={{ width: '100%' }}>
+          {filteredVideos.map((video, index) => (
+            <Card
+              key={index}
+              shadow="sm"
+              padding="md"
+              radius="md"
+              withBorder
+              style={{ width: '100%' }}
+            >
+              <div className={classes.video_container}>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                  title={video.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <Group justify="space-between" mt="md">
+                <Box>
+                  <Title order={3} className={classes.title}>
+                    {video.title}
+                  </Title>
+                  <Group gap="xs">
+                    {video.instructor && (
+                      <Text size="sm" c="dimmed" className={classes.text}>
+                        Guided by {video.instructor}
+                      </Text>
+                    )}
+                    {video.duration && (
+                      <Badge color="blue" variant="light">
+                        {video.duration}
+                      </Badge>
+                    )}
+                  </Group>
+                </Box>
+              </Group>
+            </Card>
+          ))}
+        </Stack>
+      </Stack>
     </Container>
   );
 };
