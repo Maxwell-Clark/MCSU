@@ -7,18 +7,17 @@ import { IconCalendar, IconClock } from '@tabler/icons-react';
 const classSchedule = {
   // Monday
   1: [
-    { label: 'Monday Mindfulness', time: '9:00 AM - 10:00 AM', color: 'blue' },
-    { label: 'Breathwork', time: '11:00 AM - 11:15 AM', color: 'cyan' },
+    { label: 'Monday Mindfulness', time: '8:30 PM - 9:30 PM', color: 'blue' },
   ],
   // Wednesday
   3: [
-    { label: 'Intro to Meditation', time: '9:00 AM - 10:00 AM', color: 'indigo' },
+    { label: 'Meditation With Dr. Tate', time: '5:00 PM - 6:00 PM', color: 'indigo' },
   ],
   // Friday
-  5: [
-    { label: 'MBSR', time: '9:00 AM - 10:00 AM', color: 'violet' },
-    { label: 'Yoga', time: '11:00 AM - 12:00 PM', color: 'grape' },
-  ],
+  // 5: [
+  //   { label: 'MBSR', time: '9:00 AM - 10:00 AM', color: 'violet' },
+  //   // { label: 'Yoga', time: '11:00 AM - 12:00 PM', color: 'grape' },
+  // ],
 };
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

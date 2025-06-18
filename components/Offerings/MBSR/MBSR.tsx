@@ -166,7 +166,7 @@ export function MBSR() {
       <Modal 
         opened={calendarOpened} 
         onClose={() => setCalendarOpened(false)} 
-        size="lg"
+        size="100%"
         styles={{
           header: {
             height: 0,
