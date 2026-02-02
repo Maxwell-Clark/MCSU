@@ -1,27 +1,35 @@
-import { Overlay, Container, Title, Button, Text } from '@mantine/core';
+import { Container, Button, Text } from '@mantine/core';
+import Image from 'next/image';
 import classes from './LandingHero.module.css';
 
 export function LandingHero() {
   return (
     <div className={classes.hero}>
-      <Overlay
-        gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 40%)"
-        opacity={1}
-        zIndex={0}
-      />
-      <Container className={classes.container} size="md">
-        <Title className={classes.title}>
-        <Text inherit variant="gradient" component="span" gradient={{ from: 'blue', to: 'white' }}>
-          Mindfulness Center of Southern Utah
-        </Text>
-            </Title>
-        <Text className={classes.description} size="xl" mt="xl">
-        "Training the Mind - Opening the Heart"
-        </Text>
+      {/* Floating blob decorations */}
+      <div className={classes.blobContainer}>
+        <div className={`${classes.blob} ${classes.blob1}`} />
+        <div className={`${classes.blob} ${classes.blob2}`} />
+        <div className={`${classes.blob} ${classes.blob3}`} />
+      </div>
 
-        <Button  size="xl" radius="xl" className={classes.control}>
-          Donate
-        </Button>
+      <Container className={classes.container} size="md">
+        <div className={classes.textOverlay}>
+          <Image
+            src="/images/MCSU final deliverable_MCSU Horizontal White.png"
+            alt="Mindfulness Center of Southern Utah"
+            width={400}
+            height={112}
+            priority
+            className={classes.heroLogoHorizontal}
+          />
+          <Text className={classes.description} size="xl" mt="xl">
+            "Training the Mind - Opening the Heart"
+          </Text>
+
+          <Button size="xl" radius="xl" className={classes.control}>
+            Donate
+          </Button>
+        </div>
       </Container>
     </div>
   );

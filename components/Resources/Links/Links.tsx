@@ -1,8 +1,8 @@
-// App.jsx (or wherever you need it)
-import React from 'react';
-import { MantineProvider, Title } from '@mantine/core';
-import { LinkGrid } from '@/components/LinkGrid/LinkGrid';
+'use client';
 
+import React from 'react';
+import { Title } from '@mantine/core';
+import { LinkGrid } from '@/components/LinkGrid/LinkGrid';
 import classes from './Links.module.css';
 
 export default function Links() {
@@ -18,7 +18,6 @@ export default function Links() {
     {
       label: 'Mindfulness Utah',
       url: 'https://www.mindfulnessutah.com',
-      // no icon -> defaults to IconExternalLink
     },
     {
       label: 'Mindfulness and Health Institute',
@@ -31,16 +30,25 @@ export default function Links() {
     {
       label: 'Insight Timer',
       url: 'https://insighttimer.com/',
-      // no icon -> defaults to IconExternalLink
     },
   ];
 
   return (
-      <div style={{ maxWidth: 900, margin: 'auto', padding: '1rem' }} className={classes.linksContainer}>
-        <Title className={classes.title} order={2}>
-            Links    
-        </Title>
-        <LinkGrid links={links} />
+    <div className={classes.wrapper}>
+      {/* Gradient orbs */}
+      <div className={classes.gradientOrbs}>
+        <div className={classes.orb1} />
+        <div className={classes.orb2} />
       </div>
+
+      <div className={classes.content}>
+        <Title className={classes.title} order={2}>
+          Links
+        </Title>
+        <div className={classes.glassWrapper}>
+          <LinkGrid links={links} />
+        </div>
+      </div>
+    </div>
   );
 }

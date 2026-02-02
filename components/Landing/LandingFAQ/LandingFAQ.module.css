@@ -1,23 +1,80 @@
 .wrapper {
-    padding-top: var(--mantine-spacing-xl);
-    padding-bottom: var(--mantine-spacing-xl);
-    min-height: rem(650px);
-  }
-  
-  .title {
-    font-family: Greycliff CF, var(--mantine-font-family);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: var(--mantine-spacing-md);
-  }
-  
-  .item {
-    border-radius: var(--mantine-radius-md);
-    margin-bottom: var(--mantine-spacing-md);
-    border: 1px solid var(--mantine-color-gray-3);
-  }
+  padding-top: calc(var(--mantine-spacing-xl) * 3);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 3);
+  min-height: rem(650px);
+  background-color: light-dark(var(--color-surface), var(--color-surface));
+}
 
-  .text {
-    font-family: var(--mantine-font-family);
-    line-height: 1.6;
+.title {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: var(--mantine-spacing-xl);
+  color: light-dark(var(--color-text), var(--color-text));
+}
+
+.item {
+  border-radius: 1.5rem;
+  margin-bottom: var(--mantine-spacing-md);
+  border: 1px solid light-dark(var(--color-border), var(--color-border));
+  background-color: light-dark(var(--color-surface-elevated), var(--color-surface-elevated));
+  transition: box-shadow var(--duration-medium) var(--ease-organic),
+              transform var(--duration-medium) var(--ease-organic),
+              border-color var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+
+  @mixin hover {
+    box-shadow: 0 12px 35px light-dark(rgba(105, 132, 101, 0.15), rgba(0, 0, 0, 0.3));
+    transform: translateX(4px);
+    border-color: light-dark(var(--color-primary-lighter), var(--color-primary));
   }
+}
+
+/* Left gradient accent bar */
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #698465 0%, #674c8f 100%);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--duration-medium) var(--ease-organic);
+}
+
+.item:hover::before {
+  transform: scaleY(1);
+}
+
+/* Active/open state styling */
+.item[data-active] {
+  box-shadow: 0 8px 25px light-dark(rgba(105, 132, 101, 0.12), rgba(0, 0, 0, 0.25));
+  border-color: light-dark(var(--color-primary-lighter), var(--color-primary));
+}
+
+.item[data-active]::before {
+  transform: scaleY(1);
+}
+
+.text {
+  font-family: var(--mantine-font-family);
+  line-height: 1.6;
+  color: light-dark(var(--color-text), var(--color-text));
+}
+
+.control {
+  font-weight: 600;
+  color: light-dark(var(--color-text), var(--color-text));
+  transition: background-color var(--transition-fast), padding-left var(--transition-normal);
+
+  @mixin hover {
+    background-color: light-dark(var(--color-secondary), var(--color-secondary));
+  }
+}
+
+.item:hover .control {
+  padding-left: calc(var(--mantine-spacing-md) + 4px);
+}

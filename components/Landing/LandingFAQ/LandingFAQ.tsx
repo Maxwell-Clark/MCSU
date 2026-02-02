@@ -176,7 +176,7 @@ export function LandingFAQ() {
         Frequently Asked Questions
       </Title>
 
-      <Accordion variant="separated">
+      <Accordion variant="separated" transitionDuration={400}>
         <Accordion.Item className={classes.item} value="mindfulness-meditation">
           <Accordion.Control>What is the difference between mindfulness and meditation?</Accordion.Control>
           <Accordion.Panel>{mindfulnessContent}</Accordion.Panel>

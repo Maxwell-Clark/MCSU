@@ -1,61 +1,189 @@
 .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: calc(var(--mantine-spacing-xl) * 2);
-    border-radius: var(--mantine-radius-md);
-    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
-    border: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-8));
-  
-    @media (max-width: $mantine-breakpoint-sm) {
-      flex-direction: column-reverse;
-      padding: var(--mantine-spacing-xl);
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--mantine-spacing-xl) * 2);
+  border-radius: 2.5rem;
+  background: light-dark(
+    linear-gradient(135deg, rgba(103, 76, 143, 0.08) 0%, rgba(105, 132, 101, 0.08) 100%),
+    linear-gradient(135deg, rgba(103, 76, 143, 0.15) 0%, rgba(105, 132, 101, 0.15) 100%)
+  );
+  background-color: light-dark(var(--color-secondary), var(--color-secondary));
+  border: rem(1px) solid light-dark(var(--color-secondary-dark), var(--color-border));
+  margin: var(--mantine-spacing-xl) 0;
+  position: relative;
+  overflow: hidden;
+  /* Multi-layered soft shadows with sage tint */
+  box-shadow:
+    0 4px 12px rgba(105, 132, 101, 0.1),
+    0 12px 32px rgba(103, 76, 143, 0.08),
+    0 24px 60px rgba(105, 132, 101, 0.06);
+  transition: transform var(--duration-medium) var(--ease-organic),
+              box-shadow var(--duration-medium) var(--ease-organic);
+
+  @mixin hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 8px 20px rgba(105, 132, 101, 0.15),
+      0 20px 45px rgba(103, 76, 143, 0.12),
+      0 32px 80px rgba(105, 132, 101, 0.08);
   }
-  
-  .image {
-    max-width: 40%;
-  
-    @media (max-width: $mantine-breakpoint-sm) {
-      max-width: 100%;
-    }
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: column-reverse;
+    padding: var(--mantine-spacing-xl);
+    border-radius: 1.75rem;
   }
-  
-  .body {
-    padding-right: calc(var(--mantine-spacing-xl) * 4);
-  
-    @media (max-width: $mantine-breakpoint-sm) {
-      padding-right: 0;
-      margin-top: var(--mantine-spacing-xl);
-    }
+}
+
+/* Flowing gradient top accent */
+.wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #698465 0%, #674c8f 40%, #9a86bb 70%, #d2ddd0 100%);
+  background-size: 200% 100%;
+  animation: flowingGradient 8s ease-in-out infinite;
+}
+
+@keyframes flowingGradient {
+  0%, 100% {
+    background-position: 0% 50%;
   }
-  
-  .title {
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-    font-family:
-      Greycliff CF,
-      var(--mantine-font-family);
-    line-height: 1;
-    margin-bottom: var(--mantine-spacing-md);
+  50% {
+    background-position: 100% 50%;
   }
-  
-  .controls {
-    display: flex;
+}
+
+/* Decorative background blob */
+.wrapper::after {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(105, 132, 101, 0.15) 0%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.image {
+  max-width: 40%;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    max-width: 100%;
+  }
+}
+
+.body {
+  padding-right: calc(var(--mantine-spacing-xl) * 4);
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding-right: 0;
     margin-top: var(--mantine-spacing-xl);
   }
-  
-  .inputWrapper {
+}
+
+.title {
+  color: light-dark(#ffffff, var(--color-text));
+  font-family: var(--font-heading);
+  line-height: 1;
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.subtitle {
+  color: light-dark(#f5f5f5, var(--color-text));
+  font-weight: 500;
+}
+
+.description {
+  color: light-dark(#e8e8e8, var(--color-text-muted));
+}
+
+.controls {
+  display: flex;
+  margin-top: var(--mantine-spacing-xl);
+}
+
+.inputWrapper {
+  width: 100%;
+  flex: 1;
+}
+
+/* Pill-shaped form controls */
+.input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+  border-right: 0;
+  background-color: light-dark(var(--color-surface-elevated), var(--color-surface-elevated));
+  border-color: light-dark(var(--color-border), var(--color-border));
+  color: light-dark(var(--color-text), var(--color-text));
+  padding-left: var(--mantine-spacing-lg);
+  transition: box-shadow var(--transition-normal), border-color var(--transition-fast);
+
+  &::placeholder {
+    color: light-dark(var(--color-text-muted), var(--color-text-muted));
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(105, 132, 101, 0.15);
+    border-color: light-dark(var(--color-primary), var(--color-primary));
+  }
+}
+
+.control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+  background: linear-gradient(135deg, #698465 0%, #567354 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(105, 132, 101, 0.3);
+  transition: transform 300ms var(--ease-organic),
+              box-shadow var(--transition-normal),
+              background var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+
+  /* Shimmer effect on hover */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
     width: 100%;
-    flex: 1;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+    );
+    transition: left 0.5s ease;
   }
-  
-  .input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: 0;
+
+  @mixin hover {
+    background: linear-gradient(135deg, #567354 0%, #4a6348 100%);
+    box-shadow: 0 8px 25px rgba(105, 132, 101, 0.45);
+    transform: translateY(-2px);
+
+    &::before {
+      left: 100%;
+    }
   }
-  
-  .control {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(105, 132, 101, 0.3);
   }
+}

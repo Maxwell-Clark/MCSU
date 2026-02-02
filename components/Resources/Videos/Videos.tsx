@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, Box, Text, Group, Title, Container, Stack, useMantineTheme } from '@mantine/core';
+import { Box, Text, Title, Container, Stack } from '@mantine/core';
 import classes from './Videos.module.css';
 import YouTubePlayer from '@/components/YoutubeComponent/YoutubeComponent';
 
@@ -26,44 +26,43 @@ const videos = [
         description: 'Sharon Salzberg',
         videoId: 'p117V-RQ_MA',
     },
-
-
-    // Add more videos as needed
 ];
 
 const Videos: React.FC = () => {
-    const theme = useMantineTheme();
-
     return (
-        <Container size="md" py="xl">
-            <Title className={classes.title} ta="center" mb="xl">Videos</Title>
-            
-            <Stack gap="xl" align="center" style={{ maxWidth: 800, margin: '0 auto' }}>
-                {videos.map((video, index) => (
-                    <Card 
-                        key={index} 
-                        shadow="sm" 
-                        radius="md" 
-                        p="md" 
-                        withBorder
-                        style={{ 
-                            width: '100%'
-                        }}
-                    >
-                        <Box className={classes.video_container}>
-                            <YouTubePlayer videoId={video.videoId} title={video.title}/>
+        <div className={classes.wrapper}>
+            {/* Gradient orbs */}
+            <div className={classes.gradientOrbs}>
+                <div className={classes.orb1} />
+                <div className={classes.orb2} />
+            </div>
+
+            <Container size="md" className={classes.content}>
+                <Title className={classes.title}>Videos</Title>
+
+                <Stack gap="xl" align="center" style={{ maxWidth: 800, margin: '0 auto' }}>
+                    {videos.map((video, index) => (
+                        <Box
+                            key={index}
+                            className={classes.videoCard}
+                            style={{ width: '100%' }}
+                        >
+                            <div className={classes.video_container}>
+                                <YouTubePlayer videoId={video.videoId} title={video.title}/>
+                            </div>
+                            <div className={classes.cardContent}>
+                                <Text className={classes.videoTitle}>
+                                    {video.title}
+                                </Text>
+                                <Text className={classes.videoAuthor}>
+                                    {video.description}
+                                </Text>
+                            </div>
                         </Box>
-                        
-                            <Title order={3} size="h4" c={theme.colors.dark[7]}>
-                                {video.title}
-                            </Title>
-                            <Text size="sm" c="dimmed">
-                                {video.description}
-                            </Text>
-                    </Card>
-                ))}
-            </Stack>
-        </Container>
+                    ))}
+                </Stack>
+            </Container>
+        </div>
     );
 };
 

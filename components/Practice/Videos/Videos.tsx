@@ -118,96 +118,93 @@ const Videos: React.FC = () => {
   const filteredVideos = videoSections
     .filter(section => activeTab === 'all' || section.category.toLowerCase() === activeTab)
     .flatMap(section => section.videos)
-    .filter(video => 
+    .filter(video =>
       video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       video.instructor?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
   return (
-    <Container size="md" py="xl">
-      <Stack align="center" gap="xl" style={{ maxWidth: 800, margin: '0 auto' }}>
-        <div>
-          <Title className={classes.title} order={2} ta="center">
-            Guided Meditations
-          </Title>
-          <Text c="dimmed" className={classes.text} ta="center" mt="md">
-            Explore our collection of guided meditations designed to help you cultivate mindfulness and inner peace.
-            Each session is carefully crafted to support your practice, whether you're new to meditation or have been practicing for years.
-          </Text>
-        </div>
+    <div className={classes.wrapper}>
+      <Container size="md" py="xl" className={classes.container}>
+        <Stack align="center" gap="xl" style={{ maxWidth: 800, margin: '0 auto' }}>
+          <div>
+            <Title className={classes.sectionTitle} order={2}>
+              Guided Meditations
+            </Title>
+            <Text className={classes.tagline}>
+              Explore our collection of guided meditations designed to help you cultivate mindfulness and inner peace.
+              Each session is carefully crafted to support your practice, whether you're new to meditation or have been practicing for years.
+            </Text>
+          </div>
 
-        <Tabs 
-          value={activeTab} 
-          onChange={setActiveTab}
-          mb="xl"
-          style={{ width: '100%' }}
-        >
-          <Tabs.List>
-            {categories.map((category) => (
-              <Tabs.Tab 
-                key={category} 
-                value={category}
-              >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Tabs.Tab>
-            ))}
-          </Tabs.List>
-        </Tabs>
+          <Tabs
+            value={activeTab}
+            onChange={setActiveTab}
+            className={classes.tabs}
+            classNames={{
+              list: classes.tabsList,
+              tab: classes.tab,
+            }}
+          >
+            <Tabs.List>
+              {categories.map((category) => (
+                <Tabs.Tab
+                  key={category}
+                  value={category}
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+          </Tabs>
 
-        <TextInput
-          placeholder="Search videos..."
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.currentTarget.value)}
-          leftSection={<IconSearch size={16} />}
-          style={{ width: '100%' }}
-          mb="xl"
-        />
+          <TextInput
+            placeholder="Search videos..."
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.currentTarget.value)}
+            leftSection={<IconSearch size={16} />}
+            style={{ width: '100%' }}
+            className={classes.searchInput}
+            radius="lg"
+          />
 
-        <Stack gap="xl" style={{ width: '100%' }}>
-          {filteredVideos.map((video, index) => (
-            <Card
-              key={index}
-              shadow="sm"
-              padding="md"
-              radius="md"
-              withBorder
-              style={{ width: '100%' }}
-            >
-              <div className={classes.video_container}>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${video.videoId}`}
-                  title={video.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-              <Group justify="space-between" mt="md">
-                <Box>
-                  <Title order={3} className={classes.title}>
+          <Stack gap="xl" style={{ width: '100%' }}>
+            {filteredVideos.map((video, index) => (
+              <div key={index} className={classes.videoCard}>
+                <div className={classes.video_container}>
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${video.videoId}`}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                <div className={classes.cardContent}>
+                  <Title order={3} className={classes.cardTitle}>
                     {video.title}
                   </Title>
                   <Group gap="xs">
                     {video.instructor && (
-                      <Text size="sm" c="dimmed" className={classes.text}>
+                      <Text size="sm" className={classes.text}>
                         Guided by {video.instructor}
                       </Text>
                     )}
                     {video.duration && (
-                      <Badge color="blue" variant="light">
+                      <Badge className={classes.badge} variant="light">
                         {video.duration}
                       </Badge>
                     )}
                   </Group>
-                </Box>
-              </Group>
-            </Card>
-          ))}
+                </div>
+              </div>
+            ))}
+          </Stack>
         </Stack>
-      </Stack>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

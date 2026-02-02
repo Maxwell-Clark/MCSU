@@ -17,11 +17,11 @@ import {
     rem,
     useMantineTheme,
     useMantineColorScheme,
-    ActionIcon,
-    Title
+    ActionIcon
   } from '@mantine/core';
   import { useDisclosure } from '@mantine/hooks';
   import Link from 'next/link';
+import Image from 'next/image';
 
   import { HeaderCard } from './HeaderCard';
   import {
@@ -199,7 +199,7 @@ import { useState } from 'react';
       <UnstyledButton className={classes.subLink} key={item.title}>
         <Group align="justify-center">
           <ThemeIcon size={34} variant="default" radius="md">
-            <item.icon style={{ width: rem(22), height: rem(22) }} color={theme.colors.blue[6]} />
+            <item.icon style={{ width: rem(22), height: rem(22) }} color={theme.colors.sage[5]} />
           </ThemeIcon>
           <div>
             <Text size="sm" fw={500}>
@@ -219,7 +219,7 @@ import { useState } from 'react';
             <UnstyledButton className={classes.subLink} key={item.title}>
               <Group wrap="nowrap" align="justify-center">
                 <ThemeIcon size={34} variant="default" radius="md">
-                  <item.icon style={{ width: rem(22), height: rem(22) }} color={theme.colors.blue[6]} />
+                  <item.icon style={{ width: rem(22), height: rem(22) }} color={theme.colors.sage[5]} />
                 </ThemeIcon>
                 <div>
                   <Text size="sm" fw={500}>
@@ -239,12 +239,14 @@ import { useState } from 'react';
       <Box>
         <header className={classes.header}>
           <Group className={classes.header_group} >  
-            <a href='/' className={classes.link}>
-              <Title>
-                <Text inherit variant="gradient" component="span" gradient={{ from: 'blue', to: 'blue' }}>
-                    MCSU
-                </Text>
-              </Title>
+            <a href='/' className={classes.logo}>
+              <Image
+                src="/images/MCSU final deliverable_MCSU logo-brandmark FC.png"
+                alt="MCSU Logo"
+                width={45}
+                height={50}
+                priority
+              />
             </a>
             <Group h="100%" gap={0} visibleFrom="md">
               {/* <a href="#" className={classes.link}>
@@ -262,7 +264,7 @@ import { useState } from 'react';
   
             <Group>
               <ActionIcon onClick={toggleColorScheme}>
-                <IconMoonStars  style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                <IconMoonStars  style={{ width: '70%', height: '70%' }} stroke={1.5} color="#ffffff" />
               </ActionIcon>
             </Group>
   
@@ -287,7 +289,7 @@ import { useState } from 'react';
               <Box component="span" mr={5}>
                 Who We Are
               </Box>
-              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} />
+              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.sage[5]} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened['whoWeAre']}>{fetchLinks(whoWeAreData, "/whoWeAre")}</Collapse>
@@ -297,7 +299,7 @@ import { useState } from 'react';
               <Box component="span" mr={5}>
                 Offerings & Events
               </Box>
-              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} />
+              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.sage[5]} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened['offerings']}>{fetchLinks(offeringsData, "/offerings")}</Collapse>
@@ -307,7 +309,7 @@ import { useState } from 'react';
               <Box component="span" mr={5}>
                 Mindfulness Education
               </Box>
-              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} />
+              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.sage[5]} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened['education']}>{fetchLinks(mindfulnessEduData, '/resources')}</Collapse>
@@ -317,7 +319,7 @@ import { useState } from 'react';
               <Box component="span" mr={5}>
                 Partner With Us
               </Box>
-              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} />
+              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.sage[5]} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened['partners']}>{fetchLinks(partnerWithUsData, '/partnerWithUs')}</Collapse>
@@ -327,7 +329,7 @@ import { useState } from 'react';
               <Box component="span" mr={5}>
                 Personal Resources
               </Box>
-              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} />
+              <IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.sage[5]} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened['resources']}>{fetchLinks(resourcesData, '/practice')}</Collapse>

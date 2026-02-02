@@ -1,33 +1,58 @@
 /* LinkGrid.module.css */
 .grid {
-    max-width: 1200px;
-    margin: 0 auto;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 .card {
-    cursor: pointer;
-    text-align: center;
-    width: 9em;
-    height: 9em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Add any other styles you want */
+  cursor: pointer;
+  text-align: center;
+  width: 9em;
+  height: 9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: light-dark(var(--color-surface-elevated), var(--color-surface-elevated));
+  border: 1px solid light-dark(var(--color-border), var(--color-border));
+  border-radius: var(--mantine-radius-md);
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow var(--transition-normal),
+              border-color var(--transition-fast),
+              background-color var(--transition-normal);
+}
 
-  }
+.card:hover {
+  border: 2px solid light-dark(var(--color-primary), var(--color-primary-light));
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 12px 30px light-dark(rgba(105, 132, 101, 0.15), rgba(0, 0, 0, 0.3)),
+              0 4px 8px light-dark(rgba(64, 64, 64, 0.08), rgba(0, 0, 0, 0.2));
+  background-color: light-dark(rgba(210, 221, 208, 0.2), rgba(58, 69, 58, 0.3));
+}
 
-  .card:hover {
-    /* Slightly enlarge the card on hover */
-    border: 2px solid;
-    transform: scale(1.05);
-  }
+.card:active {
+  transform: translateY(-2px) scale(1.02);
+}
 
-  .label {
-    font-family:
-    Greycliff CF,
-    var(--mantine-font-family);
+.label {
+  font-family: Greycliff CF, var(--mantine-font-family);
   font-size: rem(14px);
   font-weight: 700;
   vertical-align: middle;
-    line-height: 1.1;
-    padding: 0.5em;
-  }
+  line-height: 1.1;
+  padding: 0.5em;
+  color: light-dark(var(--color-text), var(--color-text));
+  transition: color var(--transition-fast);
+}
+
+.card:hover .label {
+  color: light-dark(var(--color-primary), var(--color-primary-light));
+}
+
+.icon {
+  transition: transform var(--transition-normal), color var(--transition-fast);
+  color: light-dark(var(--color-primary), var(--color-primary-light));
+}
+
+.card:hover .icon {
+  transform: scale(1.1);
+}

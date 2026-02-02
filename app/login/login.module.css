@@ -1,0 +1,21 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--mantine-color-sage-0) 0%, var(--mantine-color-sage-1) 100%);
+}
+
+[data-mantine-color-scheme='dark'] .wrapper {
+  background: linear-gradient(135deg, var(--mantine-color-dark-8) 0%, var(--mantine-color-dark-9) 100%);
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  font-family: var(--mantine-font-family-headings);
+  font-weight: 700;
+}

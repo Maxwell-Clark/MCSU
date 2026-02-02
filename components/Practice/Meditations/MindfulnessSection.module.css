@@ -1,10 +1,171 @@
+/* Section Title */
 .title {
   font-family: Greycliff CF, var(--mantine-font-family);
   font-weight: 900;
   line-height: 1.1;
+  color: light-dark(var(--color-text), var(--color-text));
 }
 
 .text {
   font-family: var(--mantine-font-family);
   line-height: 1.6;
-} 
+  color: light-dark(var(--color-text-muted), var(--color-text-muted));
+}
+
+/* Accordion Item Styling - matches LandingFAQ */
+.accordionItem {
+  border-radius: 1.5rem;
+  margin-bottom: var(--mantine-spacing-md);
+  border: 1px solid light-dark(var(--color-border), var(--color-border));
+  background-color: light-dark(var(--color-surface-elevated), var(--color-surface-elevated));
+  transition: box-shadow var(--duration-medium) var(--ease-organic),
+              transform var(--duration-medium) var(--ease-organic),
+              border-color var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Left gradient accent bar */
+.accordionItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #698465 0%, #674c8f 100%);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--duration-medium) var(--ease-organic);
+}
+
+.accordionItem:hover {
+  box-shadow: 0 12px 35px light-dark(rgba(105, 132, 101, 0.15), rgba(0, 0, 0, 0.3));
+  transform: translateX(4px);
+  border-color: light-dark(var(--color-primary-lighter), var(--color-primary));
+}
+
+.accordionItem:hover::before {
+  transform: scaleY(1);
+}
+
+/* Active/open state styling */
+.accordionItem[data-active] {
+  box-shadow: 0 8px 25px light-dark(rgba(105, 132, 101, 0.12), rgba(0, 0, 0, 0.25));
+  border-color: light-dark(var(--color-primary-lighter), var(--color-primary));
+}
+
+.accordionItem[data-active]::before {
+  transform: scaleY(1);
+}
+
+/* Accordion Control */
+.accordionControl {
+  font-weight: 600;
+  color: light-dark(var(--color-text), var(--color-text));
+  transition: background-color var(--transition-fast), padding-left var(--transition-normal);
+  border-radius: 1.5rem;
+}
+
+.accordionItem:hover .accordionControl {
+  padding-left: calc(var(--mantine-spacing-md) + 4px);
+}
+
+/* Card Styling within Accordion - matches TrainingBrain pattern */
+.card {
+  padding: var(--mantine-spacing-md);
+  border-radius: 1rem;
+  background-color: light-dark(#ffffff, #262626);
+  border: 1px solid light-dark(var(--color-border), var(--color-border));
+  border-left: 4px solid light-dark(#698465, #89a485);
+  transition: transform 300ms var(--ease-organic),
+              box-shadow var(--transition-normal),
+              background-color var(--transition-normal),
+              border-color var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft inner glow effect on cards */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 50% 0%, rgba(105, 132, 101, 0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 30px light-dark(rgba(105, 132, 101, 0.15), rgba(0, 0, 0, 0.3)),
+              0 4px 8px light-dark(rgba(105, 132, 101, 0.08), rgba(0, 0, 0, 0.2));
+  background-color: light-dark(rgba(255, 255, 255, 0.98), rgba(38, 38, 38, 0.98));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Color-coded card borders by meditation type */
+.cardSage {
+  border-left-color: light-dark(#698465, #89a485);
+}
+
+.cardSage:hover {
+  border-left-color: light-dark(#567354, #a8bda5);
+}
+
+.cardPurple {
+  border-left-color: light-dark(#674c8f, #9a86bb);
+}
+
+.cardPurple:hover {
+  border-left-color: light-dark(#5a4280, #b5a3cc);
+}
+
+.cardPaleSage {
+  border-left-color: light-dark(#a8b8a6, #bfcbbd);
+}
+
+.cardPaleSage:hover {
+  border-left-color: light-dark(#698465, #d2ddd0);
+}
+
+/* Card Title */
+.cardTitle {
+  font-weight: 700;
+  font-size: var(--mantine-font-size-md);
+  color: light-dark(var(--color-text), var(--color-text));
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+/* Card Description */
+.cardDescription {
+  color: light-dark(var(--color-text-muted), var(--color-text-muted));
+  line-height: 1.5;
+  font-size: var(--mantine-font-size-sm);
+}
+
+/* Modal Styling */
+.modal {
+  border-radius: 1.5rem;
+}
+
+.modalTitle {
+  color: light-dark(var(--color-text), var(--color-text));
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.modalContent {
+  color: light-dark(var(--color-text-muted), var(--color-text-muted));
+  line-height: 1.6;
+  white-space: pre-line;
+}

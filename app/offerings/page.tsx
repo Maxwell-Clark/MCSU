@@ -1,65 +1,65 @@
-import { MBSR } from '@/components/Offerings/MBSR/MBSR';
-import { EveryDayMindfulness } from '@/components/Offerings/EveryDayMindfulness/EveryDayMindfulness';
+'use client';
+
+import { useCallback, useState } from 'react';
+import { Modal } from '@mantine/core';
+import { OfferingsHeroModern } from '@/components/Offerings/OfferingsHeroModern';
+import { ScheduleHub } from '@/components/Offerings/ScheduleHub';
+import { ProgramTabs } from '@/components/Offerings/ProgramTabs';
 import { ContactUs } from '@/components/ContactUs/ContactUs';
-import { IntroToMindfulness } from '@/components/Offerings/IntroToMindfulness/IntroToMindfulness';
-import { MondayMindfulness } from '@/components/Offerings/MondayMindfulness/MondayMindfulness';
+import { ClassCalendar } from '@/components/Calendar/Calendar';
+import { ClassEvent } from '@/data/classData';
+
 export default function OfferingsPage() {
-    const data = [
-        {
-          image:
-            'https://images.unsplash.com/photo-1600880292291-06e8c48d286d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-          title: 'Meet Our CEO, Sarah Johnson',
-          category: 'leadership',
-        },
-        {
-          image:
-            'https://images.unsplash.com/photo-1528763380143-df0cb04c31d4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-          title: 'Our Visionary CTO, Michael Lee',
-          category: 'leadership',
-        },
-        {
-          image:
-            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-          title: 'Head of Operations, Emily Davis',
-          category: 'leadership',
-        },
-        {
-          image:
-            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-          title: 'Marketing Director, David Wilson',
-          category: 'leadership',
-        },
-        {
-          image:
-            'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-          title: 'Finance Lead, Jessica Miller',
-          category: 'leadership',
-        },
-        {
-          image:
-            'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-          title: 'Head of HR, Chris Johnson',
-          category: 'leadership',
-        },
-      ];
+  const [calendarModalOpen, setCalendarModalOpen] = useState(false);
+
+  const handleScrollToSchedule = useCallback(() => {
+    document.getElementById('schedule')?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  const handleScrollToPrograms = useCallback(() => {
+    document.getElementById('programs')?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  const handleClassClick = useCallback((classEvent: ClassEvent) => {
+    setCalendarModalOpen(true);
+  }, []);
+
+  const handleJoinProgram = useCallback((programId: string) => {
+    setCalendarModalOpen(true);
+  }, []);
+
   return (
     <>
-    <div id='intro'>
-      <IntroToMindfulness />
-    </div>
-      <div id='mbsr'>
-      <MBSR />
+      <OfferingsHeroModern
+        onScrollToSchedule={handleScrollToSchedule}
+        onScrollToPrograms={handleScrollToPrograms}
+      />
+
+      <ScheduleHub onClassClick={handleClassClick} />
+
+      <ProgramTabs onJoinClick={handleJoinProgram} />
+
+      <div id="contact">
+        <ContactUs />
       </div>
-      <div id='everyday'>
-      <EveryDayMindfulness />
-      </div>
-      <div id='drop_in'>
-      <MondayMindfulness />
-      </div>
-      <div id='contact'>
-      <ContactUs />
-      </div>
+
+      {/* Calendar Modal for Join actions */}
+      <Modal
+        opened={calendarModalOpen}
+        onClose={() => setCalendarModalOpen(false)}
+        size="100%"
+        styles={{
+          header: {
+            height: 0,
+            minHeight: 0,
+            margin: 0,
+            padding: 0,
+            overflow: 'hidden',
+          },
+        }}
+      >
+        <ClassCalendar />
+      </Modal>
     </>
   );
 }
-

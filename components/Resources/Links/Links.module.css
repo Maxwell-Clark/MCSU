@@ -1,52 +1,154 @@
+/* Links Section Wrapper */
+.wrapper {
+  padding-top: calc(var(--mantine-spacing-xl) * 3);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
+  background-color: light-dark(var(--color-surface), var(--color-surface));
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background gradient orbs - sage themed */
+.gradientOrbs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb1 {
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(105, 132, 101, 0.1) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  filter: blur(50px);
+}
+
+.orb2 {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(103, 76, 143, 0.08) 0%, transparent 70%);
+  bottom: -80px;
+  left: -100px;
+  filter: blur(50px);
+}
+
+/* Content container */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--mantine-spacing-md);
+}
+
+/* Section title */
+.title {
+  font-family: Greycliff CF, var(--mantine-font-family);
+  font-size: rem(36px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: var(--mantine-spacing-xl);
+  color: light-dark(var(--color-text), var(--color-text));
+  text-align: center;
+}
+
+/* Glassmorphic wrapper for the grid */
+.glassWrapper {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: light-dark(rgba(255, 255, 255, 0.7), rgba(30, 30, 30, 0.7));
+  border: 1px solid light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.08));
+  border-radius: 2rem;
+  padding: var(--mantine-spacing-xl);
+  box-shadow: 0 8px 32px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.3));
+}
+
+/* Links container */
+.linksContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--mantine-spacing-md);
+}
+
+/* Legacy card styles for individual link items */
 .card {
-    /* Optional: add extra spacing or custom background */
-    margin: 1rem 0;
-    background-color: #fff; /* or any color you'd like */
-  }
-  
-  .cardSection {
-    /* border-bottom: 1px solid #eaeaea; */
-    padding: 8px 0;
+  margin: 0;
+  background-color: light-dark(var(--color-surface-elevated), var(--color-surface-elevated));
+  border: 1px solid light-dark(var(--color-border), var(--color-border));
+  border-radius: var(--mantine-radius-md);
+  transition: transform 300ms var(--ease-organic),
+              box-shadow var(--transition-normal),
+              border-color var(--transition-fast);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px light-dark(rgba(105, 132, 101, 0.15), rgba(0, 0, 0, 0.25));
+  border-color: light-dark(var(--color-primary-lighter), var(--color-primary));
+}
+
+.cardSection {
+  padding: var(--mantine-spacing-sm) 0;
+}
+
+/* Link item with icon */
+.linkItem {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  justify-content: center;
+}
+
+/* Link icon color */
+.linkIcon {
+  color: light-dark(#698465, #89a485);
+  transition: transform var(--transition-fast);
+}
+
+.linkItem:hover .linkIcon {
+  transform: scale(1.1);
+}
+
+/* Link anchor styling */
+.linkAnchor {
+  text-decoration: none;
+  color: light-dark(#698465, #89a485);
+  font-size: var(--mantine-font-size-md);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.linkAnchor:hover {
+  color: light-dark(#567354, #a8bda5);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: rem(28px);
   }
 
-  .title {
-    font-family:
-      Greycliff CF,
-      var(--mantine-font-family);
-    font-size: rem(36px);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: var(--mantine-spacing-md);
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-    text-align: center;
+  .glassWrapper {
+    padding: var(--mantine-spacing-md);
+    border-radius: 1.5rem;
   }
-  
-  .linksContainer {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px; /* space between link rows */
+
+  .orb1 {
+    width: 280px;
+    height: 280px;
+    top: -80px;
+    right: -80px;
   }
-  
-  .linkItem {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* space between icon and text */
-    justify-content: center;
+
+  .orb2 {
+    width: 220px;
+    height: 220px;
   }
-  
-  .linkIcon {
-    color: #1c7ed6; /* Mantine's default blue, for example */
-  }
-  
-  .linkAnchor {
-    text-decoration: underline;
-    color: #1c7ed6;
-    font-size: 0.875rem; /* same as Mantine's sm (14px) */
-  }
-  
-  .linkAnchor:hover {
-    color: #1864ab; /* darker shade on hover */
-  }
-  
+}

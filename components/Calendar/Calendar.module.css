@@ -1,0 +1,73 @@
+.calendarPaper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.segmentLabel {
+  display: inline;
+}
+
+@media (max-width: 400px) {
+  .segmentLabel {
+    display: none;
+  }
+}
+
+.monthlyView {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.weeklyView {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.selectedDay {
+  background-color: var(--mantine-color-sage-1);
+  border-radius: var(--mantine-radius-sm);
+}
+
+[data-mantine-color-scheme='dark'] .selectedDay {
+  background-color: var(--mantine-color-sage-9);
+}
+
+.selectedDateDetails {
+  padding: var(--mantine-spacing-sm);
+  background-color: var(--mantine-color-gray-0);
+  border-radius: var(--mantine-radius-md);
+}
+
+[data-mantine-color-scheme='dark'] .selectedDateDetails {
+  background-color: var(--mantine-color-dark-6);
+}
+
+.noClasses {
+  padding: var(--mantine-spacing-md);
+  text-align: center;
+}
+
+.dayBlock {
+  border-left: 4px solid;
+  background-color: var(--mantine-color-gray-0);
+  border-radius: var(--mantine-radius-md);
+}
+
+[data-mantine-color-scheme='dark'] .dayBlock {
+  background-color: var(--mantine-color-dark-6);
+}
+
+.classCard {
+  padding: var(--mantine-spacing-xs);
+  background-color: var(--mantine-color-white);
+  border-radius: var(--mantine-radius-sm);
+  border: 1px solid var(--mantine-color-gray-2);
+}
+
+[data-mantine-color-scheme='dark'] .classCard {
+  background-color: var(--mantine-color-dark-5);
+  border-color: var(--mantine-color-dark-4);
+}

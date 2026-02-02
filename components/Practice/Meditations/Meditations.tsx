@@ -12,18 +12,25 @@ import { OpenAwareness } from './OpenAwareness'
 const Meditations: React.FC = () => {
   return (
     <div className={classes.wrapper}>
+      {/* Background gradient orbs */}
+      <div className={classes.gradientOrbs}>
+        <div className={classes.orb1} />
+        <div className={classes.orb2} />
+      </div>
+
       <Title className={classes.title}>
         Meditation Instruction
       </Title>
 
+      <div className={classes.content}>
         <BodyScan />
         <MindfulnessOfBreathing />
         <Walking />
         <LovingKindness />
         <OpenAwareness />
+      </div>
     </div>
   );
 };
 
 export default Meditations;
-

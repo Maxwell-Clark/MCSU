@@ -1,12 +1,13 @@
 "use client";
 
 import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
+import '@mantine/carousel/styles.css';
+import '@mantine/dates/styles.css';
+import '../styles/globals.css';
+import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { Header } from '../components/Header/Header';
 import { Footer } from '../components/Footer/Footer';
 import { theme } from '../theme';
-import '@mantine/carousel/styles.css';
-import '@mantine/dates/styles.css';
 
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
@@ -34,9 +35,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }, [pathname]);
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ColorSchemeScript defaultColorScheme="auto" />
+      </head>
       <body>
-        <MantineProvider theme={theme}>
+        <MantineProvider theme={theme} defaultColorScheme="auto">
           <Header />
           {children}
           <Footer />

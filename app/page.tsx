@@ -1,18 +1,18 @@
-import { LandingBanner } from '../components/Landing/LandingBanner/LandingBanner';
-import { LandingFeatures } from '../components/Landing/LandingFeatures/LandingFeatures';
+import { AttitudesGrid } from '../components/Landing/AttitudesGrid/AttitudesGrid';
 import { LandingFAQ } from '../components/Landing/LandingFAQ/LandingFAQ';
-import { LandingOfferings } from '../components/Landing/LandingOfferings/LandingOfferings';
 import { LandingHero } from '../components/Landing/LandingHero/LandingHero';
+import { TrainingBrain } from '../components/Landing/TrainingBrain/TrainingBrain';
+import { OpeningHeart } from '../components/Landing/OpeningHeart/OpeningHeart';
 import '@mantine/carousel/styles.css';
 
 export default function HomePage() {
   return (
     <>
       <LandingHero />
-      <LandingFeatures />
-      <LandingOfferings />
+      <TrainingBrain />
+      <OpeningHeart />
+      <AttitudesGrid />
       <LandingFAQ />
-      <LandingBanner />
     </>
   );
 }

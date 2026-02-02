@@ -1,0 +1,118 @@
+.blobContainer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: var(--radius-blob);
+  filter: blur(60px);
+  opacity: 0.4;
+  animation: floatBlob 12s ease-in-out infinite;
+}
+
+/* Sage blob - top right */
+.blob1 {
+  width: 300px;
+  height: 300px;
+  background: rgba(105, 132, 101, 0.5);
+  top: -50px;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+/* Purple blob - bottom left */
+.blob2 {
+  width: 250px;
+  height: 250px;
+  background: rgba(103, 76, 143, 0.4);
+  bottom: 20%;
+  left: -50px;
+  animation-delay: -4s;
+}
+
+/* Pale sage blob - middle right */
+.blob3 {
+  width: 200px;
+  height: 200px;
+  background: rgba(210, 221, 208, 0.5);
+  top: 40%;
+  right: -30px;
+  animation-delay: -8s;
+}
+
+/* Additional blob for hero - teal accent */
+.blob4 {
+  width: 180px;
+  height: 180px;
+  background: rgba(94, 154, 160, 0.35);
+  bottom: 10%;
+  right: 30%;
+  animation-delay: -2s;
+}
+
+/* Small accent blob */
+.blob5 {
+  width: 120px;
+  height: 120px;
+  background: rgba(105, 132, 101, 0.3);
+  top: 20%;
+  left: 15%;
+  animation-delay: -6s;
+}
+
+@keyframes floatBlob {
+  0%, 100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) scale(1.05) rotate(5deg);
+  }
+  66% {
+    transform: translateY(10px) scale(0.95) rotate(-3deg);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none;
+  }
+}
+
+/* Dark mode adjustments */
+[data-mantine-color-scheme='dark'] .blob1 {
+  background: rgba(137, 164, 133, 0.35);
+}
+
+[data-mantine-color-scheme='dark'] .blob2 {
+  background: rgba(154, 134, 187, 0.3);
+}
+
+[data-mantine-color-scheme='dark'] .blob3 {
+  background: rgba(58, 69, 58, 0.4);
+}
+
+[data-mantine-color-scheme='dark'] .blob4 {
+  background: rgba(94, 154, 160, 0.25);
+}
+
+[data-mantine-color-scheme='dark'] .blob5 {
+  background: rgba(137, 164, 133, 0.2);
+}
+
+/* Variant: minimal - fewer blobs */
+.minimal .blob3,
+.minimal .blob4,
+.minimal .blob5 {
+  display: none;
+}
+
+/* Variant: dense - more visible */
+.dense .blob {
+  opacity: 0.5;
+  filter: blur(50px);
+}

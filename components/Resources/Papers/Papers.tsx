@@ -2,8 +2,7 @@
 
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
-import { Paper, Text, Title, Button, useMantineTheme, rem } from '@mantine/core';
-// import {ListDropdown} from '@/components/ListDropdown/ListDropdown'
+import { Paper, Text, Title, useMantineTheme, rem } from '@mantine/core';
 import classes from './Papers.module.css';
 
 interface CardProps {
@@ -17,22 +16,23 @@ function Card({ image, url, title, category }: CardProps) {
   return (
     <Paper
       shadow="md"
-      p="xl"
       radius="md"
       style={{ backgroundImage: `url(${image})` }}
       className={classes.card}
     >
-      <div>
-        <Text className={classes.category} size="xs">
-          {category}
-        </Text>
-        <Title order={3} className={classes.title} style={{ color: 'white' }}>
-          {title}
-        </Title>
+      <div className={classes.cardContent}>
+        <div>
+          <Text className={classes.category} size="xs">
+            {category}
+          </Text>
+          <Title order={3} className={classes.title}>
+            {title}
+          </Title>
+        </div>
+        <button className={classes.button} onClick={() => window.open(url, '_blank')}>
+          Read article
+        </button>
       </div>
-      <Button variant="white" color="dark"  onClick={() => window.open(url, '_blank')}>
-        Read article
-      </Button>
     </Paper>
   );
 }
@@ -76,17 +76,25 @@ export function Papers() {
   ));
 
   return (
-    <div>
-      <Title ta='center' className={classes.title}>Papers</Title>
-      {/* <ListDropdown items={data} /> */}
-      <Carousel
-        slideSize={{ base: '100%', sm: '50%' }}
-        slideGap={{ base: rem(2), sm: 'xl' }}
-        align="start"
-        slidesToScroll={1}
-      >
-        {slides}
-      </Carousel>
+    <div className={classes.wrapper}>
+      {/* Gradient orbs */}
+      <div className={classes.gradientOrbs}>
+        <div className={classes.orb1} />
+        <div className={classes.orb2} />
+      </div>
+
+      <div className={classes.content}>
+        <Title className={classes.sectionTitle}>Papers</Title>
+        <Carousel
+          slideSize={{ base: '100%', sm: '50%' }}
+          slideGap={{ base: rem(2), sm: 'xl' }}
+          align="start"
+          slidesToScroll={1}
+          className={classes.carousel}
+        >
+          {slides}
+        </Carousel>
+      </div>
     </div>
   );
 }

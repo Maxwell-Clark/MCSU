@@ -1,22 +1,68 @@
 .footer {
-    margin-top: rem(120px);
-    border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  margin-top: rem(80px);
+  background: light-dark(
+    linear-gradient(180deg, var(--color-surface-muted) 0%, rgba(210, 221, 208, 0.3) 100%),
+    linear-gradient(180deg, var(--color-surface-muted) 0%, rgba(58, 69, 58, 0.3) 100%)
+  );
+  border-top: rem(1px) solid light-dark(var(--color-border), var(--color-border));
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #698465 0%, #674c8f 50%, #d2ddd0 100%);
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--mantine-spacing-xl);
+  padding-bottom: var(--mantine-spacing-xl);
+  color: light-dark(var(--color-text-muted), var(--color-text-muted));
+  font-size: var(--mantine-font-size-sm);
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    flex-direction: column;
+    gap: var(--mantine-spacing-md);
   }
-  
-  .inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: var(--mantine-spacing-xl);
-    padding-bottom: var(--mantine-spacing-xl);
-  
-    @media (max-width: $mantine-breakpoint-xs) {
-      flex-direction: column;
-    }
+}
+
+.brand {
+  font-weight: 700;
+  font-size: var(--mantine-font-size-lg);
+  color: light-dark(var(--color-primary), var(--color-primary));
+}
+
+.links {
+  @media (max-width: $mantine-breakpoint-xs) {
+    margin-top: var(--mantine-spacing-md);
   }
-  
-  .links {
-    @media (max-width: $mantine-breakpoint-xs) {
-      margin-top: var(--mantine-spacing-md);
-    }
+}
+
+.socialIcon {
+  color: light-dark(var(--color-text-muted), var(--color-text-muted));
+  transition: color var(--transition-normal),
+              background-color var(--transition-normal),
+              transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow var(--transition-normal);
+
+  @mixin hover {
+    background-color: light-dark(rgba(210, 221, 208, 0.5), rgba(58, 69, 58, 0.5));
+    color: light-dark(var(--color-primary), var(--color-primary-light));
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 4px 12px light-dark(rgba(105, 132, 101, 0.2), rgba(0, 0, 0, 0.3));
   }
+}
+
+.copyright {
+  color: light-dark(var(--color-text-light), var(--color-text-light));
+  font-size: var(--mantine-font-size-xs);
+  text-align: center;
+  margin-top: var(--mantine-spacing-sm);
+}

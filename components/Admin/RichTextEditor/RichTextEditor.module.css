@@ -1,0 +1,7 @@
+.editor {
+  min-height: 400px;
+}
+
+.editor [class*="content"] {
+  min-height: 350px;
+}

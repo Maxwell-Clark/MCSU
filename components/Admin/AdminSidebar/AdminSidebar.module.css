@@ -1,0 +1,8 @@
+.navLink {
+  border-radius: var(--mantine-radius-md);
+}
+
+.userInfo {
+  padding: 0 var(--mantine-spacing-sm);
+  word-break: break-all;
+}

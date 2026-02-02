@@ -1,80 +1,40 @@
 'use client';
 
 import React from 'react';
-import {
-  Paper,
-  Text,
-  Title,
-  Button,
-  Image,
-  Stack,
-} from '@mantine/core';
+import { Title } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import classes from './Books.module.css';
 
-interface BookProps {
+interface BookData {
   image: string;
   title: string;
-  description: string;
   link: string;
 }
 
-function BookCard({ image, title, description, link }: BookProps) {
-  return (
-    <Paper shadow="md" p="md" radius="md" className={classes.card}>
-      <Stack>
-        <Title order={4} className={classes.book_title}>
-          {title}
-        </Title>
-        <Image src={image} alt={title} height={300} fit="contain" radius="md" />
-        <div className={classes.btn_wrapper}>
-          <Button
-            variant="outline"
-            className={classes.order_button}
-            onClick={() => window.open(link, '_blank')}
-          >
-            Order on Amazon
-          </Button>
-        </div>
-      </Stack>
-    </Paper>
-  );
-}
-
-const data = [
+const books: BookData[] = [
   {
-    image: 'https://m.media-amazon.com/images/I/51AACr+UbYL.jpg',
+    image: '/images/books/miracle-of-mindfulness.jpg',
     title: 'The Miracle of Mindfulness',
-    description:
-      'A classic introduction to mindfulness practice by Thich Nhat Hanh, emphasizing the importance of being fully present in each moment.',
     link: 'https://www.amazon.com/Miracle-Mindfulness-Introduction-Practice-Meditation/dp/0807012394',
   },
   {
-    image: 'https://m.media-amazon.com/images/I/81YGcWlDmUL.jpg',
+    image: '/images/books/wherever-you-go.jpg',
     title: 'Wherever You Go, There You Are',
-    description:
-      'Jon Kabat-Zinn’s guide to mindfulness, encouraging readers to find peace and presence in their everyday lives.',
     link: 'https://www.amazon.com/Wherever-You-There-Are-ROUGH/dp/B002E8JGCY',
   },
   {
-    image: 'https://m.media-amazon.com/images/I/91tPhKZAZIL._UF1000,1000_QL80_.jpg',
+    image: '/images/books/radical-acceptance.jpg',
     title: 'Radical Acceptance',
-    description:
-      'Tara Brach explores how mindfulness and self-compassion can lead to true inner freedom and peace.',
     link: 'https://www.amazon.com/Radical-Acceptance-Awakening-Heals-Shame/dp/0712601457',
   },
   {
-    image: 'https://m.media-amazon.com/images/I/41RsOoojQXL._AC_UF1000,1000_QL80_.jpg',
+    image: '/images/books/10-percent-happier.jpg',
     title: '10% Happier',
-    description:
-      'Dan Harris shares his journey to mindfulness and meditation, showing how they helped him reduce stress and find happiness.',
     link: 'https://www.amazon.com/10-Happier-10th-Anniversary-Works/dp/0063356473',
   },
   {
-    image: 'https://m.media-amazon.com/images/I/71JXXfZWFqL._AC_UF1000,1000_QL80_.jpg',
+    image: '/images/books/mindfulness-plain-english.jpg',
     title: 'Mindfulness in Plain English',
-    description:
-      'Bhante Henepola Gunaratana’s practical guide to mindfulness, offering clear instructions for beginners.',
     link: 'https://www.amazon.com/Mindfulness-English-Bhante-Henepola-Gunaratana/dp/0861719069',
   },
 ];
@@ -82,26 +42,51 @@ const data = [
 export function Books() {
   return (
     <div className={classes.wrapper}>
-      <Title ta="center" className={classes.title}>
-        Books
-      </Title>
-      <Carousel
-        slideSize="25%"
-        slideGap="md"
-        align="start"
-        slidesToScroll={1}
-        withControls
-        withIndicators
-        loop
-        styles={{ control: { backgroundColor: 'white' } }}
-      >
-        {data.map((item, index) => (
-          <Carousel.Slide key={index}>
-            <BookCard {...item} />
-          </Carousel.Slide>
-        ))}
-      </Carousel>
+      <div className={classes.content}>
+        <Title className={classes.title}>Books</Title>
+        <Carousel
+          slideSize={{ base: '100%', sm: '50%', md: '25%' }}
+          slideGap="md"
+          align="start"
+          slidesToScroll={1}
+          withControls
+          withIndicators
+          loop
+          styles={{
+            control: {
+              backgroundColor: 'white',
+              border: '1px solid #e0e0e0',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            },
+            indicator: {
+              backgroundColor: '#674c8f',
+            },
+          }}
+        >
+          {books.map((book, index) => (
+            <Carousel.Slide key={index}>
+              <div className={classes.card}>
+                <h3 className={classes.bookTitle}>{book.title}</h3>
+                <div className={classes.imageContainer}>
+                  <img
+                    src={book.image}
+                    alt={book.title}
+                    className={classes.bookImage}
+                  />
+                </div>
+                <a
+                  href={book.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={classes.orderButton}
+                >
+                  Order on Amazon
+                </a>
+              </div>
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      </div>
     </div>
   );
 }
-
