@@ -1,17 +1,12 @@
 'use client';
 
-import { SegmentedControl, Group } from '@mantine/core';
-import { IconCalendar, IconMap } from '@tabler/icons-react';
 import styles from './ScheduleHub.module.css';
 
 export type CategoryFilter = 'all' | 'intro' | 'mbsr' | 'everyday' | 'drop-in';
-export type ViewMode = 'calendar' | 'map';
 
 interface ScheduleFiltersProps {
   activeCategory: CategoryFilter;
   onCategoryChange: (category: CategoryFilter) => void;
-  viewMode: ViewMode;
-  onViewModeChange: (mode: ViewMode) => void;
 }
 
 const categories: { value: CategoryFilter; label: string; colorClass: string }[] = [
@@ -25,8 +20,6 @@ const categories: { value: CategoryFilter; label: string; colorClass: string }[]
 export function ScheduleFilters({
   activeCategory,
   onCategoryChange,
-  viewMode,
-  onViewModeChange,
 }: ScheduleFiltersProps) {
   return (
     <div className={styles.controls}>
@@ -43,34 +36,6 @@ export function ScheduleFilters({
             {category.label}
           </button>
         ))}
-      </div>
-
-      <div className={styles.viewToggle}>
-        <SegmentedControl
-          value={viewMode}
-          onChange={(value) => onViewModeChange(value as ViewMode)}
-          data={[
-            {
-              label: (
-                <Group gap={6}>
-                  <IconCalendar size={16} />
-                  <span>Calendar</span>
-                </Group>
-              ),
-              value: 'calendar',
-            },
-            {
-              label: (
-                <Group gap={6}>
-                  <IconMap size={16} />
-                  <span>Map</span>
-                </Group>
-              ),
-              value: 'map',
-            },
-          ]}
-          size="sm"
-        />
       </div>
     </div>
   );

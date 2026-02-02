@@ -5,9 +5,8 @@ import dynamic from 'next/dynamic';
 import { Container, Text, Paper, Skeleton } from '@mantine/core';
 import { IconCalendarOff } from '@tabler/icons-react';
 import { ClassEvent, classes } from '@/data/classData';
-import { ClassCalendar } from '@/components/Calendar/Calendar';
 import { FeaturedClasses } from './FeaturedClasses';
-import { ScheduleFilters, CategoryFilter, ViewMode } from './ScheduleFilters';
+import { ScheduleFilters, CategoryFilter } from './ScheduleFilters';
 import styles from './ScheduleHub.module.css';
 
 // Dynamic import for Leaflet map (requires browser APIs)
@@ -29,7 +28,6 @@ interface ScheduleHubProps {
 
 export function ScheduleHub({ onClassClick }: ScheduleHubProps) {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
-  const [viewMode, setViewMode] = useState<ViewMode>('calendar');
 
   // Filter classes by category
   const filteredClasses =
@@ -55,25 +53,12 @@ export function ScheduleHub({ onClassClick }: ScheduleHubProps) {
         <ScheduleFilters
           activeCategory={categoryFilter}
           onCategoryChange={setCategoryFilter}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
         />
 
-        <div className={styles.viewContent} key={viewMode}>
-          {viewMode === 'calendar' ? (
-            <div className={styles.contentArea}>
-              <div className={styles.calendarWrapper}>
-                <ClassCalendar />
-              </div>
-              <div className={styles.mapWrapper}>
-                <ClassMap />
-              </div>
-            </div>
-          ) : (
-            <div className={styles.mapWrapper} style={{ minHeight: '500px' }}>
-              <ClassMap />
-            </div>
-          )}
+        <div className={styles.viewContent}>
+          <div className={styles.mapWrapper} style={{ minHeight: '500px' }}>
+            <ClassMap />
+          </div>
         </div>
 
         {filteredClasses.length === 0 && (

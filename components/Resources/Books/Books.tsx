@@ -47,11 +47,8 @@ export function Books() {
         <Carousel
           slideSize={{ base: '100%', sm: '50%', md: '25%' }}
           slideGap="md"
-          align="start"
-          slidesToScroll={1}
           withControls
           withIndicators
-          loop
           styles={{
             control: {
               backgroundColor: 'white',

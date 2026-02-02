@@ -91,18 +91,20 @@
 }
 
 .container {
-  height: rem(700px);
+  height: 100vh;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  padding-bottom: calc(var(--mantine-spacing-xl) * 6);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
   z-index: 1;
   position: relative;
 
   @media (max-width: $mantine-breakpoint-sm) {
-    height: rem(500px);
-    padding-bottom: calc(var(--mantine-spacing-xl) * 3);
+    height: 100vh;
+    min-height: 500px;
+    padding-bottom: calc(var(--mantine-spacing-xl) * 1);
   }
 }
 

@@ -82,16 +82,17 @@ export function ClassCalendar() {
               },
             }}
             getDayProps={(date) => ({
-              onClick: () => setSelectedDate(date),
+              onClick: () => setSelectedDate(new Date(date)),
             })}
             renderDay={(date) => {
-              const dayOfWeek = date.getDay();
+              const dateObj = new Date(date);
+              const dayOfWeek = dateObj.getDay();
               const dayClasses = getClassesByDay(dayOfWeek);
               const isSelected =
-                selectedDate && date.toDateString() === selectedDate.toDateString();
+                selectedDate && dateObj.toDateString() === selectedDate.toDateString();
 
               if (dayClasses.length === 0) {
-                return <div>{date.getDate()}</div>;
+                return <div>{dateObj.getDate()}</div>;
               }
 
               const tooltipContent = (
@@ -114,7 +115,7 @@ export function ClassCalendar() {
                 <Tooltip withArrow withinPortal label={tooltipContent}>
                   <div className={isSelected ? styles.selectedDay : undefined}>
                     <Indicator color={dayClasses[0].color} offset={-2} size={8}>
-                      <div>{date.getDate()}</div>
+                      <div>{dateObj.getDate()}</div>
                     </Indicator>
                   </div>
                 </Tooltip>

@@ -1,21 +1,71 @@
 'use client';
-import {
-  Container,
-  Text,
-  Title,
-  Stack,
-  Divider,
-  Collapse,
-  Group,
-  UnstyledButton,
-  Button,
-} from '@mantine/core';
-import { IconChevronDown } from '@tabler/icons-react';
-import { useState } from 'react';
+
+import { Container, Text, Title, Box, Button, rem } from '@mantine/core';
+import { IconBrain, IconHeart, IconUsers } from '@tabler/icons-react';
+import { useStaggeredAnimation } from '../../hooks/useScrollAnimation';
 import classes from './WWAOverview.module.css';
 
+interface ValueData {
+  icon: React.FC<any>;
+  title: string;
+  description: string;
+  colorClass: string;
+}
+
+const VALUES: ValueData[] = [
+  {
+    icon: IconBrain,
+    title: 'Train the Mind',
+    description:
+      'Practical skills for self-awareness, attention, and emotional regulation through mindful breathing, body scans, and focused awareness.',
+    colorClass: 'sage',
+  },
+  {
+    icon: IconHeart,
+    title: 'Open the Heart',
+    description:
+      'Fostering loving-kindness, compassion, sympathetic joy, and evenness in our workplace and community.',
+    colorClass: 'purple',
+  },
+  {
+    icon: IconUsers,
+    title: 'Serve the Community',
+    description:
+      'Centered in Southern Utah, but embracing all with whom we have contact. All are welcome to share in mindfulness.',
+    colorClass: 'paleSage',
+  },
+];
+
+function ValueCard({
+  icon: Icon,
+  title,
+  description,
+  colorClass,
+  style,
+}: ValueData & { style?: React.CSSProperties }) {
+  return (
+    <Box className={`${classes.valueCard} ${classes[colorClass]}`} style={style}>
+      <div className={classes.cardHeader}>
+        <Icon
+          style={{ width: rem(36), height: rem(36) }}
+          stroke={1.5}
+          className={classes.icon}
+        />
+        <Title order={4} className={classes.cardTitle}>
+          {title}
+        </Title>
+      </div>
+      <Text className={classes.cardDescription}>{description}</Text>
+    </Box>
+  );
+}
+
 export function WWAOverview() {
-  const [expanded, setExpanded] = useState(false);
+  const { ref, getItemStyle } = useStaggeredAnimation({
+    itemCount: VALUES.length,
+    staggerDelay: 120,
+    threshold: 0.1,
+  });
 
   return (
     <div className={classes.wrapper}>
@@ -28,68 +78,33 @@ export function WWAOverview() {
 
       <Container size={1000} className={classes.inner}>
         <Title order={1} ta="center" className={classes.title}>
-          Overview
+          Who We Are
         </Title>
+        <Text className={classes.tagline}>
+          Training the mind, opening the heart
+        </Text>
       </Container>
 
-      <div className={classes.card} data-expanded={expanded || undefined}>
-        <Stack>
-          <Text className={classes.cardText}>
-            The Mindfulness Center of Southern Utah exists to share the practice of mindfulness
-            with our community. We envision a community motivated by compassion to wisely care
-            for each other, fostering resilience, health, and character. While centered in Southern
-            Utah, the borders of our community embrace all with whom we have contact. All are
-            welcome to share in mindfulness.
-          </Text>
-
-          <Collapse in={expanded} transitionDuration={400} transitionTimingFunction="ease-out">
-            <Divider className={classes.divider} my="md" />
-            <Text className={classes.cardText}>
-              To realize our vision, we are engaged in offering practical skills to train the mind and open the heart.
-              The Chinese character for mindfulness is a combination of two characters: the top part represents "now"
-              and the bottom part represents "heart", indicating the alignment of the present moment with your heart and mind.
-            </Text>
-            <Text className={classes.cardText} mt="md">
-              MCSU is focused on training the mind and opening the heart to enhance the
-              well-being of our community. The practical skills to accomplish this goal include
-              increased self-awareness, improved attention and focus, enhanced emotional
-              regulation, and better communication skills. We teach these skills through
-              techniques like mindful breathing, focused awareness, body scans, and mindful
-              walking. Training the mind and opening the heart helps individuals to be more
-              present in the moment and to respond more intentionally to life's experiences.
-            </Text>
-            <Text className={classes.cardText} mt="md">
-              As an organization, MCSU incorporates the truth that we become what we feel and
-              think. If we think and act with a peaceful mind, then happiness follows. MCSU's
-              programs are supported by science and directed toward growth in the heart and
-              mind. We foster a workplace with loving-kindness, compassion, sympathetic joy,
-              and evenness.
-            </Text>
-          </Collapse>
-
-          <UnstyledButton
-            className={classes.expandButton}
-            onClick={() => setExpanded((prev) => !prev)}
-            data-expanded={expanded || undefined}
-          >
-            <Group gap="xs">
-              <span>{expanded ? 'Show Less' : 'Learn More'}</span>
-              <IconChevronDown
-                size={18}
-                className={classes.chevron}
-                data-expanded={expanded || undefined}
-              />
-            </Group>
-          </UnstyledButton>
-        </Stack>
+      {/* Mission Card - Glass morphism */}
+      <div className={classes.missionCard}>
+        <Text className={classes.missionText}>
+          The Mindfulness Center of Southern Utah exists to share the practice of mindfulness
+          with our community. We envision a community motivated by compassion to wisely care
+          for each other, fostering resilience, health, and character.
+        </Text>
       </div>
 
+      {/* Values Grid */}
+      <Container size="lg" className={classes.valuesContainer}>
+        <Box className={classes.valuesGrid} ref={ref as React.RefObject<HTMLDivElement>}>
+          {VALUES.map((value, index) => (
+            <ValueCard key={value.title} {...value} style={getItemStyle(index)} />
+          ))}
+        </Box>
+      </Container>
+
       <div className={classes.ctaContainer}>
-        <Button
-          size="lg"
-          radius="xl"
-          className={classes.ctaButton}
-        >
+        <Button size="lg" radius="xl" className={classes.ctaButton}>
           Join Us
         </Button>
       </div>
