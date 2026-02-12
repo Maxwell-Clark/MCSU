@@ -1,32 +1,31 @@
-import Links from "@/components/Practice/Links/Links";
-import Meditations from "@/components/Practice/Meditations/Meditations";
-import Music from "@/components/Practice/Music/Music";
-import PracticeCalendar from "@/components/Practice/PracticeCalendar/PracticeCalendar";
-import Videos from "@/components/Practice/Videos/Videos";
-import GuidedMeditations from "@/components/Resources/Videos/Videos";
+import PracticeDashboard from "@/components/Practice/PracticeDashboard/PracticeDashboard";
+import { getActiveClassEvents } from "@/lib/actions/classes";
+import { ClassEvent } from "@/data/classData";
 
-export default function PracticePage() {
-  return (
-    <>
-      <div id='weekly-schedule'>
-        <PracticeCalendar />
-      </div>
+export const dynamic = 'force-dynamic';
 
-      <div id='meditation-instructions'>
-        <Meditations />
-      </div>
+export default async function PracticePage() {
+  const dbClasses = await getActiveClassEvents();
 
-      <div id='guided-meditations'>
-        <Videos />
-      </div>
+  const classEvents: ClassEvent[] = dbClasses.map((c) => ({
+    id: c.id,
+    title: c.title,
+    topic: c.topic,
+    instructor: c.instructor,
+    dayOfWeek: c.dayOfWeek,
+    startTime: c.startTime,
+    endTime: c.endTime,
+    location: {
+      id: c.location.id,
+      name: c.location.name,
+      address: c.location.address,
+      lat: c.location.lat,
+      lng: c.location.lng,
+    },
+    type: c.type,
+    color: c.color,
+    category: c.category,
+  }));
 
-      {/* <div id="links">
-        <Links />
-      </div> */}
-
-      <div id='music'>
-        <Music />
-      </div>
-    </>
-  );
+  return <PracticeDashboard classEvents={classEvents} />;
 }

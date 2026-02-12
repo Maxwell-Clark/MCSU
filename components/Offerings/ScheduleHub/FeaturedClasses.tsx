@@ -2,17 +2,18 @@
 
 import { Text } from '@mantine/core';
 import { IconStar } from '@tabler/icons-react';
-import { ClassEvent, getScheduledClasses } from '@/data/classData';
+import { ClassEvent } from '@/data/classData';
 import { ClassCard } from '../ClassCard';
 import styles from './ScheduleHub.module.css';
 
 interface FeaturedClassesProps {
+  classes: ClassEvent[];
   onClassClick?: (classEvent: ClassEvent) => void;
 }
 
-export function FeaturedClasses({ onClassClick }: FeaturedClassesProps) {
+export function FeaturedClasses({ classes, onClassClick }: FeaturedClassesProps) {
   // Get scheduled classes (ones with actual times)
-  const scheduledClasses = getScheduledClasses();
+  const scheduledClasses = classes.filter((c) => c.dayOfWeek !== undefined && c.dayOfWeek !== null);
 
   // Take the first 2-3 upcoming classes for featured display
   const featuredClasses = scheduledClasses.slice(0, 3);

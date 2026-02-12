@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Icon, LatLngExpression } from 'leaflet';
 import { Text, Stack, Badge, Group } from '@mantine/core';
-import { IconMapPin, IconClock, IconUser } from '@tabler/icons-react';
-import { locations, classes, mapCenter, getClassesByLocation, dayNames } from '@/data/classData';
+import { IconMapPin, IconClock, IconUser, IconCalendarEvent } from '@tabler/icons-react';
+import { ClassEvent, ClassLocation, mapCenter, dayNames } from '@/data/classData';
 import 'leaflet/dist/leaflet.css';
 import styles from './ClassMap.module.css';
 
@@ -31,7 +31,25 @@ const virtualIcon = new Icon({
   className: styles.virtualMarker,
 });
 
-export function ClassMap() {
+function getNextOccurrence(dayOfWeek: number | null | undefined): string {
+  if (dayOfWeek === null || dayOfWeek === undefined) {
+    return 'Schedule TBD';
+  }
+  const today = new Date().getDay();
+  if (dayOfWeek === today) return 'Today';
+  if (dayOfWeek === (today + 1) % 7) return 'Tomorrow';
+  // Check if it's within this week (2-6 days away)
+  const daysUntil = (dayOfWeek - today + 7) % 7;
+  if (daysUntil <= 6) return `This ${dayNames[dayOfWeek]}`;
+  return `Next ${dayNames[dayOfWeek]}`;
+}
+
+interface ClassMapProps {
+  classes?: ClassEvent[];
+  locations?: ClassLocation[];
+}
+
+export function ClassMap({ classes = [], locations = [] }: ClassMapProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -45,6 +63,9 @@ export function ClassMap() {
       </div>
     );
   }
+
+  const getClassesByLocation = (locationId: string) =>
+    classes.filter((c) => c.location.id === locationId);
 
   return (
     <div className={styles.mapWrapper}>
@@ -60,12 +81,12 @@ export function ClassMap() {
         />
         {locations.map((location) => {
           const locationClasses = getClassesByLocation(location.id);
-          const isVirtual = location.id === 'virtual';
+          const isVirtual = location.name.toLowerCase().includes('virtual');
 
           return (
             <Marker
               key={location.id}
-              position={location.coordinates as LatLngExpression}
+              position={[location.lat, location.lng] as LatLngExpression}
               icon={isVirtual ? virtualIcon : defaultIcon}
             >
               <Popup>
@@ -89,7 +110,7 @@ export function ClassMap() {
                         <div key={classEvent.id} className={styles.classItem}>
                           <Group gap="xs" wrap="nowrap">
                             <Badge size="xs" color={classEvent.color} variant="light">
-                              {classEvent.dayOfWeek !== undefined
+                              {classEvent.dayOfWeek !== undefined && classEvent.dayOfWeek !== null
                                 ? dayNames[classEvent.dayOfWeek]
                                 : 'TBD'}
                             </Badge>
@@ -107,6 +128,15 @@ export function ClassMap() {
                             <IconUser size={12} />
                             <Text size="xs" c="dimmed">
                               {classEvent.instructor}
+                            </Text>
+                          </Group>
+                          <Group gap={4} mt={2}>
+                            <IconCalendarEvent size={12} color="var(--mantine-color-teal-6)" />
+                            <Text size="xs" fw={500} c="teal">
+                              Next: {getNextOccurrence(classEvent.dayOfWeek)}
+                              {classEvent.dayOfWeek !== null &&
+                                classEvent.dayOfWeek !== undefined &&
+                                ` at ${classEvent.startTime}`}
                             </Text>
                           </Group>
                         </div>

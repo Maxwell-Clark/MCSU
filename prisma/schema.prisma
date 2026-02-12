@@ -16,6 +16,7 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   blogPosts BlogPost[]
+  pages     Page[]
 }
 
 model BlogPost {
@@ -30,4 +31,75 @@ model BlogPost {
   updatedAt DateTime @updatedAt
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String   // HTML from TipTap
+  image       String?
+  description String?
+  published   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+}
+
+model ClassLocation {
+  id      String       @id @default(cuid())
+  name    String
+  address String
+  lat     Float
+  lng     Float
+  classes ClassEvent[]
+}
+
+model ClassEvent {
+  id         String        @id @default(cuid())
+  title      String
+  topic      String?
+  instructor String
+  dayOfWeek  Int?          // 0-6 (Sunday=0), null for TBD
+  startTime  String
+  endTime    String
+  type       String        // virtual, in-person, hybrid
+  color      String
+  category   String        // intro, mbsr, everyday, drop-in
+  active     Boolean       @default(true)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  locationId String
+  location   ClassLocation @relation(fields: [locationId], references: [id])
+}
+
+model Program {
+  id               String           @id @default(cuid())
+  slug             String           @unique
+  title            String
+  shortTitle       String
+  tagline          String
+  description      String
+  color            String
+  iconName         String           // e.g. "IconBook"
+  ctaText          String
+  learnMoreContent String?
+  sortOrder        Int              @default(0)
+  active           Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  features         ProgramFeature[]
+}
+
+model ProgramFeature {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  iconName    String  // e.g. "IconBook"
+  listItems   String? // JSON string of string array
+  sortOrder   Int     @default(0)
+  programId   String
+  program     Program @relation(fields: [programId], references: [id], onDelete: Cascade)
 }

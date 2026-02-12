@@ -15,6 +15,7 @@ import {
 } from '@mantine/core';
 import { IconAlertCircle, IconDeviceFloppy, IconArrowLeft } from '@tabler/icons-react';
 import { BlogRichTextEditor } from '../RichTextEditor/RichTextEditor';
+import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { createBlogPost, updateBlogPost } from '@/lib/actions/blog';
 import classes from './BlogForm.module.css';
 
@@ -133,12 +134,11 @@ export function BlogForm({ post }: BlogFormProps) {
               description="URL-friendly version of the title"
             />
 
-            <TextInput
-              label="Featured Image URL"
-              placeholder="https://example.com/image.jpg"
-              required
+            <ImageUpload
+              label="Featured Image"
               value={image}
-              onChange={(e) => setImage(e.target.value)}
+              onChange={setImage}
+              required
             />
 
             <Select

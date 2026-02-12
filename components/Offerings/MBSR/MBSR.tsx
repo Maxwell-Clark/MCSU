@@ -25,7 +25,6 @@ import {
   IconHeart,
 } from '@tabler/icons-react';
 import classes from './MBSR.module.css';
-import { ClassCalendar } from '../../Calendar/Calendar';
 
 interface FeatureItem {
   title: string;
@@ -70,7 +69,6 @@ const mockdata: FeatureItem[] = [
 export function MBSR() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const [calendarOpened, setCalendarOpened] = useState(false);
   const features = mockdata.map((feature) => (
     <Card key={feature.title} shadow="md" radius="md" className={classes.card} padding="xl">
       <feature.icon
@@ -116,12 +114,13 @@ export function MBSR() {
           </Container>
 
           <div className={classes.controls}>
-            <Button 
-              className={classes.control} 
-              variant="white" 
-              gradient={{ from: 'blue', to: 'blue' }} 
+            <Button
+              className={classes.control}
+              variant="white"
+              gradient={{ from: 'blue', to: 'blue' }}
               size="lg"
-              onClick={() => setCalendarOpened(true)}
+              component="a"
+              href="/offerings"
             >
               Join Us
             </Button>
@@ -161,23 +160,6 @@ export function MBSR() {
             Both Dr. David Tate and Kirk Benson are trained to teach MBSR. <br />  Dr. Tate wrote is Ph.D. dissertation on his research into the effect of MBSR and was taught MBSR principles by Jon Kabat-Zinn. <br /> Kirk Benson received his training at Brown University.
           </Text>
         </ScrollArea>
-      </Modal>
-
-      <Modal 
-        opened={calendarOpened} 
-        onClose={() => setCalendarOpened(false)} 
-        size="100%"
-        styles={{
-          header: {
-            height: 0,
-            minHeight: 0,
-            margin: 0,
-            padding: 0,
-            overflow: 'hidden',
-          },
-        }}
-      >
-        <ClassCalendar />
       </Modal>
 
       <Container className={classes.content}>

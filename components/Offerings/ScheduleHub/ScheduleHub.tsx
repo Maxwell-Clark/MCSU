@@ -4,7 +4,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Container, Text, Paper, Skeleton } from '@mantine/core';
 import { IconCalendarOff } from '@tabler/icons-react';
-import { ClassEvent, classes } from '@/data/classData';
+import { ClassEvent, ClassLocation } from '@/data/classData';
 import { FeaturedClasses } from './FeaturedClasses';
 import { ScheduleFilters, CategoryFilter } from './ScheduleFilters';
 import styles from './ScheduleHub.module.css';
@@ -23,10 +23,12 @@ const ClassMap = dynamic(
 );
 
 interface ScheduleHubProps {
+  classes: ClassEvent[];
+  locations: ClassLocation[];
   onClassClick?: (classEvent: ClassEvent) => void;
 }
 
-export function ScheduleHub({ onClassClick }: ScheduleHubProps) {
+export function ScheduleHub({ classes, locations, onClassClick }: ScheduleHubProps) {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
 
   // Filter classes by category
@@ -34,6 +36,10 @@ export function ScheduleHub({ onClassClick }: ScheduleHubProps) {
     categoryFilter === 'all'
       ? classes
       : classes.filter((c) => c.category === categoryFilter);
+
+  // Derive visible locations from filtered classes
+  const filteredLocationIds = new Set(filteredClasses.map((c) => c.location.id));
+  const filteredLocations = locations.filter((l) => filteredLocationIds.has(l.id));
 
   return (
     <section id="schedule" className={styles.section}>
@@ -46,7 +52,7 @@ export function ScheduleHub({ onClassClick }: ScheduleHubProps) {
           </Text>
         </div>
 
-        <FeaturedClasses onClassClick={onClassClick} />
+        <FeaturedClasses classes={classes} onClassClick={onClassClick} />
 
         <hr className={styles.divider} />
 
@@ -57,7 +63,7 @@ export function ScheduleHub({ onClassClick }: ScheduleHubProps) {
 
         <div className={styles.viewContent}>
           <div className={styles.mapWrapper} style={{ minHeight: '500px' }}>
-            <ClassMap />
+            <ClassMap key={categoryFilter} classes={filteredClasses} locations={filteredLocations} />
           </div>
         </div>
 

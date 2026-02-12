@@ -1,6 +1,5 @@
 import { Container, Title, Text, Button, Group, Paper, Stack } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
-import Link from 'next/link';
 import { BlogTable } from '@/components/Admin/BlogTable/BlogTable';
 import { getBlogPosts } from '@/lib/actions/blog';
 
@@ -19,7 +18,7 @@ export default async function AdminBlogPage() {
               Manage your blog posts
             </Text>
           </div>
-          <Button component={Link} href="/admin/blog/new" leftSection={<IconPlus size={16} />}>
+          <Button component="a" href="/admin/blog/new" leftSection={<IconPlus size={16} />}>
             New Post
           </Button>
         </Group>

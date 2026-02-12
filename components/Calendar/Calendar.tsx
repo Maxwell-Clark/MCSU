@@ -22,14 +22,21 @@ import {
   IconLayoutGrid,
   IconLayoutList,
 } from '@tabler/icons-react';
-import { classes, getClassesByDay, dayNames } from '@/data/classData';
+import { ClassEvent, dayNames } from '@/data/classData';
 import styles from './Calendar.module.css';
 
 type ViewMode = 'monthly' | 'weekly';
 
-export function ClassCalendar() {
+interface ClassCalendarProps {
+  classes?: ClassEvent[];
+}
+
+export function ClassCalendar({ classes = [] }: ClassCalendarProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('monthly');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const getClassesByDay = (dayOfWeek: number) =>
+    classes.filter((c) => c.dayOfWeek === dayOfWeek);
 
   // Get classes for selected date (based on day of week)
   const selectedDayClasses = selectedDate ? getClassesByDay(selectedDate.getDay()) : [];
@@ -130,7 +137,7 @@ export function ClassCalendar() {
               </Text>
               <Stack gap="xs">
                 {selectedDayClasses.map((c) => (
-                  <ClassCard key={c.id} classEvent={c} compact />
+                  <CalendarClassCard key={c.id} classEvent={c} compact />
                 ))}
               </Stack>
             </Box>
@@ -145,13 +152,16 @@ export function ClassCalendar() {
           )}
         </div>
       ) : (
-        <WeeklyView />
+        <WeeklyView classes={classes} />
       )}
     </Paper>
   );
 }
 
-function WeeklyView() {
+function WeeklyView({ classes }: { classes: ClassEvent[] }) {
+  const getClassesByDay = (dayOfWeek: number) =>
+    classes.filter((c) => c.dayOfWeek === dayOfWeek);
+
   // Get all days that have classes
   const daysWithClasses = [0, 1, 2, 3, 4, 5, 6].filter(
     (day) => getClassesByDay(day).length > 0
@@ -182,7 +192,7 @@ function WeeklyView() {
               </Text>
               <Stack gap="xs">
                 {dayClasses.map((c) => (
-                  <ClassCard key={c.id} classEvent={c} />
+                  <CalendarClassCard key={c.id} classEvent={c} />
                 ))}
               </Stack>
             </Box>
@@ -193,12 +203,12 @@ function WeeklyView() {
   );
 }
 
-interface ClassCardProps {
-  classEvent: (typeof classes)[0];
+interface CalendarClassCardProps {
+  classEvent: ClassEvent;
   compact?: boolean;
 }
 
-function ClassCard({ classEvent, compact = false }: ClassCardProps) {
+function CalendarClassCard({ classEvent, compact = false }: CalendarClassCardProps) {
   return (
     <Box className={styles.classCard}>
       <Group gap="xs" justify="space-between" wrap="nowrap">

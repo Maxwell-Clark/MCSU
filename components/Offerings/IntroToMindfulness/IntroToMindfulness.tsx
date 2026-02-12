@@ -1,7 +1,5 @@
 'use client';
 import {
-    Badge,
-    Group,
     Title,
     Text,
     Card,
@@ -10,17 +8,11 @@ import {
     Button,
     rem,
     useMantineTheme,
-    Modal,
     Overlay,
-    Paper,
     List,
-    Stack,
-    Divider,
   } from '@mantine/core';
-  import { IconPlant2, IconBrain, IconLungs, IconHeart, IconBook, IconSchool, IconCalendar } from '@tabler/icons-react';
+  import { IconBrain, IconBook, IconCalendar } from '@tabler/icons-react';
   import classes from './IntroToMindfulness.module.css';
-  import { ClassCalendar } from '../../Calendar/Calendar';
-import { useState } from 'react';
   
   const mockdata = [
     {
@@ -73,16 +65,6 @@ import { useState } from 'react';
       </Card>
     ));
 
-    const [calendarOpened, setCalendarOpen] = useState(false);
-
-    function openCalendar() {
-      setCalendarOpen(true);
-    }
-    
-    function  closeCalendar() {
-      setCalendarOpen(false)
-    }
-  
     return (
       <>
         <div className={classes.wrapper}>
@@ -106,21 +88,9 @@ import { useState } from 'react';
           </SimpleGrid>
 
           <Container size="sm" mt="xl" ta="center">
-            <Button variant="gradient" gradient={{ from: 'blue', to: 'blue' }} size="lg" mt="xl" onClick={openCalendar}>
+            <Button variant="gradient" gradient={{ from: 'blue', to: 'blue' }} size="lg" mt="xl" component="a" href="/offerings">
               Join Us
             </Button>
-
-            <Modal opened={calendarOpened} onClose={closeCalendar} size='100%'   styles={{
-    header: {
-      height: 0,
-      minHeight: 0,
-      margin: 0,
-      padding: 0,
-      overflow: 'hidden',
-    },
-  }}>
-              <ClassCalendar />
-            </Modal>
           </Container>
         </Container>
       </>

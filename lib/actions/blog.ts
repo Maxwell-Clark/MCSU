@@ -131,3 +131,14 @@ export async function getPublishedBlogPosts() {
     orderBy: { createdAt: 'desc' },
   });
 }
+
+export async function getBlogPostBySlug(slug: string) {
+  return prisma.blogPost.findUnique({
+    where: { slug },
+    include: {
+      author: {
+        select: { name: true },
+      },
+    },
+  });
+}

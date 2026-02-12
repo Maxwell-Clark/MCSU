@@ -2,14 +2,11 @@
 
 import React, { useState } from 'react';
 import {
-  Card,
-  Box,
   Text,
   Group,
   Title,
   Stack,
-  Container,
-  useMantineTheme,
+  SimpleGrid,
   Tabs,
   TextInput,
   Badge,
@@ -109,7 +106,6 @@ const videoSections: VideoGroup[] = [
 ];
 
 const Videos: React.FC = () => {
-  const theme = useMantineTheme();
   const [activeTab, setActiveTab] = useState<string | null>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -125,85 +121,83 @@ const Videos: React.FC = () => {
 
   return (
     <div className={classes.wrapper}>
-      <Container size="md" py="xl" className={classes.container}>
-        <Stack align="center" gap="xl" style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div>
-            <Title className={classes.sectionTitle} order={2}>
-              Guided Meditations
-            </Title>
-            <Text className={classes.tagline}>
-              Explore our collection of guided meditations designed to help you cultivate mindfulness and inner peace.
-              Each session is carefully crafted to support your practice, whether you're new to meditation or have been practicing for years.
-            </Text>
-          </div>
+      <Stack align="center" gap="xl">
+        <div>
+          <Title className={classes.sectionTitle} order={2}>
+            Guided Meditations
+          </Title>
+          <Text className={classes.tagline}>
+            Explore our collection of guided meditations designed to help you cultivate mindfulness and inner peace.
+            Each session is carefully crafted to support your practice, whether you're new to meditation or have been practicing for years.
+          </Text>
+        </div>
 
-          <Tabs
-            value={activeTab}
-            onChange={setActiveTab}
-            className={classes.tabs}
-            classNames={{
-              list: classes.tabsList,
-              tab: classes.tab,
-            }}
-          >
-            <Tabs.List>
-              {categories.map((category) => (
-                <Tabs.Tab
-                  key={category}
-                  value={category}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </Tabs.Tab>
-              ))}
-            </Tabs.List>
-          </Tabs>
-
-          <TextInput
-            placeholder="Search videos..."
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.currentTarget.value)}
-            leftSection={<IconSearch size={16} />}
-            style={{ width: '100%' }}
-            className={classes.searchInput}
-            radius="lg"
-          />
-
-          <Stack gap="xl" style={{ width: '100%' }}>
-            {filteredVideos.map((video, index) => (
-              <div key={index} className={classes.videoCard}>
-                <div className={classes.video_container}>
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${video.videoId}`}
-                    title={video.title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-                <div className={classes.cardContent}>
-                  <Title order={3} className={classes.cardTitle}>
-                    {video.title}
-                  </Title>
-                  <Group gap="xs">
-                    {video.instructor && (
-                      <Text size="sm" className={classes.text}>
-                        Guided by {video.instructor}
-                      </Text>
-                    )}
-                    {video.duration && (
-                      <Badge className={classes.badge} variant="light">
-                        {video.duration}
-                      </Badge>
-                    )}
-                  </Group>
-                </div>
-              </div>
+        <Tabs
+          value={activeTab}
+          onChange={setActiveTab}
+          className={classes.tabs}
+          classNames={{
+            list: classes.tabsList,
+            tab: classes.tab,
+          }}
+        >
+          <Tabs.List>
+            {categories.map((category) => (
+              <Tabs.Tab
+                key={category}
+                value={category}
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </Tabs.Tab>
             ))}
-          </Stack>
-        </Stack>
-      </Container>
+          </Tabs.List>
+        </Tabs>
+
+        <TextInput
+          placeholder="Search videos..."
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          leftSection={<IconSearch size={16} />}
+          style={{ width: '100%' }}
+          className={classes.searchInput}
+          radius="lg"
+        />
+
+        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg" style={{ width: '100%' }}>
+          {filteredVideos.map((video, index) => (
+            <div key={index} className={classes.videoCard}>
+              <div className={classes.video_container}>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                  title={video.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className={classes.cardContent}>
+                <Title order={3} className={classes.cardTitle}>
+                  {video.title}
+                </Title>
+                <Group gap="xs">
+                  {video.instructor && (
+                    <Text size="sm" className={classes.text}>
+                      Guided by {video.instructor}
+                    </Text>
+                  )}
+                  {video.duration && (
+                    <Badge className={classes.badge} variant="light">
+                      {video.duration}
+                    </Badge>
+                  )}
+                </Group>
+              </div>
+            </div>
+          ))}
+        </SimpleGrid>
+      </Stack>
     </div>
   );
 };

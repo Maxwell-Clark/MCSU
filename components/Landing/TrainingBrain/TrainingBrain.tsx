@@ -1,107 +1,31 @@
 'use client';
 
-import { Text, Title, Container, Box, rem, List } from '@mantine/core';
-import {
-  IconBrain,
-  IconFocus,
-  IconMoodSmile,
-  IconHeartbeat,
-  IconEye,
-  IconNetwork,
-} from '@tabler/icons-react';
-import { useStaggeredAnimation } from '../../../hooks/useScrollAnimation';
+import { useState } from 'react';
+import { Text, Title, Container, Box } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { useScrollAnimation } from '../../../hooks/useScrollAnimation';
+import { BrainImage } from './BrainImage';
+import { BrainRegionPanel } from './BrainRegionPanel';
+import { getRegionData, type BrainRegionId } from './brainRegions';
 import YouTubePlayer from '../../YoutubeComponent/YoutubeComponent';
 import classes from './TrainingBrain.module.css';
 
-interface BrainRegionData {
-  title: string;
-  abbreviation?: string;
-  change: string;
-  benefits: string[];
-  icon: React.FC<any>;
-  colorClass: string;
-}
-
-const BRAIN_REGIONS: BrainRegionData[] = [
-  {
-    title: 'Prefrontal Cortex',
-    abbreviation: 'PFC',
-    change: 'Increased gray matter density/thickness',
-    benefits: ['Attention', 'Decision making', 'Self-awareness', 'Planning', 'Emotional control'],
-    icon: IconBrain,
-    colorClass: 'sage',
-  },
-  {
-    title: 'Anterior Cingulate Cortex',
-    abbreviation: 'ACC',
-    change: 'Increased gray matter volume',
-    benefits: ['Attention', 'Reduced DMN activity', 'Less mind-wandering'],
-    icon: IconFocus,
-    colorClass: 'purple',
-  },
-  {
-    title: 'Hippocampus',
-    change: 'Increased gray matter density, new neuron growth',
-    benefits: ['Memory', 'Learning', 'Stress regulation'],
-    icon: IconMoodSmile,
-    colorClass: 'paleSage',
-  },
-  {
-    title: 'Amygdala',
-    change: 'Decreased gray matter volume/activity',
-    benefits: ['Reduced stress/emotional reactivity', 'Improved emotional regulation'],
-    icon: IconHeartbeat,
-    colorClass: 'sage',
-  },
-  {
-    title: 'Insula',
-    change: 'Increased gray matter thickness/activation',
-    benefits: ['Awareness of internal bodily states', 'Empathy', 'Self-awareness'],
-    icon: IconEye,
-    colorClass: 'purple',
-  },
-  {
-    title: 'Default Mode Network',
-    abbreviation: 'DMN',
-    change: 'Reduced activity and connectivity',
-    benefits: ['Decreased self-referential thoughts', 'Less mind-wandering', 'Reduced rumination'],
-    icon: IconNetwork,
-    colorClass: 'paleSage',
-  },
-];
-
-function BrainRegionCard({ title, abbreviation, change, benefits, icon: Icon, colorClass, style }: BrainRegionData & { style?: React.CSSProperties }) {
-  return (
-    <Box className={`${classes.card} ${classes[colorClass]}`} style={style}>
-      <div className={classes.cardHeader}>
-        <Icon style={{ width: rem(32), height: rem(32) }} stroke={1.5} className={classes.icon} />
-        <Title order={4} className={classes.cardTitle}>
-          {title}
-          {abbreviation && <span className={classes.abbreviation}> ({abbreviation})</span>}
-        </Title>
-      </div>
-      <div className={classes.changeSection}>
-        <Text size="sm" fw={600} className={classes.changeLabel}>Change:</Text>
-        <Text size="sm" className={classes.changeText}>{change}</Text>
-      </div>
-      <div className={classes.benefitsSection}>
-        <Text size="sm" fw={600} className={classes.benefitsLabel}>Benefits:</Text>
-        <List size="sm" className={classes.benefitsList}>
-          {benefits.map((benefit) => (
-            <List.Item key={benefit} className={classes.benefitItem}>{benefit}</List.Item>
-          ))}
-        </List>
-      </div>
-    </Box>
-  );
-}
-
 export function TrainingBrain() {
-  const { ref, isVisible, getItemStyle } = useStaggeredAnimation({
-    itemCount: BRAIN_REGIONS.length,
-    staggerDelay: 100,
-    threshold: 0.1,
-  });
+  const [activeRegion, setActiveRegion] = useState<BrainRegionId | null>(null);
+  const [hoveredRegion, setHoveredRegion] = useState<BrainRegionId | null>(null);
+  const isMobile = useMediaQuery('(max-width: 62em)') ?? false;
+
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
+
+  const displayedRegion = isMobile ? activeRegion : (hoveredRegion ?? activeRegion);
+
+  const handleRegionClick = (id: BrainRegionId) => {
+    setActiveRegion((prev) => (prev === id ? null : id));
+  };
+
+  const handleRegionHover = (id: BrainRegionId | null) => {
+    setHoveredRegion(id);
+  };
 
   return (
     <Container className={classes.wrapper} size="lg">
@@ -118,26 +42,59 @@ export function TrainingBrain() {
         Research shows that regular mindfulness practice creates measurable changes in brain structure and function.
       </Text>
 
-      <Box className={classes.grid} ref={ref as React.RefObject<HTMLDivElement>}>
-        {BRAIN_REGIONS.map((region, index) => (
-          <BrainRegionCard
-            key={region.title}
-            {...region}
-            style={getItemStyle(index)}
+      <Box
+        ref={ref as React.RefObject<HTMLDivElement>}
+        className={classes.brainLayout}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'opacity 500ms ease, transform 500ms ease',
+        }}
+      >
+        <div className={classes.brainColumn}>
+          <BrainImage
+            activeRegion={activeRegion}
+            hoveredRegion={hoveredRegion}
+            onRegionHover={handleRegionHover}
+            onRegionClick={handleRegionClick}
+            isMobile={isMobile}
           />
-        ))}
+        </div>
+        <div className={classes.panelColumn}>
+          <BrainRegionPanel
+            region={displayedRegion ? getRegionData(displayedRegion) ?? null : null}
+            isMobile={isMobile}
+          />
+        </div>
       </Box>
 
       <Box className={classes.neuroplasticitySection}>
         <Title order={3} className={classes.neuroplasticityTitle}>
           Neuroplasticity
         </Title>
+        <div className={classes.neuroplasticityAccent} />
         <Text className={classes.neuroplasticityText}>
           Recent discoveries have shown that the brain reorganizes its structure and connections in response to stimulus. This is called neuroplasticity. Through directing our attention and managing our awareness, mindfulness can help shape the brain, creating stronger or new neural pathways.
         </Text>
         <Box className={classes.videoGrid}>
-          <YouTubePlayer videoId="dmEOJyWVQj4" title="Neuroplasticity" />
-          <YouTubePlayer videoId="7TN23YiGkAQ" title="Mindfulness and the Brain" />
+          <div className={classes.videoCard}>
+            <div className={classes.videoEmbed}>
+              <YouTubePlayer videoId="dmEOJyWVQj4" title="Neuroplasticity" />
+            </div>
+            <div className={classes.videoLabel}>
+              <span className={classes.videoLabelDot} />
+              Neuroplasticity
+            </div>
+          </div>
+          <div className={classes.videoCard}>
+            <div className={classes.videoEmbed}>
+              <YouTubePlayer videoId="7TN23YiGkAQ" title="Mindfulness and the Brain" />
+            </div>
+            <div className={classes.videoLabel}>
+              <span className={classes.videoLabelDot} />
+              Mindfulness and the Brain
+            </div>
+          </div>
         </Box>
       </Box>
     </Container>

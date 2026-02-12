@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { NavLink, Stack, Divider, Text, Button } from '@mantine/core';
-import { IconDashboard, IconArticle, IconLogout, IconHome } from '@tabler/icons-react';
+import {
+  IconDashboard,
+  IconArticle,
+  IconLogout,
+  IconHome,
+  IconCalendar,
+  IconMapPin,
+  IconSchool,
+} from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
@@ -11,6 +19,7 @@ import classes from './AdminSidebar.module.css';
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: IconDashboard },
   { label: 'Blog Posts', href: '/admin/blog', icon: IconArticle },
+  { label: 'Programs', href: '/admin/programs', icon: IconSchool },
 ];
 
 export function AdminSidebar() {
@@ -45,6 +54,26 @@ export function AdminSidebar() {
             className={classes.navLink}
           />
         ))}
+        <NavLink
+          label="Classes"
+          leftSection={<IconCalendar size={18} stroke={1.5} />}
+          defaultOpened={pathname.startsWith('/admin/classes')}
+          className={classes.navLink}
+        >
+          <NavLink
+            href="/admin/classes"
+            label="All Classes"
+            active={pathname === '/admin/classes' || (pathname.startsWith('/admin/classes/') && !pathname.startsWith('/admin/classes/locations'))}
+            className={classes.navLink}
+          />
+          <NavLink
+            href="/admin/classes/locations"
+            label="Locations"
+            leftSection={<IconMapPin size={14} stroke={1.5} />}
+            active={pathname === '/admin/classes/locations'}
+            className={classes.navLink}
+          />
+        </NavLink>
       </Stack>
 
       <Stack gap="md">

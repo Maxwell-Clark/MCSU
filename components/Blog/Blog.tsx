@@ -1,19 +1,17 @@
 'use client';
 
-import { useState } from 'react';
 import {
   AspectRatio,
   Badge,
   Card,
   Container,
   Image,
-  Modal,
   SimpleGrid,
   Text,
   Title,
 } from '@mantine/core';
+import Link from 'next/link';
 import { BlogPostProps } from '@/interfaces/General_Interfaces';
-import BlogPost from './BlogPost';
 import classes from './Blog.module.css';
 
 function getCategoryColor(category: string): string {
@@ -34,28 +32,6 @@ interface BlogProps {
 }
 
 export function Blog({ posts }: BlogProps) {
-  const defaultPost: BlogPostProps = {
-    id: '',
-    title: '',
-    slug: '',
-    date: '',
-    image: '',
-    content: '',
-  };
-
-  const [activePost, setActivePost] = useState<BlogPostProps>(defaultPost);
-  const [postOpened, setPostOpen] = useState(false);
-
-  function openPost(article: BlogPostProps) {
-    setActivePost(article);
-    setPostOpen(true);
-  }
-
-  function closePost() {
-    setPostOpen(false);
-    setActivePost(defaultPost);
-  }
-
   if (posts.length === 0) {
     return (
       <Container py="xl" size="lg">
@@ -79,10 +55,9 @@ export function Blog({ posts }: BlogProps) {
       key={featuredPost.id}
       p="lg"
       radius="lg"
-      component="a"
-      href="#"
+      component={Link}
+      href={`/blog/${featuredPost.slug}`}
       className={classes.featuredCard}
-      onClick={() => openPost(featuredPost)}
     >
       <div className={classes.featuredContent}>
         <div className={classes.featuredImageWrapper}>
@@ -121,10 +96,9 @@ export function Blog({ posts }: BlogProps) {
       key={article.id}
       p="md"
       radius="md"
-      component="a"
-      href="#"
+      component={Link}
+      href={`/blog/${article.slug}`}
       className={classes.card}
-      onClick={() => openPost(article)}
     >
       <div className={classes.cardImageWrapper}>
         <AspectRatio ratio={16 / 9}>
@@ -154,10 +128,6 @@ export function Blog({ posts }: BlogProps) {
 
   return (
     <Container py="xl" size="lg">
-      <Modal opened={postOpened} onClose={closePost} fullScreen>
-        <BlogPost post={activePost} />
-      </Modal>
-
       <div className={classes.header}>
         <Title className={classes.headerTitle}>Insights & Reflections</Title>
         <Text className={classes.headerSubtitle}>

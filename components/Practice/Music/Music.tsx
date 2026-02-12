@@ -6,7 +6,6 @@ import {
   Group,
   Title,
   Stack,
-  Container,
   Tabs,
   TextInput,
   Badge,
@@ -326,185 +325,178 @@ const Music: React.FC = () => {
 
   return (
     <div className={classes.wrapper}>
-      <div className={classes.gradientOrbs}>
-        <div className={classes.orb1} />
-        <div className={classes.orb2} />
-      </div>
-
       <div id="youtube-player" style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }} />
 
-      <Container size="md" py="xl" className={classes.container}>
-        <Stack align="center" gap="xl" style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div>
-            <Title className={classes.sectionTitle} order={2}>
-              Meditation Music
-            </Title>
-            <Text className={classes.tagline}>
-              Explore our collection of calming music and nature sounds designed to enhance your
-              meditation practice. Each track is carefully selected to help you find peace and
-              focus.
-            </Text>
-          </div>
+      <Stack align="center" gap="xl">
+        <div>
+          <Title className={classes.sectionTitle} order={2}>
+            Meditation Music
+          </Title>
+          <Text className={classes.tagline}>
+            Explore our collection of calming music and nature sounds designed to enhance your
+            meditation practice. Each track is carefully selected to help you find peace and
+            focus.
+          </Text>
+        </div>
 
-          {currentTrack && (
-            <Box className={classes.playerContainer}>
-              <div className={classes.playerVisualizer}>
-                <div className={classes.albumArt}>
-                  <IconMusic size={40} stroke={1.5} />
+        {currentTrack && (
+          <Box className={classes.playerContainer}>
+            <div className={classes.playerVisualizer}>
+              <div className={classes.albumArt}>
+                <IconMusic size={40} stroke={1.5} />
+              </div>
+              {isPlaying && (
+                <div className={classes.soundBars}>
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
                 </div>
-                {isPlaying && (
-                  <div className={classes.soundBars}>
-                    <span />
-                    <span />
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                )}
-              </div>
+              )}
+            </div>
 
-              <div className={classes.playerInfo}>
-                <Text className={classes.playerTitle}>{currentTrack.title}</Text>
-                <Text className={classes.playerArtist}>{currentTrack.artist}</Text>
-              </div>
+            <div className={classes.playerInfo}>
+              <Text className={classes.playerTitle}>{currentTrack.title}</Text>
+              <Text className={classes.playerArtist}>{currentTrack.artist}</Text>
+            </div>
 
-              <div className={classes.playerProgress}>
-                <Text size="xs" c="dimmed">
-                  {formatTime(currentTime)}
-                </Text>
-                <Slider
-                  value={currentTime}
-                  onChange={handleSeek}
-                  max={duration || 100}
-                  size="xs"
-                  className={classes.progressSlider}
-                  label={null}
-                />
-                <Text size="xs" c="dimmed">
-                  {formatTime(duration)}
-                </Text>
-              </div>
+            <div className={classes.playerProgress}>
+              <Text size="xs" c="dimmed">
+                {formatTime(currentTime)}
+              </Text>
+              <Slider
+                value={currentTime}
+                onChange={handleSeek}
+                max={duration || 100}
+                size="xs"
+                className={classes.progressSlider}
+                label={null}
+              />
+              <Text size="xs" c="dimmed">
+                {formatTime(duration)}
+              </Text>
+            </div>
 
-              <Group className={classes.playerControls} gap="md">
-                <ActionIcon
-                  variant="subtle"
-                  size="lg"
-                  onClick={playPrevious}
-                  className={classes.controlButton}
-                >
-                  <IconPlayerSkipBack size={20} />
-                </ActionIcon>
-
-                <ActionIcon
-                  variant="filled"
-                  size="xl"
-                  radius="xl"
-                  onClick={togglePlay}
-                  className={classes.playButton}
-                >
-                  {isPlaying ? <IconPlayerPause size={24} /> : <IconPlayerPlay size={24} />}
-                </ActionIcon>
-
-                <ActionIcon
-                  variant="subtle"
-                  size="lg"
-                  onClick={playNext}
-                  className={classes.controlButton}
-                >
-                  <IconPlayerSkipForward size={20} />
-                </ActionIcon>
-              </Group>
-
-              <Group className={classes.volumeControl} gap="xs">
-                <ActionIcon variant="subtle" size="sm" onClick={toggleMute}>
-                  {isMuted || volume === 0 ? <IconVolumeOff size={16} /> : <IconVolume size={16} />}
-                </ActionIcon>
-                <Slider
-                  value={isMuted ? 0 : volume}
-                  onChange={handleVolumeChange}
-                  size="xs"
-                  w={80}
-                  className={classes.volumeSlider}
-                  label={null}
-                />
-              </Group>
-            </Box>
-          )}
-
-          <Tabs
-            value={activeTab}
-            onChange={setActiveTab}
-            className={classes.tabs}
-            classNames={{
-              list: classes.tabsList,
-              tab: classes.tab,
-            }}
-          >
-            <Tabs.List>
-              {categories.map((category) => (
-                <Tabs.Tab key={category} value={category}>
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </Tabs.Tab>
-              ))}
-            </Tabs.List>
-          </Tabs>
-
-          <TextInput
-            placeholder="Search music..."
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.currentTarget.value)}
-            leftSection={<IconSearch size={16} />}
-            style={{ width: '100%' }}
-            className={classes.searchInput}
-            radius="lg"
-          />
-
-          <Stack gap="sm" style={{ width: '100%' }}>
-            {filteredVideos.map((video, index) => (
-              <div
-                key={index}
-                className={`${classes.trackItem} ${currentTrack?.videoId === video.videoId ? classes.trackItemActive : ''}`}
-                onClick={() => playTrack(video)}
+            <Group className={classes.playerControls} gap="md">
+              <ActionIcon
+                variant="subtle"
+                size="lg"
+                onClick={playPrevious}
+                className={classes.controlButton}
               >
-                <div className={classes.trackLeft}>
-                  <ActionIcon
-                    variant={currentTrack?.videoId === video.videoId ? 'filled' : 'light'}
-                    size="lg"
-                    radius="xl"
-                    className={classes.trackPlayButton}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (currentTrack?.videoId === video.videoId) {
-                        togglePlay();
-                      } else {
-                        playTrack(video);
-                      }
-                    }}
-                  >
-                    {currentTrack?.videoId === video.videoId && isPlaying ? (
-                      <IconPlayerPause size={18} />
-                    ) : (
-                      <IconPlayerPlay size={18} />
-                    )}
-                  </ActionIcon>
-                  <div className={classes.trackInfo}>
-                    <Text className={classes.trackTitle}>{video.title}</Text>
-                    <Text className={classes.trackArtist}>{video.artist}</Text>
-                  </div>
-                </div>
-                <Group gap="sm">
-                  <Badge className={classes.badge} variant="light" size="sm">
-                    {video.category}
-                  </Badge>
-                  <Text size="sm" c="dimmed" className={classes.trackDuration}>
-                    {video.duration}
-                  </Text>
-                </Group>
-              </div>
+                <IconPlayerSkipBack size={20} />
+              </ActionIcon>
+
+              <ActionIcon
+                variant="filled"
+                size="xl"
+                radius="xl"
+                onClick={togglePlay}
+                className={classes.playButton}
+              >
+                {isPlaying ? <IconPlayerPause size={24} /> : <IconPlayerPlay size={24} />}
+              </ActionIcon>
+
+              <ActionIcon
+                variant="subtle"
+                size="lg"
+                onClick={playNext}
+                className={classes.controlButton}
+              >
+                <IconPlayerSkipForward size={20} />
+              </ActionIcon>
+            </Group>
+
+            <Group className={classes.volumeControl} gap="xs">
+              <ActionIcon variant="subtle" size="sm" onClick={toggleMute}>
+                {isMuted || volume === 0 ? <IconVolumeOff size={16} /> : <IconVolume size={16} />}
+              </ActionIcon>
+              <Slider
+                value={isMuted ? 0 : volume}
+                onChange={handleVolumeChange}
+                size="xs"
+                w={80}
+                className={classes.volumeSlider}
+                label={null}
+              />
+            </Group>
+          </Box>
+        )}
+
+        <Tabs
+          value={activeTab}
+          onChange={setActiveTab}
+          className={classes.tabs}
+          classNames={{
+            list: classes.tabsList,
+            tab: classes.tab,
+          }}
+        >
+          <Tabs.List>
+            {categories.map((category) => (
+              <Tabs.Tab key={category} value={category}>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </Tabs.Tab>
             ))}
-          </Stack>
+          </Tabs.List>
+        </Tabs>
+
+        <TextInput
+          placeholder="Search music..."
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          leftSection={<IconSearch size={16} />}
+          style={{ width: '100%' }}
+          className={classes.searchInput}
+          radius="lg"
+        />
+
+        <Stack gap="sm" style={{ width: '100%' }}>
+          {filteredVideos.map((video, index) => (
+            <div
+              key={index}
+              className={`${classes.trackItem} ${currentTrack?.videoId === video.videoId ? classes.trackItemActive : ''}`}
+              onClick={() => playTrack(video)}
+            >
+              <div className={classes.trackLeft}>
+                <ActionIcon
+                  variant={currentTrack?.videoId === video.videoId ? 'filled' : 'light'}
+                  size="lg"
+                  radius="xl"
+                  className={classes.trackPlayButton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (currentTrack?.videoId === video.videoId) {
+                      togglePlay();
+                    } else {
+                      playTrack(video);
+                    }
+                  }}
+                >
+                  {currentTrack?.videoId === video.videoId && isPlaying ? (
+                    <IconPlayerPause size={18} />
+                  ) : (
+                    <IconPlayerPlay size={18} />
+                  )}
+                </ActionIcon>
+                <div className={classes.trackInfo}>
+                  <Text className={classes.trackTitle}>{video.title}</Text>
+                  <Text className={classes.trackArtist}>{video.artist}</Text>
+                </div>
+              </div>
+              <Group gap="sm">
+                <Badge className={classes.badge} variant="light" size="sm">
+                  {video.category}
+                </Badge>
+                <Text size="sm" c="dimmed" className={classes.trackDuration}>
+                  {video.duration}
+                </Text>
+              </Group>
+            </div>
+          ))}
         </Stack>
-      </Container>
+      </Stack>
     </div>
   );
 };

@@ -1,47 +1,6 @@
-/* Section Wrapper with Glassmorphism */
 .wrapper {
-  padding-top: calc(var(--mantine-spacing-xl) * 3);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
-  background-color: light-dark(var(--color-surface), var(--color-surface));
+  padding: var(--mantine-spacing-md) 0;
   position: relative;
-  overflow: hidden;
-}
-
-/* Background gradient orbs */
-.gradientOrbs {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.orb1 {
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(103, 76, 143, 0.08) 0%, transparent 70%);
-  top: -100px;
-  left: -100px;
-  filter: blur(40px);
-}
-
-.orb2 {
-  position: absolute;
-  width: 350px;
-  height: 350px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(105, 132, 101, 0.1) 0%, transparent 70%);
-  bottom: -50px;
-  right: -100px;
-  filter: blur(40px);
-}
-
-/* Content container */
-.container {
-  position: relative;
-  z-index: 1;
 }
 
 /* Title Styling */
@@ -49,8 +8,6 @@
   text-align: center;
   margin-bottom: var(--mantine-spacing-md);
   color: light-dark(var(--color-text), var(--color-text));
-  position: relative;
-  z-index: 1;
 }
 
 .tagline {
@@ -60,8 +17,6 @@
   max-width: rem(700px);
   margin: 0 auto var(--mantine-spacing-xl);
   line-height: 1.6;
-  position: relative;
-  z-index: 1;
 }
 
 .text {

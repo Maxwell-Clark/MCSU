@@ -1,7 +1,8 @@
 'use client';
 
-import { Table, Badge, ActionIcon, Group, Text, Menu, Anchor } from '@mantine/core';
-import { IconEdit, IconTrash, IconDots, IconEye, IconEyeOff } from '@tabler/icons-react';
+import { useState } from 'react';
+import { Table, Badge, ActionIcon, Group, Text, Menu, Anchor, TextInput } from '@mantine/core';
+import { IconEdit, IconTrash, IconDots, IconEye, IconEyeOff, IconSearch } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { deleteBlogPost, toggleBlogPostPublished } from '@/lib/actions/blog';
@@ -25,6 +26,7 @@ interface BlogTableProps {
 
 export function BlogTable({ posts }: BlogTableProps) {
   const router = useRouter();
+  const [search, setSearch] = useState('');
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this post?')) {
@@ -38,7 +40,18 @@ export function BlogTable({ posts }: BlogTableProps) {
     router.refresh();
   };
 
-  const rows = posts.map((post) => (
+  const filtered = posts.filter((post) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (
+      post.title.toLowerCase().includes(q) ||
+      post.slug.toLowerCase().includes(q) ||
+      (post.category && post.category.toLowerCase().includes(q)) ||
+      (post.author.name && post.author.name.toLowerCase().includes(q))
+    );
+  });
+
+  const rows = filtered.map((post) => (
     <Table.Tr key={post.id}>
       <Table.Td>
         <Anchor component={Link} href={`/admin/blog/${post.id}/edit`} fw={500}>
@@ -112,8 +125,16 @@ export function BlogTable({ posts }: BlogTableProps) {
   ));
 
   return (
-    <Table.ScrollContainer minWidth={700}>
-      <Table striped highlightOnHover className={classes.table}>
+    <>
+      <TextInput
+        placeholder="Search posts..."
+        leftSection={<IconSearch size={16} />}
+        value={search}
+        onChange={(e) => setSearch(e.currentTarget.value)}
+        mb="md"
+      />
+      <Table.ScrollContainer minWidth={700}>
+        <Table striped highlightOnHover className={classes.table}>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Title</Table.Th>
@@ -131,7 +152,7 @@ export function BlogTable({ posts }: BlogTableProps) {
             <Table.Tr>
               <Table.Td colSpan={6}>
                 <Text ta="center" c="dimmed" py="xl">
-                  No blog posts yet. Create your first post!
+                  {search ? 'No posts match your search.' : 'No blog posts yet. Create your first post!'}
                 </Text>
               </Table.Td>
             </Table.Tr>
@@ -139,5 +160,6 @@ export function BlogTable({ posts }: BlogTableProps) {
         </Table.Tbody>
       </Table>
     </Table.ScrollContainer>
+    </>
   );
 }

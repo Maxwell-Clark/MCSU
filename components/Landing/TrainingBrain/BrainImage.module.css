@@ -1,0 +1,128 @@
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.brainImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: light-dark(none, invert(0.85) hue-rotate(180deg));
+  opacity: light-dark(0.85, 0.75);
+}
+
+/* Hotspot button */
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  outline: none;
+  z-index: 1;
+}
+
+/* The pulsing dot */
+.hotspotDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 250ms ease, box-shadow 250ms ease;
+  box-shadow: 0 0 0 0 rgba(105, 132, 101, 0.4);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.hotspot:hover .hotspotDot,
+.hotspot.active .hotspotDot {
+  transform: scale(1.4);
+  animation: none;
+}
+
+.hotspot:focus-visible .hotspotDot {
+  outline: 2px dashed light-dark(var(--color-text), var(--color-text));
+  outline-offset: 3px;
+}
+
+/* Label next to dot */
+.hotspotLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: light-dark(var(--color-text), var(--color-text));
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 200ms ease, transform 200ms ease;
+  pointer-events: none;
+  text-shadow: 0 1px 3px light-dark(rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0.6));
+}
+
+.hotspot:hover .hotspotLabel,
+.hotspot.active .hotspotLabel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Color variants — dot background + glow */
+.sage .hotspotDot {
+  background-color: light-dark(#698465, #89a485);
+  box-shadow: 0 0 0 0 rgba(105, 132, 101, 0.4);
+}
+
+.sage:hover .hotspotDot,
+.sage.active .hotspotDot {
+  box-shadow: 0 0 12px 4px rgba(105, 132, 101, 0.5);
+}
+
+.purple .hotspotDot {
+  background-color: light-dark(#674c8f, #9a86bb);
+  box-shadow: 0 0 0 0 rgba(103, 76, 143, 0.4);
+}
+
+.purple:hover .hotspotDot,
+.purple.active .hotspotDot {
+  box-shadow: 0 0 12px 4px rgba(103, 76, 143, 0.5);
+}
+
+.paleSage .hotspotDot {
+  background-color: light-dark(#a8b8a6, #bfcbbd);
+  box-shadow: 0 0 0 0 rgba(168, 184, 166, 0.4);
+}
+
+.paleSage:hover .hotspotDot,
+.paleSage.active .hotspotDot {
+  box-shadow: 0 0 12px 4px rgba(168, 184, 166, 0.5);
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(105, 132, 101, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(105, 132, 101, 0);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hotspotDot {
+    animation: none;
+    transition: none;
+  }
+
+  .hotspotLabel {
+    transition: none;
+  }
+
+  .hotspot:hover .hotspotDot,
+  .hotspot.active .hotspotDot {
+    transform: none;
+  }
+}
