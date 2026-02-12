@@ -1,15 +1,13 @@
 import { getActiveClassEvents, getLocations } from '@/lib/actions/classes';
-import { getActivePrograms } from '@/lib/actions/programs';
 import { OfferingsContent } from '@/components/Offerings/OfferingsContent';
 import { ClassEvent, ClassLocation } from '@/data/classData';
 
 export const dynamic = 'force-dynamic';
 
 export default async function OfferingsPage() {
-  const [dbClasses, dbLocations, programs] = await Promise.all([
+  const [dbClasses, dbLocations] = await Promise.all([
     getActiveClassEvents(),
     getLocations(),
-    getActivePrograms(),
   ]);
 
   // Transform DB classes to match the ClassEvent interface expected by components
@@ -41,5 +39,5 @@ export default async function OfferingsPage() {
     lng: l.lng,
   }));
 
-  return <OfferingsContent classes={classes} locations={locations} programs={programs} />;
+  return <OfferingsContent classes={classes} locations={locations} />;
 }

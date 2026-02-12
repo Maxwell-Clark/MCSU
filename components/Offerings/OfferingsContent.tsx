@@ -8,34 +8,12 @@ import { ProgramTabs } from '@/components/Offerings/ProgramTabs';
 import { ClassCalendar } from '@/components/Calendar/Calendar';
 import { ClassEvent, ClassLocation } from '@/data/classData';
 
-interface ProgramData {
-  id: string;
-  slug: string;
-  title: string;
-  shortTitle: string;
-  tagline: string;
-  description: string;
-  color: string;
-  iconName: string;
-  ctaText: string;
-  learnMoreContent: string | null;
-  features: {
-    id: string;
-    title: string;
-    description: string | null;
-    iconName: string;
-    listItems: string | null;
-    sortOrder: number;
-  }[];
-}
-
 interface OfferingsContentProps {
   classes: ClassEvent[];
   locations: ClassLocation[];
-  programs: ProgramData[];
 }
 
-export function OfferingsContent({ classes, locations, programs }: OfferingsContentProps) {
+export function OfferingsContent({ classes, locations }: OfferingsContentProps) {
   const [calendarModalOpen, setCalendarModalOpen] = useState(false);
 
   const handleScrollToSchedule = useCallback(() => {
@@ -63,7 +41,7 @@ export function OfferingsContent({ classes, locations, programs }: OfferingsCont
 
       <ScheduleHub classes={classes} locations={locations} onClassClick={handleClassClick} />
 
-      <ProgramTabs programs={programs} onJoinClick={handleJoinProgram} />
+      <ProgramTabs onJoinClick={handleJoinProgram} />
 
       <Modal
         opened={calendarModalOpen}
