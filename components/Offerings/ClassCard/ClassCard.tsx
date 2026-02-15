@@ -86,7 +86,12 @@ export function ClassCard({
           </div>
           <div className={styles.detailItem}>
             <IconMapPin size={14} className={styles.detailIcon} />
-            <Text size="sm">{classEvent.location.name}</Text>
+            <Text size="sm">
+              {classEvent.location.name}
+              {classEvent.location.address && (
+                <Text span c="dimmed"> — {classEvent.location.address}</Text>
+              )}
+            </Text>
           </div>
         </Stack>
 
@@ -173,6 +178,9 @@ function FeaturedCard({
                 <IconMapPin size={16} />
                 <Text size="sm" fw={500}>
                   {classEvent.location.name}
+                  {classEvent.location.address && (
+                    <Text span fw={400} c="dimmed"> — {classEvent.location.address}</Text>
+                  )}
                 </Text>
               </Group>
             </div>
@@ -290,6 +298,9 @@ function ListCard({
             <IconMapPin size={14} />
             <Text size="sm" c="dimmed">
               {classEvent.location.name}
+              {classEvent.location.address && (
+                <Text span> — {classEvent.location.address}</Text>
+              )}
             </Text>
           </Group>
         </div>
