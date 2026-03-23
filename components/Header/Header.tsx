@@ -24,6 +24,7 @@ import {
 import Image from 'next/image';
 
   import { HeaderCard } from './HeaderCard';
+  import { UserMenu } from './UserMenu';
   import {
     IconNotification,
     IconSunset2,
@@ -34,7 +35,7 @@ import Image from 'next/image';
     IconSchool,
     IconChevronDown,
     IconCalendarFilled,
-    IconInfoCircle, IconUsers, IconBuilding, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar 
+    IconInfoCircle, IconUsers, IconBuilding, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar, IconIdBadge2
   } from '@tabler/icons-react';
   import classes from './Header.module.css';
 import { useState } from 'react';
@@ -152,6 +153,13 @@ import { useState } from 'react';
       id: 'business',
       description: 'Discover ways your business can support mindfulness and well-being in the workplace.',
     },
+    {
+      icon: IconIdBadge2,
+      title: 'Membership',
+      id: 'membership',
+      href: '/membership',
+      description: 'Become a member and support our mission while enjoying exclusive benefits.',
+    },
   ];
   
   const offeringsData = [
@@ -215,7 +223,7 @@ import { useState } from 'react';
 
     const fetchLinks = (data, endpoint) => {
         return data.map((item) => (
-          <Link className={classes.subLink} href={`${endpoint}#${item.id}`} onClick={closeDrawer}>
+          <Link className={classes.subLink} href={item.href || `${endpoint}#${item.id}`} onClick={closeDrawer}>
             <UnstyledButton className={classes.subLink} key={item.title}>
               <Group wrap="nowrap" align="justify-center">
                 <ThemeIcon size={34} variant="default" radius="md">
@@ -262,7 +270,8 @@ import { useState } from 'react';
               </a>
             </Group>
   
-            <Group>
+            <Group gap="sm">
+              <UserMenu />
               <ActionIcon onClick={toggleColorScheme}>
                 <IconMoonStars  style={{ width: '70%', height: '70%' }} stroke={1.5} color="#ffffff" />
               </ActionIcon>
@@ -339,6 +348,10 @@ import { useState } from 'react';
           </a>
 
           <Divider my="sm" />
+
+          <Group justify="center" pb="md">
+            <UserMenu />
+          </Group>
         </ScrollArea>
       </Drawer>
       </Box>

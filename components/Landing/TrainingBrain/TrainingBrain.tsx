@@ -79,7 +79,7 @@ export function TrainingBrain() {
         <Box className={classes.videoGrid}>
           <div className={classes.videoCard}>
             <div className={classes.videoEmbed}>
-              <YouTubePlayer videoId="dmEOJyWVQj4" title="Neuroplasticity" />
+              <YouTubePlayer videoId="J8wW1t1JqUc" title="Neuroplasticity" />
             </div>
             <div className={classes.videoLabel}>
               <span className={classes.videoLabelDot} />
@@ -88,7 +88,7 @@ export function TrainingBrain() {
           </div>
           <div className={classes.videoCard}>
             <div className={classes.videoEmbed}>
-              <YouTubePlayer videoId="7TN23YiGkAQ" title="Mindfulness and the Brain" />
+              <YouTubePlayer videoId="8ihY2TZXuz0" title="Mindfulness and the Brain" />
             </div>
             <div className={classes.videoLabel}>
               <span className={classes.videoLabelDot} />

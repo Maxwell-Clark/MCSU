@@ -19,7 +19,7 @@ export function HeaderCard({ links, title, endpoint }) {
 
   const fetchLinks = (data) => {
     return data.map((item) => (
-      <Link className={classes.subLink} href={`${endpoint}#${item.id}`} key={item.title}>
+      <Link className={classes.subLink} href={item.href || `${endpoint}#${item.id}`} key={item.title}>
         <Group wrap="nowrap" align="flex-start" gap="sm">
           <ThemeIcon
             size={38}

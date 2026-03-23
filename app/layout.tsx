@@ -8,6 +8,7 @@ import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { Header } from '../components/Header/Header';
 import { Footer } from '../components/Footer/Footer';
 import { theme } from '../theme';
+import Script from 'next/script';
 
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
@@ -38,6 +39,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
+        {/* Givebutter widget library — replace src with your actual script URL from Givebutter Dashboard > Settings > Developers > Widgets > Installation */}
+        <Script src="https://widgets.givebutter.com/latest.umd.cjs?acct=Ff8VH2HNtdEDHuXt&p=other" strategy="afterInteractive" />
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">

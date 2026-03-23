@@ -10,6 +10,7 @@ import {
   IconCalendar,
   IconMapPin,
   IconSchool,
+  IconUsers,
 } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -20,6 +21,7 @@ const navItems = [
   { label: 'Dashboard', href: '/admin', icon: IconDashboard },
   { label: 'Blog Posts', href: '/admin/blog', icon: IconArticle },
   { label: 'Programs', href: '/admin/programs', icon: IconSchool },
+  { label: 'Users', href: '/admin/users', icon: IconUsers },
 ];
 
 export function AdminSidebar() {

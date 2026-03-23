@@ -1,0 +1,189 @@
+.section {
+  padding: var(--space-3xl) 0;
+}
+
+/* Hero */
+.heroSection {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+  padding: var(--space-3xl) var(--space-xl);
+  background: var(--gradient-soft-sage);
+  border-radius: var(--radius-xl);
+}
+
+[data-mantine-color-scheme='dark'] .heroSection {
+  background: var(--gradient-soft-sage);
+}
+
+.heroTitle {
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.heroText {
+  color: var(--color-text-muted);
+  max-width: 700px;
+  margin: 0 auto var(--mantine-spacing-md);
+  line-height: 1.7;
+}
+
+/* Tiers */
+.tiersTitle {
+  text-align: center;
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2xl);
+}
+
+.tiersGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+  align-items: start;
+}
+
+.tierCard {
+  padding: var(--space-xl);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  transition: all var(--duration-medium) var(--ease-organic);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+[data-mantine-color-scheme='dark'] .tierCard {
+  background: var(--mantine-color-dark-6);
+  border-color: var(--mantine-color-dark-5);
+}
+
+.tierCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft-md);
+}
+
+/* Featured tier */
+.tierCardFeatured {
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-soft-md);
+  transform: scale(1.03);
+}
+
+.tierCardFeatured:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: var(--shadow-soft-lg);
+}
+
+.featuredBadge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gradient-primary);
+  color: var(--color-text-inverted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 1.2rem;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.tierName {
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--mantine-spacing-xs);
+  text-align: center;
+}
+
+.tierPriceBlock {
+  text-align: center;
+  padding-bottom: var(--mantine-spacing-lg);
+  margin-bottom: var(--mantine-spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+[data-mantine-color-scheme='dark'] .tierPriceBlock {
+  border-bottom-color: var(--mantine-color-dark-5);
+}
+
+.tierPrice {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.tierPriceAlt {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--mantine-spacing-xl);
+  flex: 1;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-xs) 0;
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.benefitIcon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Closing */
+.closingSection {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.closingText {
+  color: var(--color-text);
+  line-height: 1.7;
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.closingNote {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  font-style: italic;
+  margin-top: var(--mantine-spacing-xl);
+}
+
+@media (max-width: 48em) {
+  .tiersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tierCardFeatured {
+    transform: none;
+  }
+
+  .tierCardFeatured:hover {
+    transform: translateY(-4px);
+  }
+
+  .heroSection {
+    padding: var(--space-2xl) var(--mantine-spacing-md);
+  }
+}

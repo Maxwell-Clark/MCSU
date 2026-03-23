@@ -7,7 +7,11 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import { createClient } from '@/lib/supabase/client';
 import classes from './LoginForm.module.css';
 
-export function LoginForm() {
+interface LoginFormProps {
+  redirect?: string;
+}
+
+export function LoginForm({ redirect }: LoginFormProps) {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,10 +32,30 @@ export function LoginForm() {
 
       if (signInError) {
         setError('Invalid email or password');
-      } else {
-        router.push('/admin');
-        router.refresh();
+        return;
       }
+
+      if (redirect) {
+        router.push(redirect);
+        router.refresh();
+        return;
+      }
+
+      // Fetch role to determine redirect target
+      const res = await fetch('/api/auth/me');
+      if (res.ok) {
+        const user = await res.json();
+        if (user.role === 'admin') {
+          router.push('/admin');
+        } else if (user.role === 'member') {
+          router.push('/membership/dashboard');
+        } else {
+          router.push('/');
+        }
+      } else {
+        router.push('/');
+      }
+      router.refresh();
     } catch {
       setError('An error occurred. Please try again.');
     } finally {
@@ -50,7 +74,7 @@ export function LoginForm() {
 
         <TextInput
           label="Email"
-          placeholder="admin@example.com"
+          placeholder="you@example.com"
           type="email"
           required
           value={email}

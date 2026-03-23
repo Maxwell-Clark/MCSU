@@ -4,20 +4,32 @@ import { NextResponse, type NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
   const { user, response } = await updateSession(request);
   const isLoggedIn = !!user;
-  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
-  const isLoginPage = request.nextUrl.pathname === '/login';
+  const pathname = request.nextUrl.pathname;
+  const isAdminRoute = pathname.startsWith('/admin');
+  const isLoginPage = pathname === '/login';
+  const isAccountRoute = pathname.startsWith('/account');
+  const isMemberProtected =
+    pathname === '/membership/payment' || pathname === '/membership/dashboard';
 
   if (isAdminRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    const url = new URL('/login', request.url);
+    url.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(url);
   }
 
   if (isLoginPage && isLoggedIn) {
-    return NextResponse.redirect(new URL('/admin', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  if ((isMemberProtected || isAccountRoute) && !isLoggedIn) {
+    const url = new URL('/login', request.url);
+    url.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(url);
   }
 
   return response;
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/login'],
+  matcher: ['/admin/:path*', '/login', '/membership/payment', '/membership/dashboard', '/account/:path*'],
 };

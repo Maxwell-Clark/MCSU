@@ -15,6 +15,7 @@ import {
   IconArticle,
   IconCalendar,
   IconSchool,
+  IconUsers,
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
@@ -30,6 +31,8 @@ async function getStats() {
     activeClasses,
     totalPrograms,
     activePrograms,
+    totalUsers,
+    memberCount,
   ] = await Promise.all([
     prisma.blogPost.count(),
     prisma.blogPost.count({ where: { published: true } }),
@@ -37,6 +40,8 @@ async function getStats() {
     prisma.classEvent.count({ where: { active: true } }),
     prisma.program.count(),
     prisma.program.count({ where: { active: true } }),
+    prisma.user.count(),
+    prisma.user.count({ where: { role: 'member' } }),
   ]);
 
   return {
@@ -46,6 +51,8 @@ async function getStats() {
     activeClasses,
     totalPrograms,
     activePrograms,
+    totalUsers,
+    memberCount,
   };
 }
 
@@ -110,6 +117,14 @@ export default async function AdminDashboard() {
       color: 'grape',
       href: '/admin/programs',
     },
+    {
+      title: 'Users',
+      value: stats.totalUsers,
+      subtitle: `${stats.memberCount} members`,
+      icon: IconUsers,
+      color: 'indigo',
+      href: '/admin/users',
+    },
   ];
 
   const quickActions = [
@@ -128,7 +143,7 @@ export default async function AdminDashboard() {
           </Text>
         </div>
 
-        <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
+        <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="lg">
           {statCards.map((stat) => (
             <Link key={stat.title} href={stat.href} style={{ textDecoration: 'none', color: 'inherit' }}>
             <Card
