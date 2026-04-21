@@ -1,4 +1,5 @@
 import { AttitudesGrid } from '../components/Landing/AttitudesGrid/AttitudesGrid';
+import { Disclaimer } from '../components/Landing/Disclaimer/Disclaimer';
 import { LandingFAQ } from '../components/Landing/LandingFAQ/LandingFAQ';
 import { LandingHero } from '../components/Landing/LandingHero/LandingHero';
 import { TrainingBrain } from '../components/Landing/TrainingBrain/TrainingBrain';
@@ -15,6 +16,7 @@ export default function HomePage() {
       <OpeningHeart />
       <AttitudesGrid />
       <LandingFAQ />
+      <Disclaimer />
     </>
   );
 }

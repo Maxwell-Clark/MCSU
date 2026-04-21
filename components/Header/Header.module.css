@@ -198,18 +198,25 @@
   }
 }
 
-.donateButton {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+.navButton {
+  --nav-button-bg: #698465;
+  --nav-button-bg-hover: #435a42;
+  background-color: var(--nav-button-bg);
   color: #ffffff;
+  border: 1px solid var(--nav-button-bg);
   font-weight: 600;
-  border: none;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 
   @mixin hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    filter: brightness(1.1);
+    background-color: var(--nav-button-bg-hover);
+    color: #ffffff;
+    border-color: var(--nav-button-bg-hover);
   }
+}
+
+:global([data-mantine-color-scheme='dark']) .navButton {
+  --nav-button-bg: #698465;
+  --nav-button-bg-hover: #89a485;
 }
 
 .burger {

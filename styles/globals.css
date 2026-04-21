@@ -496,3 +496,16 @@ small {
     transform: none !important;
   }
 }
+
+/* Hide Givebutter's floating donate launcher — donations go through the nav bar
+   Donate button (which uses data-gb-account/data-gb-campaign to open the overlay).
+   Do NOT hide body > givebutter-button: Givebutter creates hidden
+   <givebutter-button> state-holder elements for data-gb-* triggers, and forcing
+   them display:none !important prevents the overlay from opening on click. */
+body > givebutter-widget,
+[class*="overlays__overlay-container--bottom-right"],
+[class*="overlays__overlay-container--bottom-left"],
+[class*="overlays__overlay-container--top-right"],
+[class*="overlays__overlay-container--top-left"] {
+  display: none !important;
+}

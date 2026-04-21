@@ -1,0 +1,15 @@
+.wrapper {
+  background-color: light-dark(var(--color-surface), var(--color-surface));
+  padding: var(--mantine-spacing-xl) var(--mantine-spacing-md);
+  border-top: 1px solid light-dark(rgba(64, 64, 64, 0.12), rgba(255, 255, 255, 0.08));
+}
+
+.text {
+  max-width: rem(820px);
+  margin: 0 auto;
+  text-align: center;
+  font-size: rem(13px);
+  line-height: 1.6;
+  color: light-dark(var(--color-text-muted), var(--color-text-muted));
+  font-style: italic;
+}

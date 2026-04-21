@@ -12,6 +12,7 @@ import {
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import headerClasses from './Header.module.css';
 
 interface UserInfo {
   email: string;
@@ -66,7 +67,13 @@ export function UserMenu() {
 
   if (!user) {
     return (
-      <Button component={Link} href="/login" variant="subtle" size="compact-sm" color="gray">
+      <Button
+        component={Link}
+        href="/login"
+        variant="default"
+        size="compact-sm"
+        className={headerClasses.navButton}
+      >
         Login
       </Button>
     );
@@ -76,9 +83,9 @@ export function UserMenu() {
     <Menu shadow="md" width={220} position="bottom-end">
       <Menu.Target>
         <Button
-          variant="subtle"
+          variant="default"
           size="compact-sm"
-          color="gray"
+          className={headerClasses.navButton}
           rightSection={<IconChevronDown size={14} />}
           leftSection={<IconUser size={16} />}
         >

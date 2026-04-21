@@ -6,6 +6,7 @@ import classes from './WWABoard.module.css';
 import NinaHeadshot from '@/assets/img/nina_headshot.jpg';
 import Generic from '@/assets/img/generic.png';
 import GaelHeadshot from '@/assets/img/gael_headshot.jpg';
+import GinaHeadshot from '@/assets/img/gina.jpg';
 import type { StaticImageData } from 'next/image';
 
 interface BoardMember {
@@ -57,7 +58,7 @@ From 1990-1995 Dr. Tate helped establish, taught Mindfulness-based Stress Reduct
 Dr. David Tate has taught mindfulness principles and practices to thousands of people over the past 35 years in a wide variety of settings, locally and nationally. He helped establish the first "mindfulness-based" health and wellness resort, Miraval, Life in Balance, in 1995 as the Lead Mindfulness Teacher and later as the Program Director. He has provided consultations and mindfulness trainings for many businesses and organizations including Nike, Ernst and Young, New Line Cinema, Abbott Laboratories, AT&T, the National Make-A-Wish Foundation, Zion National Park, and the NCAA.`,
   },
   {
-    image: Generic,
+    image: GinaHeadshot.src,
     name: 'Dr. Ginamarie Foglia',
     description: `Dr. Ginamarie Foglia, DO, MPH, FACP has over 30 years of healthcare experience as an internationally known subject matter expert in infectious disease, internal medicine, public health, clinical trial research & development, medical education and wellness. She is board-certified in Internal Medicine and Infectious Disease.
 

@@ -4,6 +4,7 @@
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  margin-top: calc(-1 * (var(--header-height) + var(--mantine-spacing-sm) * 2));
 }
 
 /* Mesh gradient overlay */

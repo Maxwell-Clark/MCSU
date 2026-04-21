@@ -35,6 +35,7 @@ export function DonateModalProvider({ children }: { children: React.ReactNode })
         title="Support Our Mission"
         size="lg"
         centered
+        zIndex={1000}
         classNames={{
           title: classes.modalTitle,
           body: classes.modalBody,

@@ -82,7 +82,7 @@
 }
 
 .darkBlue {
-  background-color: light-dark(#674c8f, #5a4280);
+  background-color: light-dark(#3f2b5f, #5a4280);
   color: #ffffff;
 }
 
@@ -142,15 +142,17 @@
 }
 
 /* Tile title */
-.tileTitle {
+.tile .tileTitle {
   font-weight: 700;
   margin-bottom: var(--mantine-spacing-xs);
+  color: inherit;
 }
 
 /* Tile description */
-.tileDescription {
+.tile .tileDescription {
   line-height: 1.5;
   opacity: 1;
+  color: inherit;
 }
 
 /* Subtitle for Trust tile */

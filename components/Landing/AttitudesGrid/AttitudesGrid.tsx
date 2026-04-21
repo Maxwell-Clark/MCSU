@@ -27,7 +27,7 @@ const ATTITUDES_DATA: TileData[] = [
     title: 'Patience',
     description: "Certain things can't be hurried but they do unfold in their time",
     icon: IconButterfly,
-    colorClass: 'lightCyan',
+    colorClass: 'white',
   },
   {
     position: 1,
@@ -57,7 +57,7 @@ const ATTITUDES_DATA: TileData[] = [
     description:
       'Allow all experiences to pass, good, bad or neutral.. Not clinging, grasping, avoiding, or giving up.',
     icon: IconFeather,
-    colorClass: 'lightCyan',
+    colorClass: 'white',
   },
   {
     position: 6,
@@ -65,7 +65,7 @@ const ATTITUDES_DATA: TileData[] = [
     description:
       'Become aware of how we judge ourselves, others, thoughts and situations. And impartially witness.',
     icon: IconEye,
-    colorClass: 'darkBlue',
+    colorClass: 'white',
   },
   {
     position: 7,

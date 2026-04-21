@@ -16,8 +16,6 @@ import {
     ScrollArea,
     rem,
     useMantineTheme,
-    useMantineColorScheme,
-    ActionIcon
   } from '@mantine/core';
   import { useDisclosure } from '@mantine/hooks';
   import Link from 'next/link';
@@ -28,19 +26,16 @@ import Image from 'next/image';
   import {
     IconNotification,
     IconSunset2,
-    IconMoonStars,
     IconBook,
     IconHeartHandshake,
     IconHeadphones,
     IconSchool,
     IconChevronDown,
     IconCalendarFilled,
-    IconInfoCircle, IconUsers, IconBuilding, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar, IconIdBadge2,
-    IconHeart
+    IconInfoCircle, IconUsers, IconBuilding, IconBuildingCommunity, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar, IconIdBadge2,
   } from '@tabler/icons-react';
   import classes from './Header.module.css';
-import { useState } from 'react';
-import { useDonateModal } from '../Donate/DonateModal';
+import { useEffect, useState } from 'react';
   
   const whoWeAreData = [
     {
@@ -60,6 +55,12 @@ import { useDonateModal } from '../Donate/DonateModal';
       title: 'Board and Team',
       id: 'board',
       description: 'Explore our dedicated board members and team, committed to promoting mindfulness.',
+    },
+    {
+      icon: IconBuildingCommunity,
+      title: 'Our Building',
+      id: 'facilities',
+      description: 'Our new mindfulness center under construction in St. George.',
     }
   ];
   
@@ -194,10 +195,24 @@ import { useDonateModal } from '../Donate/DonateModal';
   
   export function Header() {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-    const [linksOpened, setLinksOpened] = useState({});    
+    const [linksOpened, setLinksOpened] = useState({});
     const theme = useMantineTheme();
-    const { toggleColorScheme } = useMantineColorScheme();
-    const { open: openDonate } = useDonateModal();
+
+    useEffect(() => {
+      let cancelled = false;
+      const tryInit = () => {
+        if (cancelled) return;
+        if (window.Givebutter?.init) {
+          window.Givebutter.init();
+        } else {
+          setTimeout(tryInit, 200);
+        }
+      };
+      tryInit();
+      return () => {
+        cancelled = true;
+      };
+    }, []);
 
     const toggleLinks = (key) => {
         setLinksOpened((prevState) => ({
@@ -275,19 +290,15 @@ import { useDonateModal } from '../Donate/DonateModal';
 
             <Group gap="sm">
               <Button
-                onClick={openDonate}
+                data-gb-account="Ff8VH2HNtdEDHuXt"
+                data-gb-campaign="mcsu-donate-v7kc8r"
                 size="compact-sm"
-                radius="xl"
-                leftSection={<IconHeart size={14} />}
-                className={classes.donateButton}
+                className={classes.navButton}
                 visibleFrom="md"
               >
                 Donate
               </Button>
               <UserMenu />
-              <ActionIcon onClick={toggleColorScheme}>
-                <IconMoonStars  style={{ width: '70%', height: '70%' }} stroke={1.5} color="#ffffff" />
-              </ActionIcon>
             </Group>
   
             <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom='md' />
@@ -364,11 +375,11 @@ import { useDonateModal } from '../Donate/DonateModal';
 
           <Group justify="center" pb="md" gap="sm">
             <Button
-              onClick={() => { closeDrawer(); openDonate(); }}
+              data-gb-account="Ff8VH2HNtdEDHuXt"
+              data-gb-campaign="mcsu-donate-v7kc8r"
               size="md"
-              radius="xl"
-              leftSection={<IconHeart size={16} />}
-              className={classes.donateButton}
+              className={classes.navButton}
+              onClick={closeDrawer}
             >
               Donate
             </Button>

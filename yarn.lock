@@ -9990,6 +9990,7 @@ __metadata:
     react-dom: "npm:^19.2.4"
     react-leaflet: "npm:^4.2.1"
     react-youtube: "npm:^10.1.0"
+    sharp: "npm:^0.34.5"
     storybook: "npm:^8.1.10"
     storybook-dark-mode: "npm:^4.0.2"
     stylelint: "npm:^16.6.1"
@@ -12474,7 +12475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharp@npm:^0.34.4":
+"sharp@npm:^0.34.4, sharp@npm:^0.34.5":
   version: 0.34.5
   resolution: "sharp@npm:0.34.5"
   dependencies:

@@ -4,11 +4,9 @@ import { Container, Title, Text, Button, Group } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import Link from 'next/link';
 import { TIERS } from '@/lib/membership-tiers';
-import { useDonateModal } from '../Donate/DonateModal';
 import classes from './MembershipPage.module.css';
 
 export function MembershipPage() {
-  const { open: openDonate } = useDonateModal();
   return (
     <Container size="xl" py="xl" className={classes.section}>
       {/* Hero Section */}
@@ -87,9 +85,7 @@ export function MembershipPage() {
           Not ready for membership? Any contribution is welcome and deeply appreciated.
         </Text>
         <Group justify="center" mt="md">
-          <Button onClick={openDonate} variant="outline" size="md">
-            Donate here
-          </Button>
+          <givebutter-widget id="gKwwRg" />
         </Group>
         <Text className={classes.closingNote}>
           Mindful Memberships are partially tax-deductible. The deductible portion equals your

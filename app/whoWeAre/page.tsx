@@ -1,6 +1,7 @@
 import { WWALeadership } from '@/components/WWALeadership/WWALeadership';
 import { WWAOverview } from '@/components/WWAOverview/WWAOverview'
 import { WWABoard } from '@/components/WWABoard/WWABoard';
+import { WWAFacilities } from '@/components/WWAFacilities/WWAFacilities';
 export default function WhoWeArePage() {
     const data = [
         {
@@ -50,6 +51,9 @@ export default function WhoWeArePage() {
     </div>
     <div id='board'>
       <WWABoard />
+    </div>
+    <div id='facilities'>
+      <WWAFacilities />
     </div>
     </>
   );

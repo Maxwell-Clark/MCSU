@@ -13,9 +13,9 @@ describe('LandingHero', () => {
       expect(screen.getByText('"Training the Mind - Opening the Heart"')).toBeInTheDocument();
     });
 
-    it('renders the CTA button', () => {
+    it('renders the Join Us CTA button', () => {
       render(<LandingHero />);
-      expect(screen.getByRole('button', { name: /donate/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /join us/i })).toBeInTheDocument();
     });
   });
 
@@ -43,10 +43,10 @@ describe('LandingHero', () => {
   });
 
   describe('Button', () => {
-    it('donate button is clickable', async () => {
+    it('Join Us button is present', () => {
       render(<LandingHero />);
-      const button = screen.getByRole('button', { name: /donate/i });
-      expect(button).not.toBeDisabled();
+      const button = screen.getByRole('link', { name: /join us/i });
+      expect(button).toBeInTheDocument();
     });
 
     it('button has xl size styling', () => {

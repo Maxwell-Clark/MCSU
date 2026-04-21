@@ -3,11 +3,9 @@
 import { Container, Button, Text } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import Image from 'next/image';
-import { useDonateModal } from '../../Donate/DonateModal';
 import classes from './LandingHero.module.css';
 
 export function LandingHero() {
-  const { open: openDonate } = useDonateModal();
   return (
     <div className={classes.hero}>
       {/* Floating blob decorations */}
@@ -34,15 +32,6 @@ export function LandingHero() {
           <div className={classes.heroButtons}>
             <Button component="a" href="/membership" size="xl" radius="xl" className={classes.control}>
               Join Us
-            </Button>
-            <Button
-              onClick={openDonate}
-              size="xl"
-              radius="xl"
-              variant="outline"
-              className={classes.donateControl}
-            >
-              Donate
             </Button>
           </div>
         </div>

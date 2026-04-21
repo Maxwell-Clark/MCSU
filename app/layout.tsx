@@ -18,10 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
 
   useEffect(() => {
-    // This effect runs whenever the pathname changes
-    // Check if there's a hash in the URL
     const hash = window.location.hash;
-    console.log('scroll to', hash)
 
     if (hash) {
       // Try to find the element with the given id
