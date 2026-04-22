@@ -219,12 +219,25 @@
   }
 }
 
-.control {
+.heroButtons {
+  display: flex;
+  gap: var(--mantine-spacing-md);
   margin-top: calc(var(--mantine-spacing-xl) * 1.5);
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.control {
   background: linear-gradient(135deg, #698465 0%, #567354 100%);
   color: white;
   font-weight: 600;
   font-size: rem(22px);
+  line-height: 1;
   padding: rem(20px) rem(48px);
   box-shadow: 0 4px 15px rgba(105, 132, 101, 0.4);
   transition: transform 300ms var(--ease-organic),
@@ -264,11 +277,71 @@
   }
 }
 
+.donateControl {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  font-size: rem(22px);
+  line-height: 1;
+  padding: rem(20px) rem(48px);
+  transition: transform 300ms var(--ease-organic),
+              box-shadow var(--transition-normal),
+              background var(--transition-fast),
+              border-color var(--transition-fast);
+
+  @mixin hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffffff;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.15);
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: 100%;
+  }
+}
+
 @keyframes pulseButton {
   0%, 100% {
     box-shadow: 0 4px 15px rgba(105, 132, 101, 0.4);
   }
   50% {
     box-shadow: 0 6px 25px rgba(105, 132, 101, 0.6);
+  }
+}
+
+/* Floating scroll-down arrow */
+.scrollArrow {
+  margin-top: var(--mantine-spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: rem(8px);
+  border-radius: 50%;
+  transition: color var(--transition-normal), background var(--transition-normal);
+  animation: bounceArrow 2s ease-in-out infinite;
+
+  @mixin hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
   }
 }

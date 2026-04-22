@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Stepper,
@@ -17,6 +17,7 @@ import {
 } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { createClient } from '@/lib/supabase/client';
+import { passwordSchema, phoneSchema, emailSchema } from '@/lib/validations';
 import type { TierData } from '@/lib/membership-tiers';
 import classes from './SignupWizard.module.css';
 
@@ -27,6 +28,7 @@ interface SignupWizardProps {
 
 export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
   const router = useRouter();
+  const formRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [mode, setMode] = useState<'signup' | 'login'>('signup');
 
@@ -38,6 +40,7 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [paymentComplete, setPaymentComplete] = useState(false);
 
   // Re-initialize Givebutter when reaching payment step
   useEffect(() => {
@@ -46,10 +49,31 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
     }
   }, [active]);
 
+  // Listen for Givebutter payment success events
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'givebutter' && event.data?.event === 'donation_complete') {
+        setPaymentComplete(true);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   const handleNextAccount = () => {
     setError('');
-    if (!name.trim() || !email.trim() || !password.trim()) {
-      setError('Please fill in all fields.');
+    if (!name.trim()) {
+      setError('Please enter your name.');
+      return;
+    }
+    const emailResult = emailSchema.safeParse(email);
+    if (!emailResult.success) {
+      setError(emailResult.error.issues[0]?.message || 'Invalid email');
+      return;
+    }
+    const passwordResult = passwordSchema.safeParse(password);
+    if (!passwordResult.success) {
+      setError(passwordResult.error.issues[0]?.message || 'Invalid password');
       return;
     }
     setActive(1);
@@ -57,8 +81,9 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
 
   const handleNextContact = async () => {
     setError('');
-    if (!phone.trim()) {
-      setError('Please enter your phone number.');
+    const phoneResult = phoneSchema.safeParse(phone);
+    if (!phoneResult.success) {
+      setError(phoneResult.error.issues[0]?.message || 'Invalid phone number');
       return;
     }
 
@@ -77,6 +102,10 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
         return;
       }
 
+      // Sign in immediately after signup so the session is ready
+      const supabase = createClient();
+      await supabase.auth.signInWithPassword({ email, password });
+      setPassword('');
       setActive(2);
     } catch {
       setError('An error occurred. Please try again.');
@@ -115,6 +144,7 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
   // Login mode — simple form, no stepper
   if (mode === 'login') {
     return (
+      <div ref={formRef}>
       <Paper withBorder shadow="md" p={30} radius="md">
         <form onSubmit={handleLogin}>
           <Stack>
@@ -154,19 +184,20 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
               type="button"
               size="sm"
               ta="center"
-              onClick={() => { setMode('signup'); setError(''); }}
+              onClick={() => { setMode('signup'); setError(''); setTimeout(() => formRef.current?.querySelector<HTMLInputElement>('input')?.focus(), 100); }}
             >
               Need an account? Sign up
             </Anchor>
           </Stack>
         </form>
       </Paper>
+      </div>
     );
   }
 
   // Signup wizard with stepper
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} ref={formRef}>
       <Stepper active={active} onStepClick={(step) => step < active && setActive(step)}>
         <Stepper.Step label="Account" description="Name & credentials">
           <Paper withBorder shadow="md" p={30} mt="md" radius="md">
@@ -210,7 +241,7 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
                   component="button"
                   type="button"
                   size="sm"
-                  onClick={() => { setMode('login'); setError(''); }}
+                  onClick={() => { setMode('login'); setError(''); setTimeout(() => formRef.current?.querySelector<HTMLInputElement>('input')?.focus(), 100); }}
                 >
                   Already have an account?
                 </Anchor>
@@ -260,36 +291,21 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
               {tier.monthlyPrice} &middot; {tier.yearlyPrice}
             </Text>
 
-            <givebutter-widget id={tier.givebutterId}></givebutter-widget>
+            <div className={classes.widgetCenter}>
+              <givebutter-widget id={tier.givebutterId}></givebutter-widget>
+            </div>
           </Paper>
 
           <Button
-            variant="subtle"
+            variant={paymentComplete ? 'filled' : 'subtle'}
             fullWidth
             mt="lg"
-            loading={loading}
-            onClick={async () => {
-              setLoading(true);
-              try {
-                const supabase = createClient();
-                const { error: signInError } = await supabase.auth.signInWithPassword({
-                  email,
-                  password,
-                });
-                if (signInError) {
-                  setError('Sign-in failed. Please try logging in from the membership page.');
-                  return;
-                }
-                router.push('/membership/dashboard');
-                router.refresh();
-              } catch {
-                setError('An error occurred. Please try again.');
-              } finally {
-                setLoading(false);
-              }
+            onClick={() => {
+              router.push('/membership/dashboard');
+              router.refresh();
             }}
           >
-            Go to Dashboard
+            {paymentComplete ? 'Payment Complete — Go to Dashboard' : 'Go to Dashboard'}
           </Button>
         </Stepper.Step>
       </Stepper>

@@ -4,9 +4,11 @@ import { Container, Title, Text, Button, Group } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import Link from 'next/link';
 import { TIERS } from '@/lib/membership-tiers';
+import { useDonateModal } from '../Donate/DonateModal';
 import classes from './MembershipPage.module.css';
 
 export function MembershipPage() {
+  const { open: openDonate } = useDonateModal();
   return (
     <Container size="xl" py="xl" className={classes.section}>
       {/* Hero Section */}
@@ -14,27 +16,29 @@ export function MembershipPage() {
         <Title order={1} className={classes.heroTitle}>
           Mindful Membership
         </Title>
-        <Text className={classes.heroText}>
-          When you become a member of the Mindfulness Center of Southern Utah, you are joining a
-          community rooted in presence, compassion, and shared growth. Your membership directly
-          sustains the programs, resources, and spaces that make mindfulness accessible to everyone
-          in our region.
+        <Text className={classes.heroSubtitle}>
+          Practice together. Give back. Belong.
         </Text>
         <Text className={classes.heroText}>
-          Whether you are just beginning your mindfulness journey or deepening a long-standing
-          practice, your support helps us continue offering evidence-based programs, community
-          events, and contemplative resources for all.
+          Mindfulness changes lives — quietly, gradually, and profoundly. We believe everyone
+          deserves access to the tools and community that make mindful living possible, regardless
+          of their circumstances.
         </Text>
-        <Group justify="center" mt="lg">
-          <Button component={Link} href="/donate" variant="outline" size="md">
-            Donate Instead
-          </Button>
-        </Group>
+        <Text className={classes.heroText}>
+          Every Mindful Membership directly funds free mindfulness programs for those who need them
+          most — including residents at Switchpoint Community Resource Center, veterans at the
+          Southern Utah Veterans Home, and patrons of the Washington County Library System.
+        </Text>
+        <Text className={classes.heroText}>
+          Membership is also an opportunity to practice generosity as a form of mindfulness — to
+          give with intention, connect with a like-minded community, and know that your support
+          creates real, tangible change.
+        </Text>
       </div>
 
       {/* Tiers Section */}
       <Title order={2} className={classes.tiersTitle}>
-        Mindful Membership Levels
+        Choose your level of practice
       </Title>
 
       <div className={classes.tiersGrid}>
@@ -42,20 +46,24 @@ export function MembershipPage() {
           <div
             key={tier.slug}
             className={`${classes.tierCard} ${tier.featured ? classes.tierCardFeatured : ''}`}
+            role="region"
+            aria-label={`${tier.name} membership tier`}
           >
             {tier.featured && <div className={classes.featuredBadge}>Most Popular</div>}
 
             <div className={classes.tierName}>{tier.name}</div>
+            <div className={classes.tierTagline}>{tier.tagline}</div>
 
             <div className={classes.tierPriceBlock}>
               <div className={classes.tierPrice}>{tier.monthlyPrice}</div>
               <div className={classes.tierPriceAlt}>{tier.yearlyPrice}</div>
             </div>
 
+            {tier.prefix && <div className={classes.tierPrefix}>{tier.prefix}</div>}
             <ul className={classes.benefitsList}>
               {tier.benefits.map((benefit) => (
                 <li key={benefit} className={classes.benefitItem}>
-                  <IconCheck size={20} className={classes.benefitIcon} />
+                  <IconCheck size={20} className={classes.benefitIcon} aria-hidden="true" />
                   <span>{benefit}</span>
                 </li>
               ))}
@@ -76,14 +84,16 @@ export function MembershipPage() {
       {/* Closing Section */}
       <div className={classes.closingSection}>
         <Text className={classes.closingText}>
-          Your generosity is an investment in our shared well-being. Every membership helps us
-          expand access to mindfulness education, support our teachers, and strengthen the fabric of
-          our community.
+          Not ready for membership? Any contribution is welcome and deeply appreciated.
         </Text>
+        <Group justify="center" mt="md">
+          <Button onClick={openDonate} variant="outline" size="md">
+            Donate here
+          </Button>
+        </Group>
         <Text className={classes.closingNote}>
-          The Mindfulness Center of Southern Utah is a 501(c)(3) nonprofit organization. Your
-          membership may be tax-deductible to the extent allowed by law. Please consult your tax
-          advisor for details.
+          Mindful Memberships are partially tax-deductible. The deductible portion equals your
+          contribution minus the fair market value of member benefits received.
         </Text>
       </div>
     </Container>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Container, Title, Text, Button, Group } from '@mantine/core';
 import { IconHeartHandshake, IconBook, IconUsers } from '@tabler/icons-react';
 import Link from 'next/link';
@@ -27,6 +28,10 @@ const IMPACT_AREAS = [
 ];
 
 export function DonatePage() {
+  useEffect(() => {
+    window.Givebutter?.init();
+  }, []);
+
   return (
     <Container size="xl" py="xl" className={classes.section}>
       {/* Hero */}
@@ -49,7 +54,7 @@ export function DonatePage() {
       <div className={classes.impactGrid}>
         {IMPACT_AREAS.map((area) => (
           <div key={area.title} className={classes.impactCard}>
-            <area.icon size={40} stroke={1.5} className={classes.impactIcon} />
+            <area.icon size={40} stroke={1.5} className={classes.impactIcon} aria-hidden="true" />
             <div className={classes.impactTitle}>{area.title}</div>
             <Text className={classes.impactText}>{area.description}</Text>
           </div>
@@ -61,7 +66,9 @@ export function DonatePage() {
         <Title order={2} className={classes.widgetTitle}>
           Make Your Gift
         </Title>
-        <givebutter-widget id="gKwwRg"></givebutter-widget>
+        <div className={classes.widgetCenter}>
+          <givebutter-widget id="gKwwRg"></givebutter-widget>
+        </div>
       </div>
 
       {/* Closing */}

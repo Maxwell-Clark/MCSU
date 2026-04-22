@@ -20,7 +20,7 @@ export async function getSession() {
       id: user.id,
       email: user.email!,
       name: dbUser?.name || '',
-      role: dbUser?.role || 'admin',
+      role: dbUser?.role || 'member',
       membershipTier: dbUser?.membershipTier || null,
     },
   };
@@ -49,8 +49,8 @@ export async function requireAdmin() {
 export async function requireMember() {
   const session = await requireAuth();
 
-  if (session.user.role !== 'member') {
-    throw new Error('Forbidden: Member access required');
+  if (!session.user.membershipTier) {
+    throw new Error('Forbidden: Active membership required');
   }
 
   return session;

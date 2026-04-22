@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Title, Text, Container, Paper, Button } from '@mantine/core';
 import Link from 'next/link';
 import type { TierData } from '@/lib/membership-tiers';
@@ -17,9 +17,22 @@ interface PaymentWidgetProps {
 }
 
 export function PaymentWidget({ tier }: PaymentWidgetProps) {
+  const [paymentComplete, setPaymentComplete] = useState(false);
+
   useEffect(() => {
     // Re-initialize Givebutter widgets after client-side navigation
     window.Givebutter?.init();
+  }, []);
+
+  // Listen for Givebutter payment success events
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'givebutter' && event.data?.event === 'donation_complete') {
+        setPaymentComplete(true);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   return (
@@ -32,11 +45,19 @@ export function PaymentWidget({ tier }: PaymentWidgetProps) {
       </Text>
 
       <Paper withBorder shadow="md" p="xl" radius="md" className={classes.widgetContainer}>
-        <givebutter-widget id={tier.givebutterId}></givebutter-widget>
+        <div className={classes.widgetCenter}>
+          <givebutter-widget id={tier.givebutterId}></givebutter-widget>
+        </div>
       </Paper>
 
-      <Button component={Link} href="/membership/dashboard" variant="subtle" fullWidth mt="lg">
-        Go to Dashboard
+      <Button
+        component={Link}
+        href="/membership/dashboard"
+        variant={paymentComplete ? 'filled' : 'subtle'}
+        fullWidth
+        mt="lg"
+      >
+        {paymentComplete ? 'Payment Complete — Go to Dashboard' : 'Go to Dashboard'}
       </Button>
     </Container>
   );

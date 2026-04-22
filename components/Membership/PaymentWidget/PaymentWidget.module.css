@@ -5,3 +5,20 @@
 .widgetContainer {
   min-height: 200px;
 }
+
+.widgetCenter {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 48em) {
+  .wrapper {
+    min-height: auto;
+    padding-top: var(--mantine-spacing-md);
+    padding-bottom: var(--mantine-spacing-md);
+  }
+
+  .widgetContainer {
+    padding: var(--mantine-spacing-md);
+  }
+}

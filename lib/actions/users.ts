@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/supabase/auth';
 import { revalidatePath } from 'next/cache';
-import { TIER_SLUGS } from '@/lib/membership-tiers';
+import { createUserSchema, updateUserSchema } from '@/lib/validations';
 
 function getAdminClient() {
   return createClient(
@@ -37,25 +37,23 @@ interface CreateUserData {
 export async function createUser(data: CreateUserData) {
   await requireAdmin();
 
-  if (!data.email || !data.password || !data.name || !data.role) {
-    throw new Error('Email, password, name, and role are required');
+  const result = createUserSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error(result.error.issues[0]?.message || 'Invalid input');
   }
 
-  if (data.role === 'member' && data.membershipTier && !TIER_SLUGS.includes(data.membershipTier)) {
-    throw new Error('Invalid membership tier');
-  }
-
+  const validated = result.data;
   const supabase = getAdminClient();
 
   const { data: authData, error: createError } = await supabase.auth.admin.createUser({
-    email: data.email,
-    password: data.password,
+    email: validated.email,
+    password: validated.password,
     email_confirm: true,
     user_metadata: {
-      role: data.role,
-      name: data.name,
-      ...(data.phone && { phone: data.phone }),
-      ...(data.membershipTier && { tier: data.membershipTier }),
+      role: validated.role,
+      name: validated.name,
+      ...(validated.phone && { phone: validated.phone }),
+      ...(validated.membershipTier && { tier: validated.membershipTier }),
     },
   });
 
@@ -67,26 +65,32 @@ export async function createUser(data: CreateUserData) {
     throw new Error('Failed to create user');
   }
 
-  const user = await prisma.user.upsert({
-    where: { email: data.email },
-    create: {
-      id: authData.user.id,
-      email: data.email,
-      name: data.name,
-      role: data.role,
-      phone: data.phone || null,
-      membershipTier: data.role === 'member' ? data.membershipTier || null : null,
-    },
-    update: {
-      name: data.name,
-      role: data.role,
-      phone: data.phone || null,
-      membershipTier: data.role === 'member' ? data.membershipTier || null : null,
-    },
-  });
+  try {
+    const user = await prisma.user.upsert({
+      where: { email: validated.email },
+      create: {
+        id: authData.user.id,
+        email: validated.email,
+        name: validated.name,
+        role: validated.role,
+        phone: validated.phone || null,
+        membershipTier: validated.role === 'member' ? validated.membershipTier || null : null,
+      },
+      update: {
+        name: validated.name,
+        role: validated.role,
+        phone: validated.phone || null,
+        membershipTier: validated.role === 'member' ? validated.membershipTier || null : null,
+      },
+    });
 
-  revalidatePath('/admin/users');
-  return user;
+    revalidatePath('/admin/users');
+    return user;
+  } catch (dbError) {
+    // Roll back Supabase user on database failure
+    await supabase.auth.admin.deleteUser(authData.user.id);
+    throw new Error('Failed to create user record. Please try again.');
+  }
 }
 
 interface UpdateUserData {
@@ -99,18 +103,21 @@ interface UpdateUserData {
 export async function updateUser(id: string, data: UpdateUserData) {
   await requireAdmin();
 
-  if (data.role === 'member' && data.membershipTier && !TIER_SLUGS.includes(data.membershipTier)) {
-    throw new Error('Invalid membership tier');
+  const result = updateUserSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error(result.error.issues[0]?.message || 'Invalid input');
   }
+
+  const validated = result.data;
 
   const user = await prisma.user.update({
     where: { id },
     data: {
-      ...(data.name !== undefined && { name: data.name }),
-      ...(data.phone !== undefined && { phone: data.phone || null }),
-      ...(data.role !== undefined && { role: data.role }),
-      ...(data.role !== undefined && {
-        membershipTier: data.role === 'member' ? (data.membershipTier || null) : null,
+      ...(validated.name !== undefined && { name: validated.name }),
+      ...(validated.phone !== undefined && { phone: validated.phone || null }),
+      ...(validated.role !== undefined && { role: validated.role }),
+      ...(validated.role !== undefined && {
+        membershipTier: validated.role === 'member' ? (validated.membershipTier || null) : null,
       }),
     },
   });

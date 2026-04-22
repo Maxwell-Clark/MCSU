@@ -60,6 +60,20 @@
   }
 }
 
+.donateLink {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: var(--mantine-font-size-sm);
+  color: light-dark(var(--color-primary), var(--color-primary-light));
+  transition: color var(--transition-normal), transform var(--transition-fast);
+
+  @mixin hover {
+    color: light-dark(var(--color-secondary), var(--color-secondary));
+    transform: translateY(-1px);
+  }
+}
+
 .copyright {
   color: light-dark(var(--color-text-light), var(--color-text-light));
   font-size: var(--mantine-font-size-xs);

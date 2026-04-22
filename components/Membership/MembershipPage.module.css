@@ -22,6 +22,13 @@
   margin-bottom: var(--mantine-spacing-md);
 }
 
+.heroSubtitle {
+  font-size: var(--font-size-h3);
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: var(--mantine-spacing-lg);
+}
+
 .heroText {
   color: var(--color-text-muted);
   max-width: 700px;
@@ -99,8 +106,23 @@
   font-size: var(--font-size-h3);
   font-weight: 700;
   color: var(--color-text);
-  margin-bottom: var(--mantine-spacing-xs);
+  margin-bottom: var(--space-xs);
   text-align: center;
+}
+
+.tierTagline {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+  margin-bottom: var(--mantine-spacing-xs);
+}
+
+.tierPrefix {
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xs);
 }
 
 .tierPriceBlock {
@@ -177,6 +199,18 @@
 
   .tierCardFeatured {
     transform: none;
+    border-width: 2px;
+    box-shadow: var(--shadow-soft-md);
+    background: var(--color-surface);
+  }
+
+  .tierCardFeatured::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(var(--color-primary-rgb, 76, 110, 89), 0.04), transparent);
+    pointer-events: none;
   }
 
   .tierCardFeatured:hover {
@@ -185,5 +219,13 @@
 
   .heroSection {
     padding: var(--space-2xl) var(--mantine-spacing-md);
+  }
+
+  .heroTitle {
+    font-size: var(--font-size-h2);
+  }
+
+  .heroSubtitle {
+    font-size: var(--font-size-h4);
   }
 }

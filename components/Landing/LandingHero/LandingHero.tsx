@@ -1,8 +1,13 @@
+'use client';
+
 import { Container, Button, Text } from '@mantine/core';
+import { IconChevronDown } from '@tabler/icons-react';
 import Image from 'next/image';
+import { useDonateModal } from '../../Donate/DonateModal';
 import classes from './LandingHero.module.css';
 
 export function LandingHero() {
+  const { open: openDonate } = useDonateModal();
   return (
     <div className={classes.hero}>
       {/* Floating blob decorations */}
@@ -16,7 +21,7 @@ export function LandingHero() {
         <div className={classes.textOverlay}>
           <Image
             src="/images/MCSU final deliverable_MCSU Horizontal White.png"
-            alt="Mindfulness Center of Southern Utah"
+            alt="Mindfulness Center of Southern Utah logo"
             width={400}
             height={112}
             priority
@@ -26,10 +31,31 @@ export function LandingHero() {
             "Training the Mind - Opening the Heart"
           </Text>
 
-          <Button size="xl" radius="xl" className={classes.control}>
-            Donate
-          </Button>
+          <div className={classes.heroButtons}>
+            <Button component="a" href="/membership" size="xl" radius="xl" className={classes.control}>
+              Join Us
+            </Button>
+            <Button
+              onClick={openDonate}
+              size="xl"
+              radius="xl"
+              variant="outline"
+              className={classes.donateControl}
+            >
+              Donate
+            </Button>
+          </div>
         </div>
+
+        <button
+          className={classes.scrollArrow}
+          onClick={() =>
+            document.getElementById('training-brain')?.scrollIntoView({ behavior: 'smooth' })
+          }
+          aria-label="Scroll to next section"
+        >
+          <IconChevronDown size={36} stroke={2} />
+        </button>
       </Container>
     </div>
   );

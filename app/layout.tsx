@@ -7,6 +7,7 @@ import '../styles/globals.css';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { Header } from '../components/Header/Header';
 import { Footer } from '../components/Footer/Footer';
+import { DonateModalProvider } from '../components/Donate/DonateModal';
 import { theme } from '../theme';
 import Script from 'next/script';
 
@@ -44,9 +45,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">
-          <Header />
-          {children}
-          <Footer />
+          <DonateModalProvider>
+            <Header />
+            {children}
+            <Footer />
+          </DonateModalProvider>
         </MantineProvider>
       </body>
     </html>

@@ -9,7 +9,9 @@ export default function HomePage() {
   return (
     <>
       <LandingHero />
-      <TrainingBrain />
+      <div id="training-brain">
+        <TrainingBrain />
+      </div>
       <OpeningHeart />
       <AttitudesGrid />
       <LandingFAQ />

@@ -198,6 +198,20 @@
   }
 }
 
+.donateButton {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+
+  @mixin hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.1);
+  }
+}
+
 .burger {
   color: var(--header-text-fixed);
 }

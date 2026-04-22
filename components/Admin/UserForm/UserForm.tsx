@@ -11,9 +11,8 @@ import {
   Alert,
   Title,
 } from '@mantine/core';
-import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
+import { IconAlertCircle } from '@tabler/icons-react';
 import { createUser, updateUser } from '@/lib/actions/users';
-import { TIERS } from '@/lib/membership-tiers';
 
 interface UserData {
   id: string;
@@ -37,11 +36,8 @@ export function UserForm({ user }: UserFormProps) {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState(user?.phone || '');
   const [role, setRole] = useState(user?.role || 'member');
-  const [membershipTier, setMembershipTier] = useState(user?.membershipTier || '');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const tierOptions = TIERS.map((t) => ({ value: t.slug, label: t.name }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +50,6 @@ export function UserForm({ user }: UserFormProps) {
           name,
           phone,
           role,
-          membershipTier: role === 'member' ? membershipTier || null : null,
         });
       } else {
         if (!password) {
@@ -68,7 +63,6 @@ export function UserForm({ user }: UserFormProps) {
           name,
           phone: phone || undefined,
           role,
-          membershipTier: role === 'member' ? membershipTier || undefined : undefined,
         });
       }
       router.push('/admin/users');
@@ -134,16 +128,6 @@ export function UserForm({ user }: UserFormProps) {
           onChange={(val) => setRole(val || 'member')}
           required
         />
-
-        {role === 'member' && (
-          <Select
-            label="Membership Tier"
-            placeholder="Select tier"
-            data={tierOptions}
-            value={membershipTier}
-            onChange={(val) => setMembershipTier(val || '')}
-          />
-        )}
 
         <Button type="submit" loading={loading}>
           {isEditing ? 'Save Changes' : 'Create User'}

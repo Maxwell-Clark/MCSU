@@ -35,10 +35,12 @@ import Image from 'next/image';
     IconSchool,
     IconChevronDown,
     IconCalendarFilled,
-    IconInfoCircle, IconUsers, IconBuilding, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar, IconIdBadge2
+    IconInfoCircle, IconUsers, IconBuilding, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar, IconIdBadge2,
+    IconHeart
   } from '@tabler/icons-react';
   import classes from './Header.module.css';
 import { useState } from 'react';
+import { useDonateModal } from '../Donate/DonateModal';
   
   const whoWeAreData = [
     {
@@ -195,6 +197,7 @@ import { useState } from 'react';
     const [linksOpened, setLinksOpened] = useState({});    
     const theme = useMantineTheme();
     const { toggleColorScheme } = useMantineColorScheme();
+    const { open: openDonate } = useDonateModal();
 
     const toggleLinks = (key) => {
         setLinksOpened((prevState) => ({
@@ -269,8 +272,18 @@ import { useState } from 'react';
                 Blog
               </a>
             </Group>
-  
+
             <Group gap="sm">
+              <Button
+                onClick={openDonate}
+                size="compact-sm"
+                radius="xl"
+                leftSection={<IconHeart size={14} />}
+                className={classes.donateButton}
+                visibleFrom="md"
+              >
+                Donate
+              </Button>
               <UserMenu />
               <ActionIcon onClick={toggleColorScheme}>
                 <IconMoonStars  style={{ width: '70%', height: '70%' }} stroke={1.5} color="#ffffff" />
@@ -349,7 +362,16 @@ import { useState } from 'react';
 
           <Divider my="sm" />
 
-          <Group justify="center" pb="md">
+          <Group justify="center" pb="md" gap="sm">
+            <Button
+              onClick={() => { closeDrawer(); openDonate(); }}
+              size="md"
+              radius="xl"
+              leftSection={<IconHeart size={16} />}
+              className={classes.donateButton}
+            >
+              Donate
+            </Button>
             <UserMenu />
           </Group>
         </ScrollArea>
