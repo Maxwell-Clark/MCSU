@@ -55,12 +55,6 @@ import { useEffect, useState } from 'react';
       title: 'Board and Team',
       id: 'board',
       description: 'Explore our dedicated board members and team, committed to promoting mindfulness.',
-    },
-    {
-      icon: IconBuildingCommunity,
-      title: 'Our Building',
-      id: 'facilities',
-      description: 'Our new mindfulness center under construction in St. George.',
     }
   ];
   
