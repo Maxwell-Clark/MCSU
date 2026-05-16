@@ -106,8 +106,8 @@ export async function createLocation(data: LocationData) {
 
   const location = await prisma.classLocation.create({ data });
 
-  revalidatePath('/admin/classes');
-  revalidatePath('/admin/classes/locations');
+  revalidatePath('/admin/classes', 'layout');
+  revalidatePath('/offerings');
   return location;
 }
 
@@ -117,8 +117,8 @@ export async function updateLocation(id: string, data: LocationData) {
 
   const location = await prisma.classLocation.update({ where: { id }, data });
 
-  revalidatePath('/admin/classes');
-  revalidatePath('/admin/classes/locations');
+  revalidatePath('/admin/classes', 'layout');
+  revalidatePath('/offerings');
   return location;
 }
 
@@ -127,8 +127,8 @@ export async function deleteLocation(id: string) {
   if (!session?.user?.id) throw new Error('Unauthorized');
 
   await prisma.classLocation.delete({ where: { id } });
-  revalidatePath('/admin/classes');
-  revalidatePath('/admin/classes/locations');
+  revalidatePath('/admin/classes', 'layout');
+  revalidatePath('/offerings');
 }
 
 export async function getLocations() {
