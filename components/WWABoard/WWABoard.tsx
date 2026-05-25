@@ -6,7 +6,8 @@ import classes from './WWABoard.module.css';
 import NinaHeadshot from '@/assets/img/nina_headshot.jpg';
 import Generic from '@/assets/img/generic.png';
 import GaelHeadshot from '@/assets/img/gael_headshot.jpg';
-import GinaHeadshot from '@/assets/img/gina.jpg';
+import GinaHeadshot from '@/assets/img/gfoglia.png';
+import DavidTate from '@/assets/img/david_tate.jpeg';
 import type { StaticImageData } from 'next/image';
 
 interface BoardMember {
@@ -48,7 +49,7 @@ In recent years, Harlan has served in various community and non-profit organizat
 Harlan obtained a B.A. from Brigham Young University and a Juris Doctorate from the University of Minnesota. He resides in Provo, Utah with his wife RaDene.`,
   },
   {
-    image: Generic,
+    image: DavidTate.src,
     name: 'David Tate',
     category: 'Vice Chair',
     description: `Dr. David Tate is a psychologist in St. George, Utah, where he has been in private practice for over 25 years. He serves on the Board of Directors for the Mindfulness Center of Southern Utah.

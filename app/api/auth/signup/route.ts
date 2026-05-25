@@ -4,7 +4,15 @@ import { prisma } from '@/lib/prisma';
 import { signupSchema } from '@/lib/validations';
 import { logger } from '@/lib/logger';
 
+// Membership signup is disabled — public account creation is currently hidden.
+// Flip this to `true` to re-enable registration.
+const SIGNUP_ENABLED = false;
+
 export async function POST(request: Request) {
+  if (!SIGNUP_ENABLED) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   try {
     const body = await request.json();
 

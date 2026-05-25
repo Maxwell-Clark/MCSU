@@ -2,12 +2,16 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Container, Text, Paper, Skeleton } from '@mantine/core';
-import { IconCalendarOff } from '@tabler/icons-react';
-import { ClassEvent, ClassLocation } from '@/data/classData';
+import { Container, Text, Paper, Skeleton, Modal, Button, Stack, Group } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconCalendarOff, IconMapPin, IconVideo, IconClock } from '@tabler/icons-react';
+import { ClassEvent, ClassLocation, dayNames } from '@/data/classData';
 import { FeaturedClasses } from './FeaturedClasses';
 import { ScheduleFilters, CategoryFilter } from './ScheduleFilters';
 import styles from './ScheduleHub.module.css';
+
+const mapsUrl = (query: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
 // Dynamic import for Leaflet map (requires browser APIs)
 const ClassMap = dynamic(
@@ -25,11 +29,24 @@ const ClassMap = dynamic(
 interface ScheduleHubProps {
   classes: ClassEvent[];
   locations: ClassLocation[];
-  onClassClick?: (classEvent: ClassEvent) => void;
 }
 
-export function ScheduleHub({ classes, locations, onClassClick }: ScheduleHubProps) {
+export function ScheduleHub({ classes, locations }: ScheduleHubProps) {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
+  const [selected, setSelected] = useState<ClassEvent | null>(null);
+  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
+
+  // In-person classes go straight to Google Maps; virtual/hybrid open a modal
+  // (hybrid offers both directions and the join link).
+  const handleJoinClick = (classEvent: ClassEvent) => {
+    if (classEvent.type === 'in-person') {
+      const query = classEvent.location.address || classEvent.location.name;
+      window.open(mapsUrl(query), '_blank', 'noopener,noreferrer');
+      return;
+    }
+    setSelected(classEvent);
+    openModal();
+  };
 
   // Filter classes by category
   const filteredClasses =
@@ -52,7 +69,16 @@ export function ScheduleHub({ classes, locations, onClassClick }: ScheduleHubPro
           </Text>
         </div>
 
-        <FeaturedClasses classes={classes} onClassClick={onClassClick} />
+        <FeaturedClasses classes={classes} onClassClick={handleJoinClick} />
+
+        <div id="calendar" className={styles.calendarEmbed}>
+          <h3 className={styles.calendarHeading}>Upcoming Events</h3>
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=c8e66becd95ebd3f118ddf8a99bb2ca0dab0fa98ee1535e668d581cc336e7849%40group.calendar.google.com&ctz=America%2FDenver"
+            className={styles.calendarIframe}
+            title="MCSU Events Calendar"
+          />
+        </div>
 
         <hr className={styles.divider} />
 
@@ -77,6 +103,58 @@ export function ScheduleHub({ classes, locations, onClassClick }: ScheduleHubPro
           </div>
         )}
       </Container>
+
+      <Modal
+        opened={modalOpened}
+        onClose={closeModal}
+        title={selected ? `Join ${selected.title}` : 'Join Class'}
+        centered
+      >
+        {selected && (
+          <Stack gap="md">
+            <Group gap={6} c="dimmed">
+              <IconClock size={16} />
+              <Text size="sm">
+                {selected.dayOfWeek != null ? `${dayNames[selected.dayOfWeek]}s` : 'TBD'}
+                {' · '}
+                {selected.startTime} - {selected.endTime}
+              </Text>
+            </Group>
+
+            {selected.type === 'hybrid' && (
+              <Button
+                component="a"
+                href={mapsUrl(selected.location.address || selected.location.name)}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="light"
+                leftSection={<IconMapPin size={16} />}
+                fullWidth
+              >
+                Get Directions
+              </Button>
+            )}
+
+            {selected.meetingUrl ? (
+              <Button
+                component="a"
+                href={selected.meetingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                leftSection={<IconVideo size={16} />}
+                fullWidth
+              >
+                Join Virtually
+              </Button>
+            ) : (
+              <Text size="sm" c="dimmed">
+                The meeting link hasn&rsquo;t been added yet. Please check the calendar above
+                or contact us for the join link.
+              </Text>
+            )}
+          </Stack>
+        )}
+      </Modal>
     </section>
   );
 }

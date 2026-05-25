@@ -92,7 +92,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background: var(--color-primary);
   transition: width var(--transition-normal), left var(--transition-normal);
   border-radius: 1px;
 }

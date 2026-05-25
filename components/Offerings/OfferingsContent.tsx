@@ -1,11 +1,9 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { Modal } from '@mantine/core';
+import { useCallback } from 'react';
 import { OfferingsHeroModern } from '@/components/Offerings/OfferingsHeroModern';
 import { ScheduleHub } from '@/components/Offerings/ScheduleHub';
 import { ProgramTabs } from '@/components/Offerings/ProgramTabs';
-import { ClassCalendar } from '@/components/Calendar/Calendar';
 import { ClassEvent, ClassLocation } from '@/data/classData';
 
 interface OfferingsContentProps {
@@ -14,22 +12,12 @@ interface OfferingsContentProps {
 }
 
 export function OfferingsContent({ classes, locations }: OfferingsContentProps) {
-  const [calendarModalOpen, setCalendarModalOpen] = useState(false);
-
   const handleScrollToSchedule = useCallback(() => {
     document.getElementById('schedule')?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   const handleScrollToPrograms = useCallback(() => {
     document.getElementById('programs')?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
-  const handleClassClick = useCallback(() => {
-    setCalendarModalOpen(true);
-  }, []);
-
-  const handleJoinProgram = useCallback(() => {
-    setCalendarModalOpen(true);
   }, []);
 
   return (
@@ -39,26 +27,9 @@ export function OfferingsContent({ classes, locations }: OfferingsContentProps) 
         onScrollToPrograms={handleScrollToPrograms}
       />
 
-      <ScheduleHub classes={classes} locations={locations} onClassClick={handleClassClick} />
+      <ScheduleHub classes={classes} locations={locations} />
 
-      <ProgramTabs onJoinClick={handleJoinProgram} />
-
-      <Modal
-        opened={calendarModalOpen}
-        onClose={() => setCalendarModalOpen(false)}
-        size="100%"
-        styles={{
-          header: {
-            height: 0,
-            minHeight: 0,
-            margin: 0,
-            padding: 0,
-            overflow: 'hidden',
-          },
-        }}
-      >
-        <ClassCalendar classes={classes} />
-      </Modal>
+      <ProgramTabs />
     </>
   );
 }

@@ -7,7 +7,6 @@ import {
   IconUser,
   IconDashboard,
   IconLogout,
-  IconSettings,
   IconChevronDown,
 } from '@tabler/icons-react';
 import Link from 'next/link';
@@ -65,18 +64,10 @@ export function UserMenu() {
 
   if (loading) return null;
 
+  // Public account features are hidden — anonymous visitors see no login UI.
+  // Admins reach /login directly (or are redirected there from /admin).
   if (!user) {
-    return (
-      <Button
-        component={Link}
-        href="/login"
-        variant="default"
-        size="compact-sm"
-        className={headerClasses.navButton}
-      >
-        Login
-      </Button>
-    );
+    return null;
   }
 
   return (
@@ -98,7 +89,7 @@ export function UserMenu() {
             {user.email}
           </Text>
         </Menu.Label>
-        {user.role === 'admin' ? (
+        {user.role === 'admin' && (
           <Menu.Item
             component={Link}
             href="/admin"
@@ -106,23 +97,6 @@ export function UserMenu() {
           >
             Admin Dashboard
           </Menu.Item>
-        ) : (
-          <>
-            <Menu.Item
-              component={Link}
-              href="/membership/dashboard"
-              leftSection={<IconDashboard size={14} />}
-            >
-              My Dashboard
-            </Menu.Item>
-            <Menu.Item
-              component={Link}
-              href="/account/profile"
-              leftSection={<IconSettings size={14} />}
-            >
-              Edit Profile
-            </Menu.Item>
-          </>
         )}
         <Menu.Divider />
         <Menu.Item

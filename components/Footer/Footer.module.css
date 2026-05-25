@@ -15,7 +15,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #698465 0%, #674c8f 50%, #d2ddd0 100%);
+  background: var(--color-primary);
 }
 
 .inner {

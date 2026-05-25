@@ -135,13 +135,13 @@
   position: relative;
 }
 
-/* Gradient accent line under title */
+/* Accent line under title */
 .neuroplasticityAccent {
   width: 60px;
   height: 3px;
   margin: var(--mantine-spacing-sm) auto var(--mantine-spacing-lg);
   border-radius: var(--radius-full);
-  background: var(--gradient-accent);
+  background: var(--color-primary);
 }
 
 .neuroplasticityText {

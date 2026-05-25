@@ -5,6 +5,7 @@ import { useState } from 'react';
 import classes from './WWALeadership.module.css';
 import Generic from '@/assets/img/generic.png';
 import GaelHeadshot from '@/assets/img/gael_headshot.jpg';
+import DavidTate from '@/assets/img/david_tate.jpeg';
 import type { StaticImageData } from 'next/image';
 
 interface TeamMember {
@@ -22,7 +23,7 @@ const data: TeamMember[] = [
     description: 'With Gael\'s support and direction, I\'ve developed a keen interest in providing mindfulness programs in the community where we live. I\'ve received training to teach mindfulness based stress reduction through Brown University and have completed the Mindfulness Meditation Teacher Certification Program with Tara Barach and Jack Kornfield. But most importantly, I\'ve developed a consistent personal practice.'
   },
   {
-    image: Generic,
+    image: DavidTate.src,
     name: 'David Tate',
     description: `Dr. David Tate is a psychologist in St. George, Utah, where he has been in private practice for over 25 years. He serves on the Board of Directors for the Mindfulness Center of Southern Utah.
 

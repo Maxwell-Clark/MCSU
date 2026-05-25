@@ -13,10 +13,10 @@ export default function AdminRootLayout({ children }: { children: React.ReactNod
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <ColorSchemeScript defaultColorScheme="auto" />
+        <ColorSchemeScript forceColorScheme="light" />
       </head>
       <body>
-        <MantineProvider theme={theme} defaultColorScheme="auto">
+        <MantineProvider theme={theme} forceColorScheme="light">
           <AdminLayout>{children}</AdminLayout>
         </MantineProvider>
       </body>

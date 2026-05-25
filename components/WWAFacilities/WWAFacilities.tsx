@@ -28,22 +28,7 @@ export function WWAFacilities() {
         />
 
         <Text className={classes.paragraph}>
-          A mindfulness center is under construction at 370 East Tabernacle. Traveling
-          east from the center of St. George, the mindfulness center will be just before
-          Flood Street. The mindfulness center is being constructed to house the
-          Mindfulness Center of Southern Utah.
-        </Text>
-        <Text className={classes.paragraph}>
-          The building will be divided into two parts. One part will provide office space
-          for professionals, such as psychologists and therapists, interested in using
-          mindfulness in their professional practices. There will be about 10 of these
-          offices.
-        </Text>
-        <Text className={classes.paragraph}>
-          The other part of the building will be an open space (a meditation hall) where
-          MCSU can teach classes, host guest speakers and programs, and where our
-          community can meet and practice mindfulness meditation. There should be enough
-          space for 50–75 participants to gather.
+          A mindfulness center is under construction at 370 East Tabernacle.
         </Text>
       </Container>
     </div>

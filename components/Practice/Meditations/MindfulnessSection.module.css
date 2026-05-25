@@ -25,7 +25,7 @@
   overflow: hidden;
 }
 
-/* Left gradient accent bar */
+/* Left accent bar */
 .accordionItem::before {
   content: '';
   position: absolute;
@@ -33,7 +33,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: linear-gradient(180deg, #698465 0%, #674c8f 100%);
+  background: var(--color-primary);
   transform: scaleY(0);
   transform-origin: top;
   transition: transform var(--duration-medium) var(--ease-organic);

@@ -121,7 +121,7 @@
   border-color: light-dark(#c4b8d6, #674c8f);
 }
 
-/* Left gradient accent bar */
+/* Left accent bar */
 .card::before {
   content: '';
   position: absolute;
@@ -129,7 +129,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: linear-gradient(180deg, #674c8f 0%, #698465 100%);
+  background: var(--color-primary);
   transform: scaleY(0);
   transform-origin: top;
   transition: transform var(--duration-medium) var(--ease-organic);

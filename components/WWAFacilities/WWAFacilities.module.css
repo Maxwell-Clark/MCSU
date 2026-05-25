@@ -33,7 +33,7 @@
 .divider {
   width: 80px;
   height: 3px;
-  background: linear-gradient(90deg, #698465, #674c8f);
+  background: var(--color-primary);
   border-radius: 2px;
   margin: var(--mantine-spacing-lg) auto;
 }

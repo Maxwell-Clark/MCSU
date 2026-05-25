@@ -70,6 +70,7 @@ model ClassEvent {
   type       String        // virtual, in-person, hybrid
   color      String
   category   String        // intro, mbsr, everyday, drop-in
+  meetingUrl String?       // join link for virtual / hybrid classes
   active     Boolean       @default(true)
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt

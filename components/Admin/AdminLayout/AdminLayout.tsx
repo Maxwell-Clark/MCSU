@@ -1,8 +1,7 @@
 'use client';
 
-import { AppShell, Burger, Group, Title, ActionIcon, useMantineColorScheme } from '@mantine/core';
+import { AppShell, Burger, Group, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconSun, IconMoon } from '@tabler/icons-react';
 import { AdminSidebar } from '../AdminSidebar/AdminSidebar';
 import classes from './AdminLayout.module.css';
 
@@ -12,7 +11,6 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ children }: AdminLayoutProps) {
   const [opened, { toggle }] = useDisclosure();
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   return (
     <AppShell
@@ -22,21 +20,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       className={classes.shell}
     >
       <AppShell.Header className={classes.header}>
-        <Group h="100%" px="md" justify="space-between">
-          <Group>
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <Title order={3} className={classes.logo}>
-              MCSU Admin
-            </Title>
-          </Group>
-          <ActionIcon
-            variant="default"
-            size="lg"
-            onClick={() => toggleColorScheme()}
-            aria-label="Toggle color scheme"
-          >
-            {colorScheme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
-          </ActionIcon>
+        <Group h="100%" px="md">
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          <Title order={3} className={classes.logo}>
+            MCSU Admin
+          </Title>
         </Group>
       </AppShell.Header>
 

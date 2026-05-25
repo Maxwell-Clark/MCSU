@@ -7,7 +7,7 @@
 .sectionTitle {
   text-align: center;
   margin-bottom: var(--mantine-spacing-md);
-  color: light-dark(var(--color-text), var(--color-text));
+  color: var(--color-primary);
 }
 
 .tagline {

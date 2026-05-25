@@ -2,9 +2,8 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Container, Paper, Title, Text, Center, Anchor } from '@mantine/core';
+import { Container, Paper, Title, Text, Center } from '@mantine/core';
 import { LoginForm } from '@/components/Admin/LoginForm/LoginForm';
-import Link from 'next/link';
 import classes from './login.module.css';
 
 function LoginContent() {
@@ -26,13 +25,6 @@ function LoginContent() {
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
               <LoginForm redirect={redirect} />
             </Paper>
-
-            <Text c="dimmed" size="sm" ta="center" mt="md">
-              Need an account?{' '}
-              <Anchor component={Link} href="/membership" size="sm">
-                Sign up for membership
-              </Anchor>
-            </Text>
           </div>
         </Center>
       </Container>

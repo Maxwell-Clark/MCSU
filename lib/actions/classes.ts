@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/supabase/auth';
+import { geocodeAddress } from '@/lib/geocode';
 import { revalidatePath } from 'next/cache';
 
 // ClassEvent CRUD
@@ -16,6 +17,7 @@ interface ClassEventData {
   type: string;
   color: string;
   category: string;
+  meetingUrl: string | null;
   active: boolean;
   locationId: string;
 }
@@ -96,15 +98,16 @@ export async function getActiveClassEvents() {
 interface LocationData {
   name: string;
   address: string;
-  lat: number;
-  lng: number;
 }
 
 export async function createLocation(data: LocationData) {
   const session = await getSession();
   if (!session?.user?.id) throw new Error('Unauthorized');
 
-  const location = await prisma.classLocation.create({ data });
+  const { lat, lng } = await geocodeAddress(data.address);
+  const location = await prisma.classLocation.create({
+    data: { ...data, lat, lng },
+  });
 
   revalidatePath('/admin/classes', 'layout');
   revalidatePath('/offerings');
@@ -115,7 +118,11 @@ export async function updateLocation(id: string, data: LocationData) {
   const session = await getSession();
   if (!session?.user?.id) throw new Error('Unauthorized');
 
-  const location = await prisma.classLocation.update({ where: { id }, data });
+  const { lat, lng } = await geocodeAddress(data.address);
+  const location = await prisma.classLocation.update({
+    where: { id },
+    data: { ...data, lat, lng },
+  });
 
   revalidatePath('/admin/classes', 'layout');
   revalidatePath('/offerings');

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   TextInput,
-  NumberInput,
   Button,
   Stack,
   Group,
@@ -33,8 +32,6 @@ export function LocationForm({ locations }: LocationFormProps) {
   const router = useRouter();
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
-  const [lat, setLat] = useState<number | string>(0);
-  const [lng, setLng] = useState<number | string>(0);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -42,8 +39,6 @@ export function LocationForm({ locations }: LocationFormProps) {
   const resetForm = () => {
     setName('');
     setAddress('');
-    setLat(0);
-    setLng(0);
     setEditingId(null);
     setError('');
   };
@@ -51,8 +46,6 @@ export function LocationForm({ locations }: LocationFormProps) {
   const handleEdit = (loc: Location) => {
     setName(loc.name);
     setAddress(loc.address);
-    setLat(loc.lat);
-    setLng(loc.lng);
     setEditingId(loc.id);
   };
 
@@ -62,12 +55,7 @@ export function LocationForm({ locations }: LocationFormProps) {
     setLoading(true);
 
     try {
-      const data = {
-        name,
-        address,
-        lat: typeof lat === 'string' ? parseFloat(lat) : lat,
-        lng: typeof lng === 'string' ? parseFloat(lng) : lng,
-      };
+      const data = { name, address };
 
       if (editingId) {
         await updateLocation(editingId, data);
@@ -117,28 +105,11 @@ export function LocationForm({ locations }: LocationFormProps) {
               />
               <TextInput
                 label="Address"
-                placeholder="e.g. 321 N. Mall Dr."
+                placeholder="e.g. 321 N. Mall Dr., St. George, UT"
+                description="Coordinates are looked up automatically from the address"
                 required
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-              />
-            </Group>
-            <Group grow>
-              <NumberInput
-                label="Latitude"
-                placeholder="37.0965"
-                required
-                value={lat}
-                onChange={setLat}
-                decimalScale={6}
-              />
-              <NumberInput
-                label="Longitude"
-                placeholder="-113.5684"
-                required
-                value={lng}
-                onChange={setLng}
-                decimalScale={6}
               />
             </Group>
             <Group>

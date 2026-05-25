@@ -32,7 +32,7 @@ import Image from 'next/image';
     IconSchool,
     IconChevronDown,
     IconCalendarFilled,
-    IconInfoCircle, IconUsers, IconBuilding, IconBuildingCommunity, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar, IconIdBadge2,
+    IconInfoCircle, IconUsers, IconBuilding, IconBuildingCommunity, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar,
   } from '@tabler/icons-react';
   import classes from './Header.module.css';
 import { useEffect, useState } from 'react';
@@ -149,13 +149,6 @@ import { useEffect, useState } from 'react';
       title: 'Business',
       id: 'business',
       description: 'Discover ways your business can support mindfulness and well-being in the workplace.',
-    },
-    {
-      icon: IconIdBadge2,
-      title: 'Membership',
-      id: 'membership',
-      href: '/membership',
-      description: 'Become a member and support our mission while enjoying exclusive benefits.',
     },
   ];
   

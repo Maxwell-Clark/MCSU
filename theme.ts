@@ -140,13 +140,6 @@ export const theme = createTheme({
         },
       },
     },
-    Title: {
-      styles: {
-        root: {
-          color: 'var(--color-text)',
-        },
-      },
-    },
     Text: {
       styles: {
         root: {

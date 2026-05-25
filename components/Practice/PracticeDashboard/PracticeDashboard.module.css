@@ -69,7 +69,7 @@
   font-size: rem(40px);
   font-weight: 900;
   line-height: 1.1;
-  color: light-dark(var(--color-text), var(--color-text));
+  color: var(--color-primary);
   margin-bottom: var(--mantine-spacing-xs);
 }
 

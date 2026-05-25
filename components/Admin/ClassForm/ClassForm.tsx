@@ -29,6 +29,7 @@ interface ClassFormProps {
     type: string;
     color: string;
     category: string;
+    meetingUrl: string | null;
     active: boolean;
     locationId: string;
   };
@@ -84,6 +85,7 @@ export function ClassForm({ classEvent, locations }: ClassFormProps) {
   const [type, setType] = useState<string | null>(classEvent?.type || 'virtual');
   const [color, setColor] = useState<string | null>(classEvent?.color || 'sage');
   const [category, setCategory] = useState<string | null>(classEvent?.category || 'intro');
+  const [meetingUrl, setMeetingUrl] = useState(classEvent?.meetingUrl || '');
   const [active, setActive] = useState(classEvent?.active ?? true);
   const [locationId, setLocationId] = useState<string | null>(classEvent?.locationId || null);
   const [error, setError] = useState('');
@@ -110,6 +112,7 @@ export function ClassForm({ classEvent, locations }: ClassFormProps) {
         type,
         color,
         category,
+        meetingUrl: meetingUrl.trim() || null,
         active,
         locationId,
       };
@@ -237,6 +240,16 @@ export function ClassForm({ classEvent, locations }: ClassFormProps) {
                 required
               />
             </Group>
+
+            {(type === 'virtual' || type === 'hybrid') && (
+              <TextInput
+                label="Meeting Link"
+                placeholder="https://zoom.us/j/..."
+                description="Join link used by the public 'Join Class' button for virtual & hybrid classes"
+                value={meetingUrl}
+                onChange={(e) => setMeetingUrl(e.target.value)}
+              />
+            )}
 
             <Switch
               label="Active"

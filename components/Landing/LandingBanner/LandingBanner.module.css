@@ -36,7 +36,7 @@
   }
 }
 
-/* Flowing gradient top accent */
+/* Top accent */
 .wrapper::before {
   content: '';
   position: absolute;
@@ -44,18 +44,7 @@
   left: 0;
   right: 0;
   height: 5px;
-  background: linear-gradient(90deg, #698465 0%, #674c8f 40%, #9a86bb 70%, #d2ddd0 100%);
-  background-size: 200% 100%;
-  animation: flowingGradient 8s ease-in-out infinite;
-}
-
-@keyframes flowingGradient {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+  background: var(--color-primary);
 }
 
 /* Decorative background blob */

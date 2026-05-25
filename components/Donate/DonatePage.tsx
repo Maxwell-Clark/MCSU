@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Container, Title, Text, Button, Group } from '@mantine/core';
+import { Container, Title, Text } from '@mantine/core';
 import { IconHeartHandshake, IconBook, IconUsers } from '@tabler/icons-react';
-import Link from 'next/link';
 import classes from './DonatePage.module.css';
 
 const IMPACT_AREAS = [
@@ -73,15 +72,6 @@ export function DonatePage() {
 
       {/* Closing */}
       <div className={classes.closingSection}>
-        <Text className={classes.closingText}>
-          Prefer ongoing support? Consider becoming a member to sustain our work year-round and
-          unlock exclusive benefits.
-        </Text>
-        <Group justify="center">
-          <Button component={Link} href="/membership" variant="outline" size="md">
-            Become a Member
-          </Button>
-        </Group>
         <Text className={classes.closingNote}>
           The Mindfulness Center of Southern Utah is a 501(c)(3) nonprofit organization. Your
           donation may be tax-deductible to the extent allowed by law. Please consult your tax

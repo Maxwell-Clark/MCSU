@@ -36,12 +36,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <ColorSchemeScript defaultColorScheme="auto" />
+        <ColorSchemeScript forceColorScheme="light" />
         {/* Givebutter widget library — replace src with your actual script URL from Givebutter Dashboard > Settings > Developers > Widgets > Installation */}
         <Script src="https://widgets.givebutter.com/latest.umd.cjs?acct=Ff8VH2HNtdEDHuXt&p=other" strategy="afterInteractive" />
       </head>
       <body>
-        <MantineProvider theme={theme} defaultColorScheme="auto">
+        <MantineProvider theme={theme} forceColorScheme="light">
           <DonateModalProvider>
             <Header />
             {children}

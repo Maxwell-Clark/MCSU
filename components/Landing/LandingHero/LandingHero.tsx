@@ -30,8 +30,8 @@ export function LandingHero() {
           </Text>
 
           <div className={classes.heroButtons}>
-            <Button component="a" href="/membership" size="xl" radius="xl" className={classes.control}>
-              Join Us
+            <Button component="a" href="/offerings#calendar" size="xl" radius="xl" className={classes.control}>
+              Join Class
             </Button>
           </div>
         </div>

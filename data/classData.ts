@@ -10,6 +10,7 @@ export interface ClassEvent {
   type: string;
   color: string;
   category: string;
+  meetingUrl?: string | null;
 }
 
 export interface ClassLocation {

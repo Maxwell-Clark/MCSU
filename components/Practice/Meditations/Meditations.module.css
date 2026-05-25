@@ -8,7 +8,7 @@
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: var(--mantine-spacing-xl);
-  color: light-dark(var(--color-text), var(--color-text));
+  color: var(--color-primary);
   text-align: center;
 }
 

@@ -89,7 +89,7 @@
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 0.5rem;
-  color: light-dark(var(--color-text), var(--color-text));
+  color: var(--color-primary);
   text-align: center;
 
   @media (max-width: 768px) {
@@ -100,7 +100,7 @@
 .titleUnderline {
   width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, #674c8f 0%, #698465 100%);
+  background: var(--color-primary);
   margin: 0 auto 3rem;
   border-radius: 2px;
 }

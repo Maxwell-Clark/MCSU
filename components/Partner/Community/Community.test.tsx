@@ -15,29 +15,33 @@ describe('Community', () => {
       ).toBeInTheDocument();
     });
 
-    it('renders partner section', () => {
-      render(<Community />);
-      expect(screen.getByText('SwitchPoint')).toBeInTheDocument();
-    });
-
-    it('renders partner description', () => {
-      render(<Community />);
-      expect(
-        screen.getByText(/Beyond food and shelter Switchpoint Community Resource Center/)
-      ).toBeInTheDocument();
-    });
-
-    it('renders partner tagline', () => {
-      render(<Community />);
-      expect(screen.getByText('Changing the Face of Poverty')).toBeInTheDocument();
-    });
   });
 
   describe('Images', () => {
-    it('renders partner logo', () => {
+    it('renders the SwitchPoint logo', () => {
       render(<Community />);
       const image = screen.getByAltText('SwitchPoint');
       expect(image).toBeInTheDocument();
+    });
+
+    it('renders the Southern Utah Veterans Home logo', () => {
+      render(<Community />);
+      const image = screen.getByAltText('Southern Utah Veterans Home');
+      expect(image).toBeInTheDocument();
+    });
+  });
+
+  describe('Partner links', () => {
+    it('links the SwitchPoint logo to switchpoint.org', () => {
+      render(<Community />);
+      const link = screen.getByAltText('SwitchPoint').closest('a');
+      expect(link).toHaveAttribute('href', 'https://switchpoint.org/');
+    });
+
+    it('links the Southern Utah Veterans Home logo to avalonhealthcare.com/ivins', () => {
+      render(<Community />);
+      const link = screen.getByAltText('Southern Utah Veterans Home').closest('a');
+      expect(link).toHaveAttribute('href', 'https://avalonhealthcare.com/ivins/');
     });
   });
 

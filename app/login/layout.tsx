@@ -11,10 +11,10 @@ export default function LoginLayout({ children }: { children: React.ReactNode })
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <ColorSchemeScript defaultColorScheme="auto" />
+        <ColorSchemeScript forceColorScheme="light" />
       </head>
       <body>
-        <MantineProvider theme={theme} defaultColorScheme="auto">
+        <MantineProvider theme={theme} forceColorScheme="light">
           {children}
         </MantineProvider>
       </body>
