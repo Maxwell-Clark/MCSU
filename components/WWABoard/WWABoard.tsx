@@ -8,6 +8,7 @@ import Generic from '@/assets/img/generic.png';
 import GaelHeadshot from '@/assets/img/gael_headshot.jpg';
 import GinaHeadshot from '@/assets/img/gfoglia.png';
 import DavidTate from '@/assets/img/david_tate.jpeg';
+import KirkHeadshot from '@/assets/img/PXL_20260525_180745890.PORTRAIT.jpg';
 import type { StaticImageData } from 'next/image';
 
 interface BoardMember {
@@ -25,7 +26,7 @@ const data: BoardMember[] = [
     category: 'Board Member',
   },
   {
-    image: Generic,
+    image: KirkHeadshot.src,
     name: 'Kirk A. Benson',
     category: 'President & Chairman',
     description: 'With Gael\'s support and direction, I\'ve developed a keen interest in providing mindfulness programs in the community where we live. I\'ve received training to teach mindfulness based stress reduction through Brown University and have completed the Mindfulness Meditation Teacher Certification Program with Tara Barach and Jack Kornfield. But most importantly, I\'ve developed a consistent personal practice.',
