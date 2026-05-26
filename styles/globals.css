@@ -18,6 +18,10 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Contain full-bleed decorations so the page never scrolls sideways on mobile.
+     `clip` (not `hidden`) avoids creating a scroll container, so the sticky header
+     and smooth anchor scrolling keep working. */
+  overflow-x: clip;
 }
 
 body {
@@ -28,6 +32,7 @@ body {
   background-color: var(--color-surface);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 img,

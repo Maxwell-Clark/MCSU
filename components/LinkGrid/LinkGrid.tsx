@@ -8,7 +8,7 @@ import styles from './LinkGrid.module.css'; // Import your CSS module
 export function LinkGrid({ links }: LinkGridProps) {
   return (
     <SimpleGrid
-      cols={3}            // 3 columns
+      cols={{ base: 2, sm: 3 }} // 2 columns on mobile, 3 from the sm breakpoint up
       spacing="lg"        // spacing between cards
       verticalSpacing="lg"
       className={styles.grid} // Use className instead of inline style

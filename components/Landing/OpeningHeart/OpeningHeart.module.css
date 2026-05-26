@@ -3,6 +3,8 @@
   padding-bottom: calc(var(--mantine-spacing-xl) * 3);
   background-color: light-dark(#f3f6f2, #1f1f1f);
   position: relative;
+  /* Contain the scaleX(1.5) curved divider; x-axis only so the -1px vertical overlap shows */
+  overflow-x: clip;
 }
 
 /* Curved section divider at top */

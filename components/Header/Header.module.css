@@ -222,3 +222,14 @@
 .burger {
   color: var(--header-text-fixed);
 }
+
+.donateFab {
+  position: fixed;
+  left: var(--mantine-spacing-md);
+  bottom: var(--mantine-spacing-md);
+  z-index: 200;
+  border-radius: var(--mantine-radius-xl);
+  box-shadow: var(--shadow-soft-lg);
+  padding-left: var(--mantine-spacing-lg);
+  padding-right: var(--mantine-spacing-lg);
+}

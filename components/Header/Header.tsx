@@ -361,19 +361,20 @@ import { useEffect, useState } from 'react';
           <Divider my="sm" />
 
           <Group justify="center" pb="md" gap="sm">
-            <Button
-              data-gb-account="Ff8VH2HNtdEDHuXt"
-              data-gb-campaign="mcsu-donate-v7kc8r"
-              size="md"
-              className={classes.navButton}
-              onClick={closeDrawer}
-            >
-              Donate
-            </Button>
             <UserMenu />
           </Group>
         </ScrollArea>
       </Drawer>
+
+      <Button
+        data-gb-account="Ff8VH2HNtdEDHuXt"
+        data-gb-campaign="mcsu-donate-v7kc8r"
+        size="md"
+        className={`${classes.navButton} ${classes.donateFab}`}
+        hiddenFrom="md"
+      >
+        Donate
+      </Button>
       </Box>
     );
   }
