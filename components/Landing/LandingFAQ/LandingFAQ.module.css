@@ -1,7 +1,6 @@
 .wrapper {
-  padding-top: calc(var(--mantine-spacing-xl) * 3);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 3);
-  min-height: rem(650px);
+  padding-top: var(--mantine-spacing-md);
+  padding-bottom: var(--mantine-spacing-md);
   background-color: light-dark(var(--color-surface), var(--color-surface));
 }
 
@@ -9,7 +8,7 @@
   font-family: var(--font-heading);
   font-weight: 900;
   line-height: 1.1;
-  margin-bottom: var(--mantine-spacing-xl);
+  margin-bottom: var(--mantine-spacing-lg);
   color: light-dark(var(--color-text), var(--color-text));
 }
 

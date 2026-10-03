@@ -17,7 +17,7 @@ describe('WWAOverview', () => {
   it('renders the tagline', () => {
     render(<WWAOverview />);
     expect(
-      screen.getByText('Training the mind, opening the heart')
+      screen.getByText('Train the mind - Open the heart')
     ).toBeInTheDocument();
   });
 });

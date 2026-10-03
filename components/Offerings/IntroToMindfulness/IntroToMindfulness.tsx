@@ -33,7 +33,7 @@ import {
     },
     {
       title: 'Current Classes',
-      description: 'Currently the class is taught through the Institute for Continuing Learning, part of the continuing learning program associated with Utah Tech University. The course is taught twice in the fall and twice in the winter semesters. The class can also be taught virtually.',
+      description: 'Currently the class is taught through the Institute for Continuing Learning, part of the continuing learning program associated with Utah Tech University. The course is taught twice in the fall and twice in the winter semesters. Register for the class through ICL.',
       icon: IconCalendar,
     },
   ];

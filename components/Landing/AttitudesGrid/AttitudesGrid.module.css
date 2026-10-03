@@ -1,6 +1,6 @@
 .wrapper {
-  padding-top: calc(var(--mantine-spacing-xl) * 4);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 4);
+  padding-top: calc(var(--mantine-spacing-xl) + var(--mantine-spacing-sm));
+  padding-bottom: calc(var(--mantine-spacing-xl) + var(--mantine-spacing-sm));
   background-color: light-dark(var(--color-surface), var(--color-surface));
 }
 
@@ -9,7 +9,7 @@
   font-size: var(--mantine-font-size-lg);
   color: light-dark(var(--color-text-muted), var(--color-text-muted));
   max-width: rem(600px);
-  margin: 0 auto var(--mantine-spacing-xl);
+  margin: 0 auto var(--mantine-spacing-lg);
   line-height: 1.6;
 
   @media (max-width: $mantine-breakpoint-sm) {

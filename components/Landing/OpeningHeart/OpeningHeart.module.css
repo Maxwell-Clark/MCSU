@@ -1,6 +1,6 @@
 .wrapper {
-  padding-top: calc(var(--mantine-spacing-xl) * 3);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 3);
+  padding-top: calc(var(--mantine-spacing-xl) + var(--mantine-spacing-sm));
+  padding-bottom: calc(var(--mantine-spacing-xl) + var(--mantine-spacing-sm));
   background-color: light-dark(#f3f6f2, #1f1f1f);
   position: relative;
   /* Contain the scaleX(1.5) curved divider; x-axis only so the -1px vertical overlap shows */
@@ -22,7 +22,7 @@
 
 .sectionTitle {
   text-align: center;
-  margin-bottom: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-xs);
   color: light-dark(var(--color-text), var(--color-text));
   position: relative;
   z-index: 1;
@@ -33,7 +33,7 @@
   font-size: var(--mantine-font-size-lg);
   color: light-dark(var(--color-text-muted), var(--color-text-muted));
   max-width: rem(700px);
-  margin: 0 auto calc(var(--mantine-spacing-xl) * 2);
+  margin: 0 auto var(--mantine-spacing-lg);
   line-height: 1.6;
   position: relative;
   z-index: 1;

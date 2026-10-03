@@ -145,27 +145,6 @@
   color: white;
 }
 
-/* Category-specific filter colors */
-.filterChipIntro.filterChipActive {
-  background: var(--mantine-color-sage-6);
-  border-color: var(--mantine-color-sage-6);
-}
-
-.filterChipMbsr.filterChipActive {
-  background: var(--mantine-color-purple-6);
-  border-color: var(--mantine-color-purple-6);
-}
-
-.filterChipEveryday.filterChipActive {
-  background: var(--mantine-color-teal-6);
-  border-color: var(--mantine-color-teal-6);
-}
-
-.filterChipDropin.filterChipActive {
-  background: var(--mantine-color-blue-6);
-  border-color: var(--mantine-color-blue-6);
-}
-
 /* Empty state */
 .emptyState {
   padding: var(--space-2xl);

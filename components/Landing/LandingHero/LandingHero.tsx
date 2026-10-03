@@ -26,24 +26,18 @@ export function LandingHero() {
             className={classes.heroLogoHorizontal}
           />
           <Text className={classes.description} size="xl" mt="xl">
-            "Training the Mind - Opening the Heart"
+            "Train the Mind - Open the Heart"
           </Text>
-
-          <div className={classes.heroButtons}>
-            <Button component="a" href="/offerings#calendar" size="xl" radius="xl" className={classes.control}>
-              Join Class
-            </Button>
-          </div>
         </div>
 
         <button
           className={classes.scrollArrow}
           onClick={() =>
-            document.getElementById('training-brain')?.scrollIntoView({ behavior: 'smooth' })
+            document.getElementById('disclaimer')?.scrollIntoView({ behavior: 'smooth' })
           }
           aria-label="Scroll to next section"
         >
-          <IconChevronDown size={36} stroke={2} />
+          <IconChevronDown size={64} stroke={2} />
         </button>
       </Container>
     </div>

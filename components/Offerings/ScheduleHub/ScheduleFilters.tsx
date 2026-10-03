@@ -1,39 +1,47 @@
 'use client';
 
+import { ClassEvent } from '@/data/classData';
 import styles from './ScheduleHub.module.css';
 
-export type CategoryFilter = 'all' | 'intro' | 'mbsr' | 'everyday' | 'drop-in';
+// 'all' or a specific ClassEvent id
+export type CategoryFilter = 'all' | string;
 
 interface ScheduleFiltersProps {
-  activeCategory: CategoryFilter;
-  onCategoryChange: (category: CategoryFilter) => void;
+  classes: ClassEvent[];
+  activeFilter: CategoryFilter;
+  onFilterChange: (filter: CategoryFilter) => void;
 }
 
-const categories: { value: CategoryFilter; label: string; colorClass: string }[] = [
-  { value: 'all', label: 'All', colorClass: '' },
-  { value: 'intro', label: 'Intro', colorClass: 'filterChipIntro' },
-  { value: 'mbsr', label: 'MBSR', colorClass: 'filterChipMbsr' },
-  { value: 'everyday', label: 'Everyday', colorClass: 'filterChipEveryday' },
-  { value: 'drop-in', label: 'Drop-in', colorClass: 'filterChipDropin' },
-];
-
-export function ScheduleFilters({
-  activeCategory,
-  onCategoryChange,
-}: ScheduleFiltersProps) {
+export function ScheduleFilters({ classes, activeFilter, onFilterChange }: ScheduleFiltersProps) {
   return (
     <div className={styles.controls}>
       <div className={styles.filtersGroup}>
         <span className={styles.filterLabel}>Filter by:</span>
-        {categories.map((category) => (
+        <button
+          className={`${styles.filterChip} ${
+            activeFilter === 'all' ? styles.filterChipActive : ''
+          }`}
+          onClick={() => onFilterChange('all')}
+        >
+          All
+        </button>
+        {classes.map((classEvent) => (
           <button
-            key={category.value}
+            key={classEvent.id}
             className={`${styles.filterChip} ${
-              activeCategory === category.value ? styles.filterChipActive : ''
-            } ${activeCategory === category.value && category.colorClass ? styles[category.colorClass] : ''}`}
-            onClick={() => onCategoryChange(category.value)}
+              activeFilter === classEvent.id ? styles.filterChipActive : ''
+            }`}
+            style={
+              activeFilter === classEvent.id
+                ? {
+                    background: `var(--mantine-color-${classEvent.color}-6)`,
+                    borderColor: `var(--mantine-color-${classEvent.color}-6)`,
+                  }
+                : undefined
+            }
+            onClick={() => onFilterChange(classEvent.id)}
           >
-            {category.label}
+            {classEvent.title}
           </button>
         ))}
       </div>

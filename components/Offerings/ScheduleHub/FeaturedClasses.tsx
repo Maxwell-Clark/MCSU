@@ -15,8 +15,8 @@ export function FeaturedClasses({ classes, onClassClick }: FeaturedClassesProps)
   // Get scheduled classes (ones with actual times)
   const scheduledClasses = classes.filter((c) => c.dayOfWeek !== undefined && c.dayOfWeek !== null);
 
-  // Take the first 2-3 upcoming classes for featured display
-  const featuredClasses = scheduledClasses.slice(0, 3);
+  // Show all scheduled classes (grid wraps to fit however many there are)
+  const featuredClasses = scheduledClasses;
 
   if (featuredClasses.length === 0) {
     return null;

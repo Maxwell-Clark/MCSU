@@ -32,7 +32,7 @@ interface ScheduleHubProps {
 }
 
 export function ScheduleHub({ classes, locations }: ScheduleHubProps) {
-  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
+  const [classFilter, setClassFilter] = useState<CategoryFilter>('all');
   const [selected, setSelected] = useState<ClassEvent | null>(null);
   const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
 
@@ -48,11 +48,9 @@ export function ScheduleHub({ classes, locations }: ScheduleHubProps) {
     openModal();
   };
 
-  // Filter classes by category
+  // Filter classes by the selected class (map/list show just that class's location)
   const filteredClasses =
-    categoryFilter === 'all'
-      ? classes
-      : classes.filter((c) => c.category === categoryFilter);
+    classFilter === 'all' ? classes : classes.filter((c) => c.id === classFilter);
 
   // Derive visible locations from filtered classes
   const filteredLocationIds = new Set(filteredClasses.map((c) => c.location.id));
@@ -83,13 +81,14 @@ export function ScheduleHub({ classes, locations }: ScheduleHubProps) {
         <hr className={styles.divider} />
 
         <ScheduleFilters
-          activeCategory={categoryFilter}
-          onCategoryChange={setCategoryFilter}
+          classes={classes}
+          activeFilter={classFilter}
+          onFilterChange={setClassFilter}
         />
 
         <div className={styles.viewContent}>
           <div className={styles.mapWrapper} style={{ minHeight: '500px' }}>
-            <ClassMap key={categoryFilter} classes={filteredClasses} locations={filteredLocations} />
+            <ClassMap key={classFilter} classes={filteredClasses} locations={filteredLocations} />
           </div>
         </div>
 
@@ -146,6 +145,12 @@ export function ScheduleHub({ classes, locations }: ScheduleHubProps) {
               >
                 Join Virtually
               </Button>
+            ) : selected.title === 'Monday Mindfulness' ? (
+              <Text size="sm" c="dimmed">
+                Email{' '}
+                <a href="mailto:kbenson@mindfulnesscsu.org">kbenson@mindfulnesscsu.org</a> to be
+                added to the class distribution list and receive the weekly Zoom link.
+              </Text>
             ) : (
               <Text size="sm" c="dimmed">
                 The meeting link hasn&rsquo;t been added yet. Please check the calendar above

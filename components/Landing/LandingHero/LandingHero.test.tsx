@@ -10,7 +10,7 @@ describe('LandingHero', () => {
 
     it('renders the tagline', () => {
       render(<LandingHero />);
-      expect(screen.getByText('"Training the Mind - Opening the Heart"')).toBeInTheDocument();
+      expect(screen.getByText('"Train the Mind - Open the Heart"')).toBeInTheDocument();
     });
 
     it('renders the Join Us CTA button', () => {

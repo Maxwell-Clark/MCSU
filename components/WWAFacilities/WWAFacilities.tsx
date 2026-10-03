@@ -28,7 +28,7 @@ export function WWAFacilities() {
         />
 
         <Text className={classes.paragraph}>
-          A mindfulness center is under construction at 370 East Tabernacle.
+          We are very excited for our new mindfulness center which is being build at 370 East Tabernacle!
         </Text>
       </Container>
     </div>

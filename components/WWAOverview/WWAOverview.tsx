@@ -11,7 +11,7 @@ export function WWAOverview() {
         </Title>
         <div className={classes.divider} />
         <Text className={classes.tagline}>
-          Training the mind, opening the heart
+          Train the mind — Open the heart
         </Text>
         <Text className={classes.paragraph}>
           The Mindfulness Center of Southern Utah exists to share the practice of mindfulness
@@ -22,11 +22,10 @@ export function WWAOverview() {
         </Text>
         <Text className={classes.paragraph}>
           To realize our vision, we are engaged in offering practical skills to train the mind
-          and open the heart. MCSU is focused on training the mind and opening the heart to
-          enhance the well-being of our community. The practical skills to accomplish this goal
-          include increased self-awareness, improved attention and focus, enhanced emotional
-          regulation, and better communication skills. We teach these skills through techniques
-          like mindful breathing, focused awareness, body scans, and mindful walking.
+          and open the heart. The practical skills to accomplish this goal include increased 
+          self-awareness, improved attention and focus, enhanced emotional regulation, and 
+          better communication skills. We teach these skills through techniques like mindful breathing,
+          focused awareness, body scans, and mindful walking.
         </Text>
       </Container>
     </div>

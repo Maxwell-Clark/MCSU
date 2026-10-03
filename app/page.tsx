@@ -11,7 +11,9 @@ export default function HomePage() {
   return (
     <>
       <LandingHero />
-      <Disclaimer />
+      <div id="disclaimer">
+        <Disclaimer />
+      </div>
       <div id="training-brain">
         <TrainingBrain />
       </div>

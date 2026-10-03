@@ -1,6 +1,6 @@
 .wrapper {
-  padding-top: calc(var(--mantine-spacing-xl) * 3);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 3);
+  padding-top: calc(var(--mantine-spacing-xl) + var(--mantine-spacing-sm));
+  padding-bottom: calc(var(--mantine-spacing-xl) + var(--mantine-spacing-sm));
   background-color: light-dark(var(--color-surface), var(--color-surface));
   position: relative;
   overflow: hidden;
@@ -39,7 +39,7 @@
 
 .sectionTitle {
   text-align: center;
-  margin-bottom: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-xs);
   color: light-dark(var(--color-text), var(--color-text));
   position: relative;
   z-index: 1;
@@ -50,7 +50,7 @@
   font-size: var(--mantine-font-size-lg);
   color: light-dark(var(--color-text-muted), var(--color-text-muted));
   max-width: rem(700px);
-  margin: 0 auto calc(var(--mantine-spacing-xl) * 2);
+  margin: 0 auto var(--mantine-spacing-lg);
   line-height: 1.6;
   position: relative;
   z-index: 1;
@@ -65,7 +65,7 @@
 .brainLayout {
   display: flex;
   align-items: center;
-  gap: var(--mantine-spacing-xl);
+  gap: var(--mantine-spacing-lg);
   position: relative;
   z-index: 1;
   min-height: 400px;
@@ -98,8 +98,8 @@
 
 /* Neuroplasticity Section */
 .neuroplasticitySection {
-  margin-top: calc(var(--mantine-spacing-xl) * 3);
-  padding: calc(var(--mantine-spacing-xl) * 2) var(--mantine-spacing-xl);
+  margin-top: var(--mantine-spacing-xl);
+  padding: var(--mantine-spacing-xl);
   position: relative;
   z-index: 1;
   border-radius: var(--radius-2xl);
@@ -139,7 +139,7 @@
 .neuroplasticityAccent {
   width: 60px;
   height: 3px;
-  margin: var(--mantine-spacing-sm) auto var(--mantine-spacing-lg);
+  margin: var(--mantine-spacing-xs) auto var(--mantine-spacing-md);
   border-radius: var(--radius-full);
   background: var(--color-primary);
 }
@@ -149,7 +149,7 @@
   font-size: var(--mantine-font-size-md);
   color: light-dark(var(--color-text-muted), var(--color-text-muted));
   max-width: rem(720px);
-  margin: 0 auto calc(var(--mantine-spacing-xl) * 1.5);
+  margin: 0 auto var(--mantine-spacing-lg);
   line-height: 1.7;
   position: relative;
 

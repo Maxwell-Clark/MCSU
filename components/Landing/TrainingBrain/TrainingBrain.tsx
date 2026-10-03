@@ -95,6 +95,16 @@ export function TrainingBrain() {
               Mindfulness and the Brain
             </div>
           </div>
+           <div className={classes.videoCard}>
+            <div className={classes.videoEmbed}>
+              <YouTubePlayer videoId="cjkAkGDNiEk" title="Mindfulness doesn't clear your mind" />
+            </div>
+            <div className={classes.videoLabel}>
+              <span className={classes.videoLabelDot} />
+              Mindfulness and the Brain
+            </div>
+          </div>
+
         </Box>
       </Box>
     </Container>

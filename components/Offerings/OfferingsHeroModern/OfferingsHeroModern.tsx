@@ -1,32 +1,20 @@
 'use client';
 
 import { Text } from '@mantine/core';
-import { IconCalendar, IconBook, IconChevronDown } from '@tabler/icons-react';
+import { IconCalendar, IconChevronDown } from '@tabler/icons-react';
 import { OfferingsBlobs } from '../shared/OfferingsBlobs';
 import styles from './OfferingsHeroModern.module.css';
 
 interface OfferingsHeroModernProps {
   onScrollToSchedule?: () => void;
-  onScrollToPrograms?: () => void;
 }
 
-export function OfferingsHeroModern({
-  onScrollToSchedule,
-  onScrollToPrograms,
-}: OfferingsHeroModernProps) {
+export function OfferingsHeroModern({ onScrollToSchedule }: OfferingsHeroModernProps) {
   const handleScrollToSchedule = () => {
     if (onScrollToSchedule) {
       onScrollToSchedule();
     } else {
       document.getElementById('schedule')?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleScrollToPrograms = () => {
-    if (onScrollToPrograms) {
-      onScrollToPrograms();
-    } else {
-      document.getElementById('programs')?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -51,14 +39,6 @@ export function OfferingsHeroModern({
           >
             <IconCalendar className={styles.pillIcon} />
             View Schedule
-          </button>
-
-          <button
-            className={`${styles.pill} ${styles.pillSecondary}`}
-            onClick={handleScrollToPrograms}
-          >
-            <IconBook className={styles.pillIcon} />
-            Explore Programs
           </button>
         </div>
       </div>
