@@ -64,7 +64,7 @@ const poems: Poem[] = [
     ],
   },
   {
-    title: 'St. Teresa of Avilla',
+    title: 'St. Teresa of Avila',
     author: 'St. Teresa',
     category: 'Wisdom',
     lines: [
