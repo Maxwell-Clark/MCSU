@@ -3486,6 +3486,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stripe/react-stripe-js@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@stripe/react-stripe-js@npm:7.0.0"
+  dependencies:
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    "@stripe/stripe-js": ">=10.0.0 <11.0.0"
+    react: ">=16.8.0 <20.0.0"
+    react-dom: ">=16.8.0 <20.0.0"
+  checksum: 10c0/e361a602533778179dcc8473c74d16a046e8c30b33a96614fe011ac68915b0675290595689acf4bac95c3e6f56eacb339ec20d1e58e3f1609676b05d7ea6dd2b
+  languageName: node
+  linkType: hard
+
+"@stripe/stripe-js@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "@stripe/stripe-js@npm:10.0.0"
+  checksum: 10c0/3fa2cd6dafe69aa276441520ae7b0e2f749d04dd5d720034dcab48de6dab6535cfc13cf3c9937e13d2de09da9a327a11220da7be84e2a5c5ab2c417701fd5bb9
+  languageName: node
+  linkType: hard
+
 "@supabase/auth-js@npm:2.95.3":
   version: 2.95.3
   resolution: "@supabase/auth-js@npm:2.95.3"
@@ -9949,6 +9969,8 @@ __metadata:
     "@prisma/client": "npm:^6.0.0"
     "@storybook/nextjs": "npm:^8.1.10"
     "@storybook/react": "npm:^8.1.10"
+    "@stripe/react-stripe-js": "npm:^7.0.0"
+    "@stripe/stripe-js": "npm:^10.0.0"
     "@supabase/ssr": "npm:^0.5.2"
     "@supabase/supabase-js": "npm:^2.47.10"
     "@tabler/icons-react": "npm:^3.6.0"
@@ -9993,6 +10015,7 @@ __metadata:
     sharp: "npm:^0.34.5"
     storybook: "npm:^8.1.10"
     storybook-dark-mode: "npm:^4.0.2"
+    stripe: "npm:^23.0.0"
     stylelint: "npm:^16.6.1"
     stylelint-config-standard-scss: "npm:^13.1.0"
     ts-jest: "npm:^29.1.5"
@@ -11332,7 +11355,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -13025,6 +13048,18 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 10c0/9681a6257b925a7fa0f285851c0e613cc934a50661fa7bb41ca9cbbff89686bb4a0ee366e6ecedc4daafd01e83eee0720111ab294366fe7c185e935475ebcecd
+  languageName: node
+  linkType: hard
+
+"stripe@npm:^23.0.0":
+  version: 23.0.0
+  resolution: "stripe@npm:23.0.0"
+  peerDependencies:
+    "@types/node": ">=20"
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+  checksum: 10c0/08f30d511ade3161067f70d7802fe9d9a39df05fdef68d699be9842cd352503183bf07ff06113c033bcdac47fb8af1fbbeff80b34202701f7258fc23490e7822
   languageName: node
   linkType: hard
 

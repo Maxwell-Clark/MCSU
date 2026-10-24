@@ -22,6 +22,7 @@ export async function getSession() {
       name: dbUser?.name || '',
       role: dbUser?.role || 'member',
       membershipTier: dbUser?.membershipTier || null,
+      membershipStatus: dbUser?.membershipStatus || null,
     },
   };
 }

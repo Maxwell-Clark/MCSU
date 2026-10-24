@@ -15,6 +15,10 @@ model User {
   phone     String?
   role           String     @default("member")
   membershipTier String?
+  /// pending | active | past_due | canceled (mirrors Stripe subscription status); null = managed manually
+  membershipStatus     String?
+  stripeCustomerId     String?    @unique
+  stripeSubscriptionId String?    @unique
   createdAt      DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   blogPosts BlogPost[]

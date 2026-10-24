@@ -14,8 +14,16 @@ interface User {
   phone: string | null;
   role: string;
   membershipTier: string | null;
+  membershipStatus: string | null;
   createdAt: Date;
 }
+
+const STATUS_COLORS: Record<string, string> = {
+  active: 'green',
+  pending: 'yellow',
+  past_due: 'red',
+  canceled: 'gray',
+};
 
 interface UsersTableProps {
   users: User[];
@@ -70,6 +78,15 @@ export function UsersTable({ users }: UsersTableProps) {
         )}
       </Table.Td>
       <Table.Td>
+        {user.membershipStatus ? (
+          <Badge variant="light" color={STATUS_COLORS[user.membershipStatus] || 'gray'}>
+            {user.membershipStatus.replace('_', ' ')}
+          </Badge>
+        ) : (
+          <Text size="sm" c="dimmed">—</Text>
+        )}
+      </Table.Td>
+      <Table.Td>
         <Text size="sm">{new Date(user.createdAt).toLocaleDateString()}</Text>
       </Table.Td>
       <Table.Td>
@@ -113,7 +130,7 @@ export function UsersTable({ users }: UsersTableProps) {
         onChange={(e) => setSearch(e.currentTarget.value)}
         mb="md"
       />
-      <Table.ScrollContainer minWidth={700}>
+      <Table.ScrollContainer minWidth={800}>
         <Table striped highlightOnHover>
           <Table.Thead>
             <Table.Tr>
@@ -121,6 +138,7 @@ export function UsersTable({ users }: UsersTableProps) {
               <Table.Th>Email</Table.Th>
               <Table.Th>Role</Table.Th>
               <Table.Th>Tier</Table.Th>
+              <Table.Th>Payment</Table.Th>
               <Table.Th>Created</Table.Th>
               <Table.Th />
             </Table.Tr>
@@ -130,7 +148,7 @@ export function UsersTable({ users }: UsersTableProps) {
               rows
             ) : (
               <Table.Tr>
-                <Table.Td colSpan={6}>
+                <Table.Td colSpan={7}>
                   <Text ta="center" c="dimmed" py="xl">
                     {search ? 'No users match your search.' : 'No users yet.'}
                   </Text>

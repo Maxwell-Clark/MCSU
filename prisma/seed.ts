@@ -178,10 +178,10 @@ async function main() {
     },
     {
       id: 'class-wakeup-wednesday',
-      title: 'Wake-up Wednesday',
+      title: 'Everyday Mindfulness',
       topic: 'Meditation with Dr. Tate',
       instructor: 'Dr. David Tate',
-      dayOfWeek: 3,
+      dayOfWeek: 4,
       startTime: '5:15 PM',
       endTime: '6:15 PM',
       type: 'in-person',
@@ -392,7 +392,7 @@ Both Dr. David Tate and Kirk Benson are trained to teach MBSR. Dr. Tate wrote hi
       shortTitle: 'Drop-in',
       tagline: 'Weekly Community Practice',
       description:
-        'Monday Mindfulness is led by Kirk Benson and Wake-up Wednesday is led by Dr. David B. Tate.',
+        'Monday Mindfulness is led by Kirk Benson and Everyday Mindfulness is led by Dr. David B. Tate.',
       color: 'blue',
       iconName: 'IconUsers',
       ctaText: 'Join a Session',
@@ -408,7 +408,7 @@ Both Dr. David Tate and Kirk Benson are trained to teach MBSR. Dr. Tate wrote hi
         {
           title: 'Weekly In-person Session',
           description:
-            "Wake-up Wednesday is an hour long offering beginning at 5:15 pm in the conference room of Dr. Tate's office. His address is 321 N. Mall Dr., Suite I-201, St. George, Utah. Just drop-in when you can.",
+            "Everyday Mindfulness is an hour long offering beginning at 5:15 pm each Thursday in the conference room of Dr. Tate's office. His address is 321 N. Mall Dr., Suite I-201, St. George, Utah. Just drop-in when you can.",
           iconName: 'IconClock',
           sortOrder: 1,
         },

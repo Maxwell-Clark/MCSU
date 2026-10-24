@@ -86,7 +86,7 @@ const videoSections: VideoGroup[] = [
       },
       {
         title: '10-Minute Loving-Kindness – Sharon Salzberg',
-        videoId: 'VPZO58oWkkw',
+        videoId: 'e-TeW9CI0bc',
       },
     ],
   },

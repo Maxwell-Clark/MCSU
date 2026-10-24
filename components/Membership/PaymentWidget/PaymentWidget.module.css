@@ -6,11 +6,6 @@
   min-height: 200px;
 }
 
-.widgetCenter {
-  display: flex;
-  justify-content: center;
-}
-
 @media (max-width: 48em) {
   .wrapper {
     min-height: auto;

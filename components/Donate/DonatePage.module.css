@@ -89,9 +89,14 @@
   margin-bottom: var(--mantine-spacing-lg);
 }
 
-.widgetCenter {
-  display: flex;
-  justify-content: center;
+.amountPicker {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.checkout {
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 /* Closing */

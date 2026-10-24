@@ -24,10 +24,10 @@ describe('Community', () => {
       expect(image).toBeInTheDocument();
     });
 
-    it('renders the Southern Utah Veterans Home logo', () => {
+    it('does not render the Southern Utah Veterans Home', () => {
       render(<Community />);
-      const image = screen.getByAltText('Southern Utah Veterans Home');
-      expect(image).toBeInTheDocument();
+      expect(screen.queryByText(/Southern Utah Veterans Home/)).not.toBeInTheDocument();
+      expect(screen.queryByAltText('Southern Utah Veterans Home')).not.toBeInTheDocument();
     });
   });
 
@@ -38,10 +38,10 @@ describe('Community', () => {
       expect(link).toHaveAttribute('href', 'https://switchpoint.org/');
     });
 
-    it('links the Southern Utah Veterans Home logo to avalonhealthcare.com/ivins', () => {
+    it('links St George Active Life Center to its Council on Aging page', () => {
       render(<Community />);
-      const link = screen.getByAltText('Southern Utah Veterans Home').closest('a');
-      expect(link).toHaveAttribute('href', 'https://avalonhealthcare.com/ivins/');
+      const link = screen.getByText('St George Active Life Center').closest('a');
+      expect(link).toHaveAttribute('href', 'https://coa.washco.utah.gov/st-george/');
     });
   });
 

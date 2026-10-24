@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Stepper,
@@ -12,13 +12,13 @@ import {
   Anchor,
   Group,
   Paper,
-  Text,
   Title,
 } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { createClient } from '@/lib/supabase/client';
 import { passwordSchema, phoneSchema, emailSchema } from '@/lib/validations';
 import type { TierData } from '@/lib/membership-tiers';
+import { MembershipCheckout } from '@/components/Membership/MembershipCheckout/MembershipCheckout';
 import classes from './SignupWizard.module.css';
 
 interface SignupWizardProps {
@@ -40,25 +40,6 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [paymentComplete, setPaymentComplete] = useState(false);
-
-  // Re-initialize Givebutter when reaching payment step
-  useEffect(() => {
-    if (active === 2) {
-      window.Givebutter?.init();
-    }
-  }, [active]);
-
-  // Listen for Givebutter payment success events
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === 'givebutter' && event.data?.event === 'donation_complete') {
-        setPaymentComplete(true);
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
 
   const handleNextAccount = () => {
     setError('');
@@ -284,20 +265,16 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
 
         <Stepper.Step label="Payment" description="Complete membership">
           <Paper withBorder shadow="md" p="xl" mt="md" radius="md" className={classes.widgetContainer}>
-            <Title order={3} ta="center">
+            <Title order={3} ta="center" mb="xl">
               Complete Your {tier.name} Membership
             </Title>
-            <Text c="dimmed" ta="center" mt="sm" mb="xl">
-              {tier.monthlyPrice} &middot; {tier.yearlyPrice}
-            </Text>
 
-            <div className={classes.widgetCenter}>
-              <givebutter-widget id={tier.givebutterId}></givebutter-widget>
-            </div>
+            {/* Only mount once the account exists — the checkout API requires a session */}
+            {active === 2 && <MembershipCheckout tier={tier} />}
           </Paper>
 
           <Button
-            variant={paymentComplete ? 'filled' : 'subtle'}
+            variant="subtle"
             fullWidth
             mt="lg"
             onClick={() => {
@@ -305,7 +282,7 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
               router.refresh();
             }}
           >
-            {paymentComplete ? 'Payment Complete — Go to Dashboard' : 'Go to Dashboard'}
+            Skip for now — Go to Dashboard
           </Button>
         </Stepper.Step>
       </Stepper>

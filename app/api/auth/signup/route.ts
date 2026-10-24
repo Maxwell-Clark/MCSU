@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { prisma } from '@/lib/prisma';
+import { getAvailableProfileUsername } from '@/lib/profile-username';
 import { signupSchema } from '@/lib/validations';
 import { logger } from '@/lib/logger';
 
-// Membership signup is disabled — public account creation is currently hidden.
-// Flip this to `true` to re-enable registration.
-const SIGNUP_ENABLED = false;
+// Set to `false` to hide public account creation.
+const SIGNUP_ENABLED = true;
 
 export async function POST(request: Request) {
   if (!SIGNUP_ENABLED) {
@@ -29,11 +29,14 @@ export async function POST(request: Request) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
+    // Avoid a username collision in the shared database's profiles trigger
+    const username = await getAvailableProfileUsername(email);
+
     const { data, error: createError } = await supabase.auth.admin.createUser({
       email,
       password,
       email_confirm: true,
-      user_metadata: { role: 'member', tier, phone },
+      user_metadata: { role: 'member', tier, phone, ...(username && { username }) },
     });
 
     if (createError) {
@@ -55,11 +58,13 @@ export async function POST(request: Request) {
           role: 'member',
           phone: phone || null,
           membershipTier: tier,
+          membershipStatus: 'pending',
         },
         update: {
           name,
           phone: phone || null,
           membershipTier: tier,
+          membershipStatus: 'pending',
         },
       });
     } catch (dbError) {

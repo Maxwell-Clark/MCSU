@@ -1,18 +1,18 @@
 'use client';
 import { Title, Text, Container, Paper, Stack, useMantineTheme, Image } from '@mantine/core';
-import SuviLogo from '@/assets/img/suvi_logo.png';
 import classes from './Community.module.css';
 
-const partners = [
+type Partner = { name: string; href: string; logo?: string };
+
+const partners: Partner[] = [
   {
     name: 'SwitchPoint',
     logo: 'https://southernutahcares.com/wp-content/uploads/2014/07/SwitchPointLogo.png',
     href: 'https://switchpoint.org/',
   },
   {
-    name: 'Southern Utah Veterans Home',
-    logo: SuviLogo.src,
-    href: 'https://avalonhealthcare.com/ivins/',
+    name: 'St George Active Life Center',
+    href: 'https://coa.washco.utah.gov/st-george/',
   },
 ];
 
@@ -61,13 +61,19 @@ export function Community() {
                 rel="noopener noreferrer"
                 style={{ display: 'block' }}
               >
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  fit="contain"
-                  w={280}
-                  style={{ margin: '0 auto' }}
-                />
+                {partner.logo ? (
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    fit="contain"
+                    w={280}
+                    style={{ margin: '0 auto' }}
+                  />
+                ) : (
+                  <Title order={3} ta="center" c="sage.7">
+                    {partner.name}
+                  </Title>
+                )}
               </a>
             </Paper>
           ))}

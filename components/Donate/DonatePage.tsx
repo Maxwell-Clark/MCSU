@@ -1,9 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
-import { Container, Title, Text } from '@mantine/core';
+import { useState } from 'react';
+import { Anchor, Button, Container, NumberInput, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import { IconHeartHandshake, IconBook, IconUsers } from '@tabler/icons-react';
+import { StripeCheckout } from '@/components/Payments/StripeCheckout';
 import classes from './DonatePage.module.css';
+
+const PRESET_AMOUNTS = [25, 50, 100, 250];
+const MIN_AMOUNT = 5;
+const MAX_AMOUNT = 10000;
 
 const IMPACT_AREAS = [
   {
@@ -27,9 +32,13 @@ const IMPACT_AREAS = [
 ];
 
 export function DonatePage() {
-  useEffect(() => {
-    window.Givebutter?.init();
-  }, []);
+  const [preset, setPreset] = useState<number | null>(50);
+  const [custom, setCustom] = useState<string | number>('');
+  const [checkoutAmount, setCheckoutAmount] = useState<number | null>(null);
+
+  const amount = custom !== '' ? Number(custom) : preset;
+  const amountValid =
+    amount !== null && Number.isInteger(amount) && amount >= MIN_AMOUNT && amount <= MAX_AMOUNT;
 
   return (
     <Container size="xl" py="xl" className={classes.section}>
@@ -60,14 +69,75 @@ export function DonatePage() {
         ))}
       </div>
 
-      {/* Givebutter Widget */}
+      {/* Donation */}
       <div className={classes.widgetSection}>
         <Title order={2} className={classes.widgetTitle}>
           Make Your Gift
         </Title>
-        <div className={classes.widgetCenter}>
-          <givebutter-widget id="gKwwRg"></givebutter-widget>
-        </div>
+
+        {checkoutAmount === null ? (
+          <Stack className={classes.amountPicker} gap="md">
+            <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="sm">
+              {PRESET_AMOUNTS.map((value) => {
+                const selected = custom === '' && preset === value;
+                return (
+                  <Button
+                    key={value}
+                    size="lg"
+                    variant={selected ? 'filled' : 'default'}
+                    aria-pressed={selected}
+                    onClick={() => {
+                      setPreset(value);
+                      setCustom('');
+                    }}
+                  >
+                    ${value}
+                  </Button>
+                );
+              })}
+            </SimpleGrid>
+
+            <NumberInput
+              label="Or enter a custom amount"
+              placeholder="Other amount"
+              prefix="$"
+              size="md"
+              min={MIN_AMOUNT}
+              max={MAX_AMOUNT}
+              allowDecimal={false}
+              allowNegative={false}
+              thousandSeparator=","
+              value={custom}
+              onChange={setCustom}
+              error={
+                custom !== '' && !amountValid
+                  ? `Please enter an amount between $${MIN_AMOUNT} and $${MAX_AMOUNT.toLocaleString()}`
+                  : undefined
+              }
+            />
+
+            <Button size="lg" disabled={!amountValid} onClick={() => setCheckoutAmount(amount)}>
+              {amountValid ? `Donate $${amount.toLocaleString()}` : 'Donate'}
+            </Button>
+            <Text size="xs" c="dimmed" ta="center">
+              One-time gift. Secure payment processed by Stripe.
+            </Text>
+          </Stack>
+        ) : (
+          <div className={classes.checkout}>
+            <Text ta="center" mb="md">
+              Donating <strong>${checkoutAmount.toLocaleString()}</strong> &middot;{' '}
+              <Anchor component="button" type="button" onClick={() => setCheckoutAmount(null)}>
+                Change amount
+              </Anchor>
+            </Text>
+            <StripeCheckout
+              key={checkoutAmount}
+              endpoint="/api/checkout/donation"
+              body={{ amount: checkoutAmount }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Closing */}

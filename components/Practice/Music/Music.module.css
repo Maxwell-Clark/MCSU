@@ -44,6 +44,14 @@
   gap: var(--mantine-spacing-md);
 }
 
+/* Keep the player full size (YouTube won't play below 200x200) but off-screen; only the custom player is shown. */
+.videoFrameHidden {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  pointer-events: none;
+}
+
 .playerVisualizer {
   display: flex;
   align-items: center;

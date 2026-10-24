@@ -1,0 +1,162 @@
+.tiersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+  align-items: start;
+}
+
+.tierCard {
+  padding: var(--space-xl);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  transition: all var(--duration-medium) var(--ease-organic);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+[data-mantine-color-scheme='dark'] .tierCard {
+  background: var(--mantine-color-dark-6);
+  border-color: var(--mantine-color-dark-5);
+}
+
+.tierCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft-md);
+}
+
+/* Featured tier */
+.tierCardFeatured {
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-soft-md);
+  transform: scale(1.03);
+}
+
+.tierCardFeatured:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: var(--shadow-soft-lg);
+}
+
+/* Member's current plan */
+.tierCardCurrent {
+  border: 2px solid var(--color-primary);
+  background: var(--mantine-color-sage-0);
+}
+
+.featuredBadge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gradient-primary);
+  color: var(--color-text-inverted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 1.2rem;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.tierName {
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+  text-align: center;
+}
+
+.tierTagline {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+  margin-bottom: var(--mantine-spacing-xs);
+}
+
+.tierPrefix {
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.tierPriceBlock {
+  text-align: center;
+  padding-bottom: var(--mantine-spacing-lg);
+  margin-bottom: var(--mantine-spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+[data-mantine-color-scheme='dark'] .tierPriceBlock {
+  border-bottom-color: var(--mantine-color-dark-5);
+}
+
+.tierPrice {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.tierPriceAlt {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--mantine-spacing-xl);
+  flex: 1;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-xs) 0;
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.benefitIcon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+@media (max-width: 48em) {
+  .tiersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tierCardFeatured {
+    transform: none;
+    border-width: 2px;
+    box-shadow: var(--shadow-soft-md);
+    background: var(--color-surface);
+  }
+
+  .tierCardFeatured::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(
+      135deg,
+      rgba(var(--color-primary-rgb, 76, 110, 89), 0.04),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .tierCardFeatured:hover {
+    transform: translateY(-4px);
+  }
+}

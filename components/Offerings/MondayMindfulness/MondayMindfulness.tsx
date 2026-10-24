@@ -13,7 +13,7 @@ const MOCKDATA = [
   {
     icon: IconClock,
     title: 'Weekly In-person Session',
-    description: "Wake-up Wednesday is an hour long offering beginning at 5:15 pm in the conference room of Dr. Tate's office. His address is 321 N. Mall Dr., Suite I-201, St. George, Utah. Just drop-in when you can.",
+    description: "Everyday Mindfulness is an hour long offering beginning at 5:15 pm each Thursday in the conference room of Dr. Tate's office. His address is 321 N. Mall Dr., Suite I-201, St. George, Utah. Just drop-in when you can.",
   },
   {
     icon: IconBrain,
@@ -76,7 +76,7 @@ export function MondayMindfulness() {
 
           <Container size={560} p={0}>
             <Text size="lg" className={classes.description}>
-              Monday Mindfulness is led by Kirk Benson and Wake-up Wednesday is led by Dr. David B. Tate.
+              Monday Mindfulness is led by Kirk Benson and Everyday Mindfulness is led by Dr. David B. Tate.
             </Text>
           </Container>
         </div>

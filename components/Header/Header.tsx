@@ -32,10 +32,10 @@ import Image from 'next/image';
     IconSchool,
     IconChevronDown,
     IconCalendarFilled,
-    IconInfoCircle, IconUsers, IconBuilding, IconBuildingCommunity, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar,
+    IconInfoCircle, IconUsers, IconBuilding, IconBuildingCommunity, IconFileText, IconVideo, IconMessageCircle, IconMusic, IconLink, IconBriefcase, IconChartPie, IconCalendar, IconIdBadge2,
   } from '@tabler/icons-react';
   import classes from './Header.module.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
   
   const whoWeAreData = [
     {
@@ -150,6 +150,13 @@ import { useEffect, useState } from 'react';
       id: 'business',
       description: 'Discover ways your business can support mindfulness and well-being in the workplace.',
     },
+    {
+      icon: IconIdBadge2,
+      title: 'Membership',
+      id: 'membership',
+      href: '/membership',
+      description: 'Become a member and support our mission while enjoying exclusive benefits.',
+    },
   ];
   
   const offeringsData = [
@@ -184,22 +191,6 @@ import { useEffect, useState } from 'react';
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, setLinksOpened] = useState({});
     const theme = useMantineTheme();
-
-    useEffect(() => {
-      let cancelled = false;
-      const tryInit = () => {
-        if (cancelled) return;
-        if (window.Givebutter?.init) {
-          window.Givebutter.init();
-        } else {
-          setTimeout(tryInit, 200);
-        }
-      };
-      tryInit();
-      return () => {
-        cancelled = true;
-      };
-    }, []);
 
     const toggleLinks = (key) => {
         setLinksOpened((prevState) => ({
@@ -277,8 +268,8 @@ import { useEffect, useState } from 'react';
 
             <Group gap="sm">
               <Button
-                data-gb-account="Ff8VH2HNtdEDHuXt"
-                data-gb-campaign="mcsu-donate-v7kc8r"
+                component={Link}
+                href="/donate"
                 size="compact-sm"
                 className={classes.navButton}
                 visibleFrom="md"
@@ -367,8 +358,8 @@ import { useEffect, useState } from 'react';
       </Drawer>
 
       <Button
-        data-gb-account="Ff8VH2HNtdEDHuXt"
-        data-gb-campaign="mcsu-donate-v7kc8r"
+        component={Link}
+        href="/donate"
         size="md"
         className={`${classes.navButton} ${classes.donateFab}`}
         hiddenFrom="md"

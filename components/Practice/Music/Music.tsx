@@ -127,11 +127,12 @@ declare global {
         config: {
           height: string;
           width: string;
-          videoId: string;
+          videoId?: string;
           playerVars: Record<string, number>;
           events: {
             onReady: (event: { target: YTPlayer }) => void;
             onStateChange: (event: { data: number }) => void;
+            onError: (event: { data: number }) => void;
           };
         }
       ) => YTPlayer;
@@ -154,6 +155,7 @@ interface YTPlayer {
   getDuration: () => number;
   seekTo: (seconds: number, allowSeekAhead: boolean) => void;
   loadVideoById: (videoId: string) => void;
+  unMute: () => void;
   destroy: () => void;
 }
 
@@ -167,9 +169,14 @@ const Music: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [playbackError, setPlaybackError] = useState<string | null>(null);
 
   const playerRef = useRef<YTPlayer | null>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
+  // Track requested before the player finished loading; played from onReady.
+  const pendingTrackRef = useRef<MusicVideo | null>(null);
+  const volumeRef = useRef(volume);
+  const playNextRef = useRef<() => void>(() => {});
 
   const categories = ['all', ...musicSections.map((section) => section.category.toLowerCase())];
 
@@ -184,58 +191,58 @@ const Music: React.FC = () => {
 
   const allVideos = musicSections.flatMap((section) => section.videos);
 
+  const clearProgress = () => {
+    if (progressInterval.current) {
+      clearInterval(progressInterval.current);
+      progressInterval.current = null;
+    }
+  };
+
+  const startPlayback = (player: YTPlayer, videoId: string) => {
+    // Called synchronously from the click handler so the browser treats it as
+    // user-initiated playback and allows sound.
+    player.loadVideoById(videoId);
+    player.unMute();
+    player.setVolume(volumeRef.current);
+  };
+
+  // Create a single visible YouTube player once the iframe API is loaded.
+  // YouTube refuses to play (or plays muted) in players smaller than 200x200,
+  // so the player stays full size and is kept off-screen instead of shrunk.
   useEffect(() => {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
-    window.onYouTubeIframeAPIReady = () => {
-      setIsPlayerReady(true);
-    };
-
-    return () => {
-      if (progressInterval.current) {
-        clearInterval(progressInterval.current);
-      }
+    const createPlayer = () => {
       if (playerRef.current) {
-        playerRef.current.destroy();
-      }
-    };
-  }, []);
-
-  const initializePlayer = useCallback(
-    (videoId: string) => {
-      if (!window.YT || !window.YT.Player) return;
-
-      if (playerRef.current) {
-        playerRef.current.loadVideoById(videoId);
         return;
       }
-
       playerRef.current = new window.YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId,
+        height: '200',
+        width: '356',
         playerVars: {
-          autoplay: 1,
+          autoplay: 0,
           controls: 0,
           disablekb: 1,
           fs: 0,
           modestbranding: 1,
+          playsinline: 1,
           rel: 0,
         },
         events: {
           onReady: (event) => {
-            event.target.setVolume(volume);
-            setDuration(event.target.getDuration());
+            setIsPlayerReady(true);
+            event.target.setVolume(volumeRef.current);
+            if (pendingTrackRef.current) {
+              startPlayback(event.target, pendingTrackRef.current.videoId);
+              pendingTrackRef.current = null;
+            }
           },
           onStateChange: (event) => {
             if (event.data === window.YT.PlayerState.PLAYING) {
               setIsPlaying(true);
+              setPlaybackError(null);
               if (playerRef.current) {
                 setDuration(playerRef.current.getDuration());
               }
+              clearProgress();
               progressInterval.current = setInterval(() => {
                 if (playerRef.current) {
                   setCurrentTime(playerRef.current.getCurrentTime());
@@ -243,28 +250,56 @@ const Music: React.FC = () => {
               }, 1000);
             } else if (event.data === window.YT.PlayerState.PAUSED) {
               setIsPlaying(false);
-              if (progressInterval.current) {
-                clearInterval(progressInterval.current);
-              }
+              clearProgress();
             } else if (event.data === window.YT.PlayerState.ENDED) {
-              playNext();
+              setIsPlaying(false);
+              clearProgress();
+              playNextRef.current();
             }
+          },
+          onError: () => {
+            // 2/5/100/101/150: invalid id, HTML5 error, removed, or embedding disabled
+            setIsPlaying(false);
+            clearProgress();
+            setPlaybackError("This track can't be played here. Skipping to the next one.");
+            playNextRef.current();
           },
         },
       });
-    },
-    [volume]
-  );
+    };
+
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = createPlayer;
+      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.body.appendChild(tag);
+      }
+    }
+
+    return () => {
+      clearProgress();
+      if (playerRef.current) {
+        playerRef.current.destroy();
+        playerRef.current = null;
+      }
+    };
+  }, []);
 
   const playTrack = useCallback(
     (track: MusicVideo) => {
       setCurrentTrack(track);
       setCurrentTime(0);
-      if (isPlayerReady) {
-        initializePlayer(track.videoId);
+      setDuration(0);
+      if (isPlayerReady && playerRef.current) {
+        startPlayback(playerRef.current, track.videoId);
+      } else {
+        pendingTrackRef.current = track;
       }
     },
-    [isPlayerReady, initializePlayer]
+    [isPlayerReady]
   );
 
   const togglePlay = () => {
@@ -283,6 +318,10 @@ const Music: React.FC = () => {
     playTrack(allVideos[nextIndex]);
   }, [currentTrack, allVideos, playTrack]);
 
+  useEffect(() => {
+    playNextRef.current = playNext;
+  }, [playNext]);
+
   const playPrevious = () => {
     if (!currentTrack) return;
     const currentIndex = allVideos.findIndex((v) => v.videoId === currentTrack.videoId);
@@ -292,6 +331,9 @@ const Music: React.FC = () => {
 
   const handleVolumeChange = (value: number) => {
     setVolume(value);
+    if (value > 0) {
+      volumeRef.current = value;
+    }
     setIsMuted(value === 0);
     if (playerRef.current) {
       playerRef.current.setVolume(value);
@@ -301,6 +343,7 @@ const Music: React.FC = () => {
   const toggleMute = () => {
     if (playerRef.current) {
       if (isMuted) {
+        playerRef.current.unMute();
         playerRef.current.setVolume(volume || 70);
         setIsMuted(false);
       } else {
@@ -325,8 +368,6 @@ const Music: React.FC = () => {
 
   return (
     <div className={classes.wrapper}>
-      <div id="youtube-player" style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }} />
-
       <Stack align="center" gap="xl">
         <div>
           <Title className={classes.sectionTitle} order={2}>
@@ -422,6 +463,16 @@ const Music: React.FC = () => {
               />
             </Group>
           </Box>
+        )}
+
+        <div className={classes.videoFrameHidden}>
+          <div id="youtube-player" />
+        </div>
+
+        {playbackError && (
+          <Text size="sm" c="red.7" ta="center">
+            {playbackError}
+          </Text>
         )}
 
         <Tabs
