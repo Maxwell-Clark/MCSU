@@ -62,6 +62,7 @@ export async function POST(request: Request) {
       line_items: [{ price: prices[0].id, quantity: 1 }],
       metadata,
       subscription_data: { metadata },
+      wallet_options: { link: { display: 'never' } },
       return_url: `${getSiteUrl()}/membership/dashboard?session_id={CHECKOUT_SESSION_ID}`,
     });
 

@@ -1,14 +1,16 @@
 'use client';
 
 import { Suspense } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Container, Paper, Title, Text, Center } from '@mantine/core';
+import { Alert, Anchor, Container, Paper, Title, Text, Center } from '@mantine/core';
 import { LoginForm } from '@/components/Admin/LoginForm/LoginForm';
 import classes from './login.module.css';
 
 function LoginContent() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || undefined;
+  const passwordReset = searchParams.get('reset') === 'success';
 
   return (
     <div className={classes.wrapper}>
@@ -22,9 +24,22 @@ function LoginContent() {
               Sign in to your account
             </Text>
 
+            {passwordReset && (
+              <Alert color="green" variant="light" mt="lg">
+                Password updated. Please sign in.
+              </Alert>
+            )}
+
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
               <LoginForm redirect={redirect} />
             </Paper>
+
+            <Text c="dimmed" size="sm" ta="center" mt="md">
+              Don&apos;t have an account?{' '}
+              <Anchor component={Link} href="/membership" size="sm">
+                Sign up
+              </Anchor>
+            </Text>
           </div>
         </Center>
       </Container>
