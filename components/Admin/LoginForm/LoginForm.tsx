@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { TextInput, PasswordInput, Button, Stack, Alert } from '@mantine/core';
+import { TextInput, PasswordInput, Button, Stack, Alert, Anchor } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { createClient } from '@/lib/supabase/client';
 import classes from './LoginForm.module.css';
@@ -91,7 +92,11 @@ export function LoginForm({ redirect }: LoginFormProps) {
           autoComplete="current-password"
         />
 
-        <Button type="submit" fullWidth mt="xl" loading={loading}>
+        <Anchor component={Link} href="/login/forgot-password" size="sm" ta="right">
+          Forgot password?
+        </Anchor>
+
+        <Button type="submit" fullWidth loading={loading}>
           Sign in
         </Button>
       </Stack>
