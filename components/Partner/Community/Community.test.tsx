@@ -24,6 +24,22 @@ describe('Community', () => {
       expect(image).toBeInTheDocument();
     });
 
+    it('renders the Stone Cliff logo', () => {
+      render(<Community />);
+      expect(screen.getByAltText('Stone Cliff')).toHaveAttribute(
+        'src',
+        '/images/partners/stone-cliff-logo.png'
+      );
+    });
+
+    it('renders the St George Active Life Center photo', () => {
+      render(<Community />);
+      expect(screen.getByAltText('St George Active Life Center building')).toHaveAttribute(
+        'src',
+        '/images/partners/st-george-active-life-center.png'
+      );
+    });
+
     it('does not render the Southern Utah Veterans Home', () => {
       render(<Community />);
       expect(screen.queryByText(/Southern Utah Veterans Home/)).not.toBeInTheDocument();
@@ -42,6 +58,12 @@ describe('Community', () => {
       render(<Community />);
       const link = screen.getByText('St George Active Life Center').closest('a');
       expect(link).toHaveAttribute('href', 'https://coa.washco.utah.gov/st-george/');
+    });
+
+    it('links Stone Cliff to its website', () => {
+      render(<Community />);
+      const link = screen.getByAltText('Stone Cliff').closest('a');
+      expect(link).toHaveAttribute('href', 'https://www.stonecliffhoa.pmpwebsites.com/');
     });
   });
 

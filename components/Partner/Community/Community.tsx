@@ -2,7 +2,7 @@
 import { Title, Text, Container, Paper, Stack, useMantineTheme, Image } from '@mantine/core';
 import classes from './Community.module.css';
 
-type Partner = { name: string; href: string; logo?: string };
+type Partner = { name: string; href: string; logo?: string; logoWidth?: number; photo?: string };
 
 const partners: Partner[] = [
   {
@@ -12,7 +12,15 @@ const partners: Partner[] = [
   },
   {
     name: 'St George Active Life Center',
+    photo: '/images/partners/st-george-active-life-center.png',
     href: 'https://coa.washco.utah.gov/st-george/',
+  },
+  {
+    name: 'Stone Cliff',
+    logo: '/images/partners/stone-cliff-logo.png',
+    // The source image is small, so show it at its natural width to keep it sharp
+    logoWidth: 163,
+    href: 'https://www.stonecliffhoa.pmpwebsites.com/',
   },
 ];
 
@@ -66,13 +74,26 @@ export function Community() {
                     src={partner.logo}
                     alt={partner.name}
                     fit="contain"
-                    w={280}
+                    w={partner.logoWidth ?? 280}
                     style={{ margin: '0 auto' }}
                   />
                 ) : (
-                  <Title order={3} ta="center" c="sage.7">
-                    {partner.name}
-                  </Title>
+                  <>
+                    {partner.photo && (
+                      <Image
+                        src={partner.photo}
+                        alt={`${partner.name} building`}
+                        radius="sm"
+                        w={560}
+                        maw="100%"
+                        mx="auto"
+                        mb="md"
+                      />
+                    )}
+                    <Title order={3} ta="center" c="sage.7">
+                      {partner.name}
+                    </Title>
+                  </>
                 )}
               </a>
             </Paper>
