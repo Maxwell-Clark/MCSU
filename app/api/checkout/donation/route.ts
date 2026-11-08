@@ -38,6 +38,7 @@ export async function POST(request: Request) {
         },
       ],
       metadata: { type: 'donation' },
+      wallet_options: { link: { display: 'never' } },
       return_url: `${getSiteUrl()}/donate/thank-you?session_id={CHECKOUT_SESSION_ID}`,
     });
 
