@@ -8,6 +8,7 @@ import Meditations from '@/components/Practice/Meditations/Meditations';
 import Videos from '@/components/Practice/Videos/Videos';
 import Music from '@/components/Practice/Music/Music';
 import { ClassEvent } from '@/data/classData';
+import type { ContentItemView } from '@/lib/content-kinds';
 import classes from './PracticeDashboard.module.css';
 
 const TAB_CONFIG = [
@@ -29,9 +30,11 @@ function getInitialTab(): TabValue {
 
 interface PracticeDashboardProps {
   classEvents: ClassEvent[];
+  videos: ContentItemView[];
+  music: ContentItemView[];
 }
 
-export default function PracticeDashboard({ classEvents }: PracticeDashboardProps) {
+export default function PracticeDashboard({ classEvents, videos, music }: PracticeDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabValue>(getInitialTab);
 
   useEffect(() => {
@@ -91,14 +94,14 @@ export default function PracticeDashboard({ classEvents }: PracticeDashboardProp
           <div className={classes.content}>
             {/* Music uses display:none to keep YT player alive */}
             <div style={{ display: activeTab === 'music' ? 'block' : 'none' }}>
-              <Music />
+              <Music items={music} />
             </div>
 
             {activeTab !== 'music' && (
               <div key={activeTab} className={classes.fadeIn}>
                 {activeTab === 'schedule' && <PracticeCalendar classEvents={classEvents} />}
                 {activeTab === 'meditations' && <Meditations />}
-                {activeTab === 'videos' && <Videos />}
+                {activeTab === 'videos' && <Videos items={videos} />}
               </div>
             )}
 

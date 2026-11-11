@@ -4,31 +4,15 @@ import React from 'react';
 import { Box, Text, Title, Container, Stack } from '@mantine/core';
 import classes from './Videos.module.css';
 import YouTubePlayer from '@/components/YoutubeComponent/YoutubeComponent';
+import type { ContentItemView } from '@/lib/content-kinds';
 
-const videos = [
-    {
-        title: 'How mindfulness changes the emotional life of our brains',
-        description: 'Richard J. Davidson',
-        videoId: '7CBfCW67xT8',
-    },
-    {
-        title: 'The Power of Mindfulness: What You Practice Grows Stronger',
-        description: 'Shauna Shapiro',
-        videoId: 'IeblJdB2-Vo',
-    },
-    {
-        title: 'The Three Components of Self-Compassion',
-        description: 'Kristin Neff',
-        videoId: '11U0h0DPu7k',
-    },
-    {
-        title: 'The True Meaning of METTA',
-        description: 'Sharon Salzberg',
-        videoId: 'p117V-RQ_MA',
-    },
-];
+interface VideosProps {
+    /** Active resource videos, in display order (managed in Admin > Media & Resources) */
+    items: ContentItemView[];
+}
 
-const Videos: React.FC = () => {
+const Videos: React.FC<VideosProps> = ({ items }) => {
+    const videos = items.filter((item) => item.youtubeId);
     return (
         <div className={classes.wrapper}>
             {/* Gradient orbs */}
@@ -41,22 +25,24 @@ const Videos: React.FC = () => {
                 <Title className={classes.title}>Videos</Title>
 
                 <Stack gap="xl" align="center" style={{ maxWidth: 800, margin: '0 auto' }}>
-                    {videos.map((video, index) => (
+                    {videos.map((video) => (
                         <Box
-                            key={index}
+                            key={video.id}
                             className={classes.videoCard}
                             style={{ width: '100%' }}
                         >
                             <div className={classes.video_container}>
-                                <YouTubePlayer videoId={video.videoId} title={video.title}/>
+                                <YouTubePlayer videoId={video.youtubeId!} title={video.title}/>
                             </div>
                             <div className={classes.cardContent}>
                                 <Text className={classes.videoTitle}>
                                     {video.title}
                                 </Text>
-                                <Text className={classes.videoAuthor}>
-                                    {video.description}
-                                </Text>
+                                {video.creator && (
+                                    <Text className={classes.videoAuthor}>
+                                        {video.creator}
+                                    </Text>
+                                )}
                             </div>
                         </Box>
                     ))}

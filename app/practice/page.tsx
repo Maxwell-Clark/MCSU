@@ -1,11 +1,15 @@
 import PracticeDashboard from "@/components/Practice/PracticeDashboard/PracticeDashboard";
 import { getActiveClassEvents } from "@/lib/actions/classes";
+import { getActiveContent } from "@/lib/actions/content";
 import { ClassEvent } from "@/data/classData";
 
 export const dynamic = 'force-dynamic';
 
 export default async function PracticePage() {
-  const dbClasses = await getActiveClassEvents();
+  const [dbClasses, content] = await Promise.all([
+    getActiveClassEvents(),
+    getActiveContent(['practice_video', 'music']),
+  ]);
 
   const classEvents: ClassEvent[] = dbClasses.map((c) => ({
     id: c.id,
@@ -27,5 +31,11 @@ export default async function PracticePage() {
     category: c.category,
   }));
 
-  return <PracticeDashboard classEvents={classEvents} />;
+  return (
+    <PracticeDashboard
+      classEvents={classEvents}
+      videos={content.practice_video}
+      music={content.music}
+    />
+  );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import {
   Text,
   Group,
@@ -23,9 +23,11 @@ import {
   IconVolumeOff,
   IconMusic,
 } from '@tabler/icons-react';
+import { categoriesInOrder, type ContentItemView } from '@/lib/content-kinds';
 import classes from './Music.module.css';
 
 type MusicVideo = {
+  id: string;
   title: string;
   artist?: string;
   duration?: string;
@@ -33,91 +35,10 @@ type MusicVideo = {
   category?: string;
 };
 
-type MusicGroup = {
-  category: string;
-  videos: MusicVideo[];
-};
-
-const musicSections: MusicGroup[] = [
-  {
-    category: 'melodic',
-    videos: [
-      {
-        title: 'Your Smiling Face',
-        artist: 'James Taylor',
-        duration: '3:34',
-        videoId: 'ZSsfNlS42Cc',
-        category: 'Melodic',
-      },
-      {
-        title: 'Orinoco Flow',
-        artist: 'Enya',
-        duration: '3:34',
-        videoId: 'LTrk4X9ACtw',
-        category: 'Melodic',
-      },
-      {
-        title: 'Why Worry?',
-        artist: 'Clannad',
-        duration: '4:28',
-        videoId: '4Wns465rgGo',
-        category: 'Melodic',
-      },
-    ],
-  },
-  {
-    category: 'Meditation',
-    videos: [
-      {
-        title: 'Life is Love',
-        artist: 'Deuter',
-        duration: '7:12',
-        videoId: 'hc5q94wu1E8',
-        category: 'Meditation',
-      },
-      {
-        title: 'Grass Grows By Itself',
-        artist: 'Deuter',
-        duration: '7:14',
-        videoId: 'gKLEmy4d2h0',
-        category: 'Meditation',
-      },
-      {
-        title: 'The Man Who Danced Too Slowly',
-        artist: 'Baka Beyond',
-        duration: '6:07',
-        videoId: 'JSBRb7MFy30',
-        category: 'Meditation',
-      },
-    ],
-  },
-  {
-    category: 'Nature',
-    videos: [
-      {
-        title: 'Ngombi',
-        artist: 'Baka Beyond',
-        duration: '4:53',
-        videoId: '89PBXCp-MSI',
-        category: 'Nature',
-      },
-      {
-        title: 'Wilderness',
-        artist: 'Clannad',
-        duration: '2:06',
-        videoId: 'qg0ZkKEZLcs',
-        category: 'Nature',
-      },
-      {
-        title: 'Highway In the Sun',
-        artist: 'Kohala',
-        duration: '3:33',
-        videoId: 'xuuqviYcZcU',
-        category: 'Nature',
-      },
-    ],
-  },
-];
+interface MusicProps {
+  /** Active music tracks, in display order (managed in Admin > Media & Resources) */
+  items: ContentItemView[];
+}
 
 declare global {
   interface Window {
@@ -159,7 +80,7 @@ interface YTPlayer {
   destroy: () => void;
 }
 
-const Music: React.FC = () => {
+const Music: React.FC<MusicProps> = ({ items }) => {
   const [activeTab, setActiveTab] = useState<string | null>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentTrack, setCurrentTrack] = useState<MusicVideo | null>(null);
@@ -178,18 +99,33 @@ const Music: React.FC = () => {
   const volumeRef = useRef(volume);
   const playNextRef = useRef<() => void>(() => {});
 
-  const categories = ['all', ...musicSections.map((section) => section.category.toLowerCase())];
+  const allVideos = useMemo<MusicVideo[]>(
+    () =>
+      items
+        .filter((item) => item.youtubeId)
+        .map((item) => ({
+          id: item.id,
+          title: item.title,
+          artist: item.creator ?? undefined,
+          duration: item.duration ?? undefined,
+          videoId: item.youtubeId!,
+          category: item.category ?? undefined,
+        })),
+    [items]
+  );
 
-  const filteredVideos = musicSections
-    .filter((section) => activeTab === 'all' || section.category.toLowerCase() === activeTab)
-    .flatMap((section) => section.videos)
+  const categories = [
+    'all',
+    ...categoriesInOrder(items).map((category) => category.toLowerCase()),
+  ];
+
+  const filteredVideos = allVideos
+    .filter((video) => activeTab === 'all' || video.category?.toLowerCase() === activeTab)
     .filter(
       (video) =>
         video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         video.artist?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
-  const allVideos = musicSections.flatMap((section) => section.videos);
 
   const clearProgress = () => {
     if (progressInterval.current) {
@@ -503,10 +439,16 @@ const Music: React.FC = () => {
           radius="lg"
         />
 
+        {filteredVideos.length === 0 && (
+          <Text c="dimmed" ta="center">
+            {allVideos.length === 0 ? 'Music is coming soon.' : 'No tracks match your search.'}
+          </Text>
+        )}
+
         <Stack gap="sm" style={{ width: '100%' }}>
-          {filteredVideos.map((video, index) => (
+          {filteredVideos.map((video) => (
             <div
-              key={index}
+              key={video.id}
               className={`${classes.trackItem} ${currentTrack?.videoId === video.videoId ? classes.trackItemActive : ''}`}
               onClick={() => playTrack(video)}
             >

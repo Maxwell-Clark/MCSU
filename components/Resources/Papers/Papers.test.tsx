@@ -1,5 +1,8 @@
 import { render, screen, userEvent } from '@/test-utils';
+import { getDefaultContent } from '@/lib/content-defaults';
 import { Papers } from './Papers';
+
+const items = getDefaultContent('paper');
 
 describe('Papers', () => {
   beforeEach(() => {
@@ -8,12 +11,12 @@ describe('Papers', () => {
 
   describe('Rendering', () => {
     it('renders the title', () => {
-      render(<Papers />);
+      render(<Papers items={items} />);
       expect(screen.getByRole('heading', { name: 'Papers' })).toBeInTheDocument();
     });
 
     it('renders all paper cards', () => {
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       expect(screen.getByText('Mindfulness meditation: A research-proven way to reduce stress')).toBeInTheDocument();
       expect(screen.getByText('Mindfulness for Your Health')).toBeInTheDocument();
@@ -22,7 +25,7 @@ describe('Papers', () => {
     });
 
     it('renders category labels', () => {
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       expect(screen.getAllByText('Mindfulness').length).toBeGreaterThan(0);
       expect(screen.getByText('Health')).toBeInTheDocument();
@@ -30,7 +33,7 @@ describe('Papers', () => {
     });
 
     it('renders read article buttons', () => {
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       const readButtons = screen.getAllByRole('button', { name: /read article/i });
       expect(readButtons.length).toBe(4);
@@ -40,7 +43,7 @@ describe('Papers', () => {
   describe('User Interactions', () => {
     it('opens paper link when Read article button is clicked', async () => {
       const user = userEvent.setup();
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       const readButtons = screen.getAllByRole('button', { name: /read article/i });
       await user.click(readButtons[0]);
@@ -53,7 +56,7 @@ describe('Papers', () => {
 
     it('opens correct URLs for each paper', async () => {
       const user = userEvent.setup();
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       const readButtons = screen.getAllByRole('button', { name: /read article/i });
 
@@ -79,7 +82,7 @@ describe('Papers', () => {
 
   describe('Carousel', () => {
     it('renders carousel slides', () => {
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       // Carousel should contain the paper cards
       const papers = screen.getAllByRole('button', { name: /read article/i });
@@ -89,13 +92,13 @@ describe('Papers', () => {
 
   describe('Card Content', () => {
     it('displays paper title on each card', () => {
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       expect(screen.getByText('Mindfulness meditation: A research-proven way to reduce stress')).toBeInTheDocument();
     });
 
     it('displays category on each card', () => {
-      render(<Papers />);
+      render(<Papers items={items} />);
 
       expect(screen.getByText('Health')).toBeInTheDocument();
     });

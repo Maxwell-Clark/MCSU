@@ -9,6 +9,7 @@ import {
   IconLogout,
   IconSettings,
   IconChevronDown,
+  IconId,
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
@@ -27,33 +28,47 @@ export function UserMenu() {
 
   useEffect(() => {
     const supabase = createClient();
+    let cancelled = false;
 
-    supabase.auth.getUser().then(({ data: { user: authUser } }) => {
-      if (authUser) {
-        setUser({
-          email: authUser.email || '',
-          name: authUser.user_metadata?.name || authUser.email || '',
-          role: authUser.user_metadata?.role || 'admin',
-        });
+    // Role comes from the database (same source as the admin route guard), never
+    // from auth metadata, so members are never shown admin links.
+    const loadUser = async () => {
+      try {
+        const res = await fetch('/api/auth/me', { cache: 'no-store' });
+        const data = res.ok ? await res.json() : null;
+        if (cancelled) return;
+        setUser(
+          data
+            ? {
+                email: data.email || '',
+                name: data.name || data.email || '',
+                role: data.role === 'admin' ? 'admin' : 'member',
+              }
+            : null
+        );
+      } catch {
+        if (!cancelled) setUser(null);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
-    });
+    };
+
+    loadUser();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setUser({
-          email: session.user.email || '',
-          name: session.user.user_metadata?.name || session.user.email || '',
-          role: session.user.user_metadata?.role || 'admin',
-        });
-      } else {
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session?.user) {
         setUser(null);
+      } else if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+        loadUser();
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleSignOut = async () => {
@@ -98,7 +113,7 @@ export function UserMenu() {
             {user.email}
           </Text>
         </Menu.Label>
-        {user.role === 'admin' ? (
+        {user.role === 'admin' && (
           <Menu.Item
             component={Link}
             href="/admin"
@@ -106,24 +121,21 @@ export function UserMenu() {
           >
             Admin Dashboard
           </Menu.Item>
-        ) : (
-          <>
-            <Menu.Item
-              component={Link}
-              href="/membership/dashboard"
-              leftSection={<IconDashboard size={14} />}
-            >
-              My Dashboard
-            </Menu.Item>
-            <Menu.Item
-              component={Link}
-              href="/account/profile"
-              leftSection={<IconSettings size={14} />}
-            >
-              Edit Profile
-            </Menu.Item>
-          </>
         )}
+        <Menu.Item
+          component={Link}
+          href="/membership/dashboard"
+          leftSection={<IconId size={14} />}
+        >
+          My Membership
+        </Menu.Item>
+        <Menu.Item
+          component={Link}
+          href="/account/profile"
+          leftSection={<IconSettings size={14} />}
+        >
+          Edit Profile
+        </Menu.Item>
         <Menu.Divider />
         <Menu.Item
           color="red"

@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/supabase/auth';
+import { requireAdmin } from '@/lib/supabase/auth';
 import { geocodeAddress } from '@/lib/geocode';
 import { revalidatePath } from 'next/cache';
 
@@ -23,8 +23,7 @@ interface ClassEventData {
 }
 
 export async function createClassEvent(data: ClassEventData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const classEvent = await prisma.classEvent.create({ data });
 
@@ -35,8 +34,7 @@ export async function createClassEvent(data: ClassEventData) {
 }
 
 export async function updateClassEvent(id: string, data: ClassEventData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const classEvent = await prisma.classEvent.update({ where: { id }, data });
 
@@ -47,8 +45,7 @@ export async function updateClassEvent(id: string, data: ClassEventData) {
 }
 
 export async function deleteClassEvent(id: string) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   await prisma.classEvent.delete({ where: { id } });
   revalidatePath('/admin/classes');
@@ -57,8 +54,7 @@ export async function deleteClassEvent(id: string) {
 }
 
 export async function toggleClassActive(id: string, active: boolean) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const classEvent = await prisma.classEvent.update({
     where: { id },
@@ -72,6 +68,7 @@ export async function toggleClassActive(id: string, active: boolean) {
 }
 
 export async function getClassEvents() {
+  await requireAdmin();
   return prisma.classEvent.findMany({
     include: { location: true },
     orderBy: { createdAt: 'desc' },
@@ -79,6 +76,7 @@ export async function getClassEvents() {
 }
 
 export async function getClassEvent(id: string) {
+  await requireAdmin();
   return prisma.classEvent.findUnique({
     where: { id },
     include: { location: true },
@@ -101,8 +99,7 @@ interface LocationData {
 }
 
 export async function createLocation(data: LocationData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const { lat, lng } = await geocodeAddress(data.address);
   const location = await prisma.classLocation.create({
@@ -115,8 +112,7 @@ export async function createLocation(data: LocationData) {
 }
 
 export async function updateLocation(id: string, data: LocationData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const { lat, lng } = await geocodeAddress(data.address);
   const location = await prisma.classLocation.update({
@@ -130,8 +126,7 @@ export async function updateLocation(id: string, data: LocationData) {
 }
 
 export async function deleteLocation(id: string) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   await prisma.classLocation.delete({ where: { id } });
   revalidatePath('/admin/classes', 'layout');

@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/supabase/auth';
+import { requireAdmin } from '@/lib/supabase/auth';
 import { revalidatePath } from 'next/cache';
 
 interface BlogPostData {
@@ -14,11 +14,7 @@ interface BlogPostData {
 }
 
 export async function createBlogPost(data: BlogPostData) {
-  const session = await getSession();
-
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized');
-  }
+  const session = await requireAdmin();
 
   const existingPost = await prisma.blogPost.findUnique({
     where: { slug: data.slug },
@@ -42,11 +38,7 @@ export async function createBlogPost(data: BlogPostData) {
 }
 
 export async function updateBlogPost(id: string, data: BlogPostData) {
-  const session = await getSession();
-
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized');
-  }
+  await requireAdmin();
 
   const existingPost = await prisma.blogPost.findFirst({
     where: {
@@ -71,11 +63,7 @@ export async function updateBlogPost(id: string, data: BlogPostData) {
 }
 
 export async function deleteBlogPost(id: string) {
-  const session = await getSession();
-
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized');
-  }
+  await requireAdmin();
 
   await prisma.blogPost.delete({
     where: { id },
@@ -86,11 +74,7 @@ export async function deleteBlogPost(id: string) {
 }
 
 export async function toggleBlogPostPublished(id: string, published: boolean) {
-  const session = await getSession();
-
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized');
-  }
+  await requireAdmin();
 
   const post = await prisma.blogPost.update({
     where: { id },
@@ -104,6 +88,7 @@ export async function toggleBlogPostPublished(id: string, published: boolean) {
 }
 
 export async function getBlogPosts() {
+  await requireAdmin();
   return prisma.blogPost.findMany({
     include: {
       author: {
@@ -115,6 +100,7 @@ export async function getBlogPosts() {
 }
 
 export async function getBlogPost(id: string) {
+  await requireAdmin();
   return prisma.blogPost.findUnique({
     where: { id },
   });

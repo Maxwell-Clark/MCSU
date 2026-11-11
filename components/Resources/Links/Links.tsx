@@ -3,35 +3,18 @@
 import React from 'react';
 import { Title } from '@mantine/core';
 import { LinkGrid } from '@/components/LinkGrid/LinkGrid';
+import type { ContentItemView } from '@/lib/content-kinds';
 import classes from './Links.module.css';
 
-export default function Links() {
-  const links = [
-    {
-      label: 'Center for Healthy Minds',
-      url: 'https://centerhealthyminds.org/',
-    },
-    {
-      label: 'Palouse Mindfulness',
-      url: 'https://palousemindfulness.com/index.html',
-    },
-    {
-      label: 'Mindfulness Utah',
-      url: 'https://www.mindfulnessutah.com',
-    },
-    {
-      label: 'Mindfulness and Health Institute',
-      url: 'https://mindfulnessandhealthinstitute.org',
-    },
-    {
-      label: 'Tara Brach',
-      url: 'https://www.tarabrach.com',
-    },
-    {
-      label: 'Insight Timer',
-      url: 'https://insighttimer.com/',
-    },
-  ];
+interface LinksProps {
+  /** Active links, in display order (managed in Admin > Media & Resources) */
+  items: ContentItemView[];
+}
+
+export default function Links({ items }: LinksProps) {
+  const links = items
+    .filter((item) => item.url)
+    .map((item) => ({ label: item.title, url: item.url! }));
 
   return (
     <div className={classes.wrapper}>

@@ -12,111 +12,27 @@ import {
   Badge,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
+import { categoriesInOrder, type ContentItemView } from '@/lib/content-kinds';
 import classes from './Videos.module.css';
 
-type Video = {
-  title: string;
-  instructor?: string;
-  duration?: string;
-  videoId: string;
-};
+interface VideosProps {
+  /** Active practice videos, in display order (managed in Admin > Media & Resources) */
+  items: ContentItemView[];
+}
 
-type VideoGroup = {
-  category: string;
-  videos: Video[];
-};
-
-const videoSections: VideoGroup[] = [
-  {
-    category: 'Body Scan',
-    videos: [
-      {
-        title: 'Body Scan Meditation',
-        instructor: 'Jon Kabat-Zinn',
-        duration: '29 minutes',
-        videoId: '15q-N-_kkrU',
-      },
-      {
-        title: 'Body Scan Practice',
-        instructor: 'Mark Williams',
-        duration: '14 minutes',
-        videoId: 'CyKhfUdOEgs',
-      },
-    ],
-  },
-  {
-    category: 'Focused Awareness',
-    videos: [
-      {
-        title: 'Focused Awareness Meditation',
-        instructor: 'Mark Williams',
-        duration: '8 minutes',
-        videoId: 'fUeEnkjKyDs',
-      },
-      {
-        title: 'Breath Awareness with Jon Kabat-Zinn',
-        duration: '10 minutes',
-        videoId: '2GjZanuXWWk',
-      },
-      {
-        title: 'Guided Breath Meditation',
-        videoId: 'MUxwA1TDMnY',
-      },
-    ],
-  },
-  {
-    category: 'Moving Meditation',
-    videos: [
-      {
-        title: 'Walking Meditation',
-        videoId: '4RPShl45ixc',
-      },
-      {
-        title: 'Seated Yoga for Mindfulness',
-        videoId: 'G8BsLlPE1m4',
-      },
-    ],
-  },
-  {
-    category: 'Loving-Kindness',
-    videos: [
-      {
-        title: 'Loving-Kindness Guided Practice',
-        videoId: 'sz7cpV7ERsM',
-      },
-      {
-        title: '10-Minute Loving-Kindness – Sharon Salzberg',
-        videoId: 'e-TeW9CI0bc',
-      },
-    ],
-  },
-  {
-    category: 'Open Awareness',
-    videos: [
-      {
-        title: 'Open Awareness Practice',
-        videoId: 'ZKhzGwGb5Es',
-      },
-      {
-        title: 'Guided Open Monitoring Meditation',
-        videoId: 'VPZO58oWkkw',
-      },
-    ],
-  },
-];
-
-const Videos: React.FC = () => {
+const Videos: React.FC<VideosProps> = ({ items }) => {
   const [activeTab, setActiveTab] = useState<string | null>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['all', ...videoSections.map(section => section.category.toLowerCase())];
+  const videos = items.filter((item) => item.youtubeId);
+  const categories = ['all', ...categoriesInOrder(videos).map((category) => category.toLowerCase())];
+  const query = searchQuery.toLowerCase();
 
-  const filteredVideos = videoSections
-    .filter(section => activeTab === 'all' || section.category.toLowerCase() === activeTab)
-    .flatMap(section => section.videos)
-    .filter(video =>
-      video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      video.instructor?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredVideos = videos
+    .filter((video) => activeTab === 'all' || video.category?.toLowerCase() === activeTab)
+    .filter(
+      (video) =>
+        video.title.toLowerCase().includes(query) || video.creator?.toLowerCase().includes(query)
     );
 
   return (
@@ -163,14 +79,20 @@ const Videos: React.FC = () => {
           radius="lg"
         />
 
+        {filteredVideos.length === 0 && (
+          <Text c="dimmed" ta="center">
+            {videos.length === 0 ? 'Videos are coming soon.' : 'No videos match your search.'}
+          </Text>
+        )}
+
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg" style={{ width: '100%' }}>
-          {filteredVideos.map((video, index) => (
-            <div key={index} className={classes.videoCard}>
+          {filteredVideos.map((video) => (
+            <div key={video.id} className={classes.videoCard}>
               <div className={classes.video_container}>
                 <iframe
                   width="100%"
                   height="100%"
-                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                  src={`https://www.youtube.com/embed/${video.youtubeId}`}
                   title={video.title}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -182,9 +104,9 @@ const Videos: React.FC = () => {
                   {video.title}
                 </Title>
                 <Group gap="xs">
-                  {video.instructor && (
+                  {video.creator && (
                     <Text size="sm" className={classes.text}>
-                      Guided by {video.instructor}
+                      Guided by {video.creator}
                     </Text>
                   )}
                   {video.duration && (

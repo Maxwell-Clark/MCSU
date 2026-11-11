@@ -100,6 +100,26 @@ model Program {
   features         ProgramFeature[]
 }
 
+/// Admin-managed videos, music and Resources content. Which fields apply depends on `kind`.
+model ContentItem {
+  id        String   @id @default(cuid())
+  kind      String   // practice_video | music | resource_video | book | paper | link | poem
+  title     String
+  creator   String?  // instructor / artist / speaker / author
+  category  String?
+  duration  String?
+  youtubeId String?
+  url       String?
+  image     String?
+  body      String?  // poem text, one line per line
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([kind, active, sortOrder])
+}
+
 model ProgramFeature {
   id          String  @id @default(cuid())
   title       String

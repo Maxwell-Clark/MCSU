@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import type Stripe from 'stripe';
 import { Button, Container, Text, Title } from '@mantine/core';
@@ -47,7 +46,8 @@ export default async function DonationThankYouPage({ searchParams }: ThankYouPag
         Your generosity helps us bring mindfulness programs, resources, and community to Southern
         Utah.
       </Text>
-      <Button component={Link} href="/" mt="xl" size="md">
+      {/* Plain <a>: this is a Server Component, so next/link can't be passed as `component` */}
+      <Button component="a" href="/" mt="xl" size="md">
         Return Home
       </Button>
       <Text size="sm" c="dimmed" fs="italic" mt="xl">

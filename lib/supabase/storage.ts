@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@supabase/supabase-js';
-import { getSession } from './auth';
+import { requireAdmin } from './auth';
 
 const BUCKET_NAME = 'images';
 
@@ -16,10 +16,7 @@ function getStorageClient() {
 }
 
 export async function uploadImage(formData: FormData): Promise<string> {
-  const session = await getSession();
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized');
-  }
+  await requireAdmin();
 
   const file = formData.get('file') as File;
 
@@ -46,10 +43,7 @@ export async function uploadImage(formData: FormData): Promise<string> {
 }
 
 export async function deleteImage(url: string): Promise<void> {
-  const session = await getSession();
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized');
-  }
+  await requireAdmin();
 
   const supabase = getStorageClient();
 

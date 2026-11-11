@@ -11,6 +11,7 @@ import {
   IconMapPin,
   IconSchool,
   IconUsers,
+  IconPlaylist,
 } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -21,6 +22,7 @@ const navItems = [
   { label: 'Dashboard', href: '/admin', icon: IconDashboard },
   { label: 'Blog Posts', href: '/admin/blog', icon: IconArticle },
   { label: 'Programs', href: '/admin/programs', icon: IconSchool },
+  { label: 'Media & Resources', href: '/admin/content', icon: IconPlaylist },
   { label: 'Users', href: '/admin/users', icon: IconUsers },
 ];
 

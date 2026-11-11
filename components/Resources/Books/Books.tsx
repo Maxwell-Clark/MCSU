@@ -3,43 +3,24 @@
 import React from 'react';
 import { Title } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import type { ContentItemView } from '@/lib/content-kinds';
 import classes from './Books.module.css';
 
-interface BookData {
-  image: string;
-  title: string;
-  link: string;
+interface BooksProps {
+  /** Active books, in display order (managed in Admin > Media & Resources) */
+  items: ContentItemView[];
 }
 
-const books: BookData[] = [
-  {
-    image: '/images/books/miracle-of-mindfulness.jpg',
-    title: 'The Miracle of Mindfulness',
-    link: 'https://www.amazon.com/Miracle-Mindfulness-Introduction-Practice-Meditation/dp/0807012394',
-  },
-  {
-    image: '/images/books/wherever-you-go.jpg',
-    title: 'Wherever You Go, There You Are',
-    link: 'https://www.amazon.com/Wherever-You-There-Are-ROUGH/dp/B002E8JGCY',
-  },
-  {
-    image: '/images/books/radical-acceptance.jpg',
-    title: 'Radical Acceptance',
-    link: 'https://www.amazon.com/Radical-Acceptance-Awakening-Heals-Shame/dp/0712601457',
-  },
-  {
-    image: '/images/books/10-percent-happier.jpg',
-    title: '10% Happier',
-    link: 'https://www.amazon.com/10-Happier-10th-Anniversary-Works/dp/0063356473',
-  },
-  {
-    image: '/images/books/mindfulness-plain-english.jpg',
-    title: 'Mindfulness in Plain English',
-    link: 'https://www.amazon.com/Mindfulness-English-Bhante-Henepola-Gunaratana/dp/0861719069',
-  },
-];
+function linkLabel(url: string): string {
+  try {
+    return /(^|\.)amazon\./.test(new URL(url).hostname) ? 'Order on Amazon' : 'View book';
+  } catch {
+    return 'View book';
+  }
+}
 
-export function Books() {
+export function Books({ items }: BooksProps) {
+  const books = items.filter((item) => item.url);
   return (
     <div className={classes.wrapper}>
       <div className={classes.content}>
@@ -60,24 +41,26 @@ export function Books() {
             },
           }}
         >
-          {books.map((book, index) => (
-            <Carousel.Slide key={index}>
+          {books.map((book) => (
+            <Carousel.Slide key={book.id}>
               <div className={classes.card}>
                 <h3 className={classes.bookTitle}>{book.title}</h3>
                 <div className={classes.imageContainer}>
-                  <img
-                    src={book.image}
-                    alt={book.title}
-                    className={classes.bookImage}
-                  />
+                  {book.image && (
+                    <img
+                      src={book.image}
+                      alt={book.title}
+                      className={classes.bookImage}
+                    />
+                  )}
                 </div>
                 <a
-                  href={book.link}
+                  href={book.url!}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={classes.orderButton}
                 >
-                  Order on Amazon
+                  {linkLabel(book.url!)}
                 </a>
               </div>
             </Carousel.Slide>

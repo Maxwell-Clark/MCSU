@@ -1,4 +1,5 @@
-import { Container, Title, Text, Stack } from '@mantine/core';
+import { Alert, Container, Title, Text, Stack } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons-react';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/supabase/auth';
 import { prisma } from '@/lib/prisma';
@@ -18,8 +19,17 @@ export default async function ProfilePage() {
     select: { name: true, email: true, phone: true },
   });
 
+  // Signed in but no matching user record. Redirecting to /login would bounce a
+  // signed-in user to the homepage via middleware, so explain instead.
   if (!dbUser) {
-    redirect('/login');
+    return (
+      <Container size="sm" py="xl">
+        <Alert color="red" icon={<IconAlertCircle size={18} />} title="We couldn't load your profile">
+          Your login isn't linked to a member record yet. Please contact us and we'll fix it
+          for you.
+        </Alert>
+      </Container>
+    );
   }
 
   return (

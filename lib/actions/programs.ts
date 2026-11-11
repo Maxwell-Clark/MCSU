@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/supabase/auth';
+import { requireAdmin } from '@/lib/supabase/auth';
 import { revalidatePath } from 'next/cache';
 
 // Program CRUD
@@ -21,8 +21,7 @@ interface ProgramData {
 }
 
 export async function createProgram(data: ProgramData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const existing = await prisma.program.findUnique({ where: { slug: data.slug } });
   if (existing) throw new Error('A program with this slug already exists');
@@ -35,8 +34,7 @@ export async function createProgram(data: ProgramData) {
 }
 
 export async function updateProgram(id: string, data: ProgramData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const existing = await prisma.program.findFirst({
     where: { slug: data.slug, NOT: { id } },
@@ -51,8 +49,7 @@ export async function updateProgram(id: string, data: ProgramData) {
 }
 
 export async function deleteProgram(id: string) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   await prisma.program.delete({ where: { id } });
   revalidatePath('/admin/programs');
@@ -60,8 +57,7 @@ export async function deleteProgram(id: string) {
 }
 
 export async function toggleProgramActive(id: string, active: boolean) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const program = await prisma.program.update({
     where: { id },
@@ -74,6 +70,7 @@ export async function toggleProgramActive(id: string, active: boolean) {
 }
 
 export async function getPrograms() {
+  await requireAdmin();
   return prisma.program.findMany({
     include: { features: { orderBy: { sortOrder: 'asc' } } },
     orderBy: { sortOrder: 'asc' },
@@ -81,6 +78,7 @@ export async function getPrograms() {
 }
 
 export async function getProgram(id: string) {
+  await requireAdmin();
   return prisma.program.findUnique({
     where: { id },
     include: { features: { orderBy: { sortOrder: 'asc' } } },
@@ -114,8 +112,7 @@ interface ProgramFeatureData {
 }
 
 export async function addProgramFeature(data: ProgramFeatureData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const feature = await prisma.programFeature.create({ data });
 
@@ -125,8 +122,7 @@ export async function addProgramFeature(data: ProgramFeatureData) {
 }
 
 export async function updateProgramFeature(id: string, data: Omit<ProgramFeatureData, 'programId'>) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const feature = await prisma.programFeature.update({ where: { id }, data });
 
@@ -136,8 +132,7 @@ export async function updateProgramFeature(id: string, data: Omit<ProgramFeature
 }
 
 export async function deleteProgramFeature(id: string) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   await prisma.programFeature.delete({ where: { id } });
   revalidatePath('/admin/programs');

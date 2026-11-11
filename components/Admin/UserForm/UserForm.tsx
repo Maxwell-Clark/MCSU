@@ -50,6 +50,7 @@ export function UserForm({ user }: UserFormProps) {
           name,
           phone,
           role,
+          ...(password && { password }),
         });
       } else {
         if (!password) {

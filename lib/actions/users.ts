@@ -94,6 +94,7 @@ export async function createUser(data: CreateUserData) {
 }
 
 interface UpdateUserData {
+  password?: string;
   name?: string;
   phone?: string;
   role?: string;
@@ -116,15 +117,17 @@ export async function updateUser(id: string, data: UpdateUserData) {
       ...(validated.name !== undefined && { name: validated.name }),
       ...(validated.phone !== undefined && { phone: validated.phone || null }),
       ...(validated.role !== undefined && { role: validated.role }),
-      ...(validated.role !== undefined && {
-        membershipTier: validated.role === 'member' ? (validated.membershipTier || null) : null,
-      }),
+      // Keep the existing tier unless one is supplied or the user stops being a member
+      ...(validated.role !== undefined && validated.role !== 'member'
+        ? { membershipTier: null }
+        : validated.membershipTier !== undefined && { membershipTier: validated.membershipTier }),
     },
   });
 
   // Sync metadata to Supabase
   const supabase = getAdminClient();
-  await supabase.auth.admin.updateUserById(id, {
+  const { error: authError } = await supabase.auth.admin.updateUserById(id, {
+    ...(validated.password && { password: validated.password }),
     user_metadata: {
       role: user.role,
       name: user.name,
@@ -132,6 +135,10 @@ export async function updateUser(id: string, data: UpdateUserData) {
       tier: user.membershipTier,
     },
   });
+
+  if (authError) {
+    throw new Error(authError.message);
+  }
 
   revalidatePath('/admin/users');
   return user;

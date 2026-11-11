@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import type Stripe from 'stripe';
+import { sendEmail } from '@/lib/email/send';
+import { donationThankYouEmail, membershipWelcomeEmail } from '@/lib/email/templates';
 import { logger } from '@/lib/logger';
-import { parseLookupKey } from '@/lib/membership-tiers';
+import { getTierBySlug, parseLookupKey } from '@/lib/membership-tiers';
 import { prisma } from '@/lib/prisma';
-import { getStripe } from '@/lib/stripe';
+import { getSiteUrl, getStripe } from '@/lib/stripe';
 
 /**
  * Stripe webhook handler.
@@ -59,6 +61,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       email: session.customer_details?.email ?? undefined,
       amount: session.amount_total,
     });
+    await sendDonationEmail(session);
     return;
   }
 
@@ -80,18 +83,73 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     typeof session.subscription === 'string' ? session.subscription : session.subscription?.id;
   const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id;
 
-  await prisma.user.update({
+  const status = session.payment_status === 'unpaid' ? 'pending' : 'active';
+  const user = await prisma.user.update({
     where: { id: userId },
     data: {
       membershipTier: tier,
       // Async payment methods can complete checkout before payment; subscription.updated activates later
-      membershipStatus: session.payment_status === 'unpaid' ? 'pending' : 'active',
+      membershipStatus: status,
       stripeSubscriptionId: subscriptionId ?? null,
       ...(customerId && { stripeCustomerId: customerId }),
     },
   });
 
   logger.info('Membership activated', { userId, tier, action: 'membership_activate' });
+
+  if (status === 'active') {
+    await sendMembershipWelcome({
+      email: user.email,
+      name: user.name,
+      tierSlug: tier,
+      subscriptionId: subscriptionId ?? session.id,
+      amountCents: session.amount_total,
+    });
+  }
+}
+
+async function sendDonationEmail(session: Stripe.Checkout.Session) {
+  const email = session.customer_details?.email;
+  if (session.payment_status !== 'paid' || !email || session.amount_total == null) {
+    return;
+  }
+  await sendEmail({
+    to: email,
+    ...donationThankYouEmail({
+      name: session.customer_details?.name,
+      amountCents: session.amount_total,
+      date: new Date(session.created * 1000),
+      siteUrl: getSiteUrl(),
+    }),
+    idempotencyKey: `donation-thank-you/${session.id}`,
+  });
+}
+
+/**
+ * Keyed on the subscription, so the checkout and subscription webhooks (which can both
+ * report the same activation) send at most one welcome.
+ */
+async function sendMembershipWelcome(input: {
+  email: string;
+  name: string | null;
+  tierSlug: string;
+  subscriptionId: string;
+  amountCents?: number | null;
+}) {
+  const tier = getTierBySlug(input.tierSlug);
+  if (!tier) {
+    return;
+  }
+  await sendEmail({
+    to: input.email,
+    ...membershipWelcomeEmail({
+      name: input.name,
+      tier,
+      amountCents: input.amountCents,
+      siteUrl: getSiteUrl(),
+    }),
+    idempotencyKey: `membership-welcome/${input.subscriptionId}`,
+  });
 }
 
 function toMembershipStatus(status: Stripe.Subscription.Status): string {
@@ -155,4 +213,15 @@ async function handleSubscriptionChange(subscription: Stripe.Subscription) {
     tier: plan?.slug,
     action: 'subscription_sync',
   });
+
+  // Delayed payment (e.g. bank debit) cleared: this is when the membership actually starts
+  const tierSlug = plan?.slug ?? user.membershipTier;
+  if (user.membershipStatus === 'pending' && status === 'active' && tierSlug) {
+    await sendMembershipWelcome({
+      email: user.email,
+      name: user.name,
+      tierSlug,
+      subscriptionId: subscription.id,
+    });
+  }
 }

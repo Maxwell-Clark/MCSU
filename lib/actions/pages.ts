@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/supabase/auth';
+import { requireAdmin } from '@/lib/supabase/auth';
 import { revalidatePath } from 'next/cache';
 
 interface PageData {
@@ -15,8 +15,7 @@ interface PageData {
 }
 
 export async function createPage(data: PageData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  const session = await requireAdmin();
 
   const existing = await prisma.page.findUnique({ where: { slug: data.slug } });
   if (existing) throw new Error('A page with this slug already exists');
@@ -34,8 +33,7 @@ export async function createPage(data: PageData) {
 }
 
 export async function updatePage(id: string, data: PageData) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const existing = await prisma.page.findFirst({
     where: { slug: data.slug, NOT: { id } },
@@ -53,16 +51,14 @@ export async function updatePage(id: string, data: PageData) {
 }
 
 export async function deletePage(id: string) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   await prisma.page.delete({ where: { id } });
   revalidatePath('/admin/pages');
 }
 
 export async function togglePagePublished(id: string, published: boolean) {
-  const session = await getSession();
-  if (!session?.user?.id) throw new Error('Unauthorized');
+  await requireAdmin();
 
   const page = await prisma.page.update({
     where: { id },
@@ -75,6 +71,7 @@ export async function togglePagePublished(id: string, published: boolean) {
 }
 
 export async function getPages() {
+  await requireAdmin();
   return prisma.page.findMany({
     include: { author: { select: { name: true } } },
     orderBy: { createdAt: 'desc' },
@@ -82,6 +79,7 @@ export async function getPages() {
 }
 
 export async function getPage(id: string) {
+  await requireAdmin();
   return prisma.page.findUnique({ where: { id } });
 }
 
