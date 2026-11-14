@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { CONTENT_KIND_CONFIG, CONTENT_KINDS, type ContentField } from '@/lib/content-kinds';
 import { TIER_SLUGS } from '@/lib/membership-tiers';
+import { US_STATE_CODES } from '@/lib/us-states';
 import { parseYouTubeId } from '@/lib/youtube';
 
 export const passwordSchema = z
@@ -17,11 +18,81 @@ export const phoneSchema = z
 
 export const emailSchema = z.string().email('Please enter a valid email address');
 
+/** US mailing address. Field names match the User columns. */
+export const addressSchema = z.object({
+  addressLine1: z.string().trim().min(1, 'Street address is required').max(200),
+  addressLine2: z
+    .string()
+    .trim()
+    .max(200)
+    .nullish()
+    .transform((value) => value || null),
+  city: z.string().trim().min(1, 'City is required').max(100),
+  state: z.enum(US_STATE_CODES as [string, ...string[]], { message: 'Please choose a state' }),
+  postalCode: z
+    .string()
+    .trim()
+    .regex(/^\d{5}(-\d{4})?$/, 'Please enter a valid ZIP code'),
+});
+
+export type AddressInput = z.infer<typeof addressSchema>;
+
+const EMPTY_ADDRESS = {
+  addressLine1: null,
+  addressLine2: null,
+  city: null,
+  state: null,
+  postalCode: null,
+} as const;
+
+/**
+ * For profile/admin edits: an address may be left entirely blank (members who joined before
+ * addresses were collected), but if any part is filled in it must be complete.
+ * Omitted (undefined) stays undefined, meaning "leave the stored address unchanged".
+ */
+export const optionalAddressSchema = z
+  .object({
+    addressLine1: z.string().nullish(),
+    addressLine2: z.string().nullish(),
+    city: z.string().nullish(),
+    state: z.string().nullish(),
+    postalCode: z.string().nullish(),
+  })
+  .optional()
+  .transform((value, ctx) => {
+    if (value === undefined) {
+      return undefined;
+    }
+    const filled = Object.values(value).some((part) => part?.trim());
+    if (!filled) {
+      return { ...EMPTY_ADDRESS };
+    }
+    // Blank parts become '' so the required-field messages apply
+    const result = addressSchema.safeParse({
+      addressLine1: value.addressLine1 ?? '',
+      addressLine2: value.addressLine2,
+      city: value.city ?? '',
+      state: value.state ?? '',
+      postalCode: value.postalCode ?? '',
+    });
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        ctx.addIssue({ code: 'custom', message: issue.message, path: issue.path });
+      }
+      return z.NEVER;
+    }
+    return result.data;
+  });
+
+/** What forms send for an optional address (blank strings allowed). */
+export type AddressPayload = z.input<typeof optionalAddressSchema>;
+
 export const signupSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   name: z.string().min(1, 'Name is required').max(200),
   phone: phoneSchema,
+  address: addressSchema,
   tier: z.enum(TIER_SLUGS as [string, ...string[]], {
     message: 'Invalid membership tier',
   }),
@@ -32,6 +103,7 @@ export const createUserSchema = z.object({
   password: passwordSchema,
   name: z.string().min(1, 'Name is required').max(200),
   phone: z.string().optional(),
+  address: optionalAddressSchema,
   role: z.enum(['admin', 'member']),
   membershipTier: z
     .enum(TIER_SLUGS as [string, ...string[]])
@@ -42,6 +114,8 @@ export const updateUserSchema = z.object({
   password: passwordSchema.optional(),
   name: z.string().min(1).max(200).optional(),
   phone: z.string().optional(),
+  /** Omitted = leave the stored address unchanged */
+  address: optionalAddressSchema,
   role: z.enum(['admin', 'member']).optional(),
   membershipTier: z
     .enum(TIER_SLUGS as [string, ...string[]])

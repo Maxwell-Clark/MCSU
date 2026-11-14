@@ -47,6 +47,16 @@ export async function POST(request: Request) {
         email: user.email,
         name: user.name || undefined,
         phone: user.phone || undefined,
+        ...(user.addressLine1 && {
+          address: {
+            line1: user.addressLine1,
+            line2: user.addressLine2 || undefined,
+            city: user.city || undefined,
+            state: user.state || undefined,
+            postal_code: user.postalCode || undefined,
+            country: 'US',
+          },
+        }),
         metadata: { userId: user.id },
       });
       customerId = customer.id;

@@ -13,12 +13,23 @@ import {
 } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { createUser, updateUser } from '@/lib/actions/users';
+import { optionalAddressSchema } from '@/lib/validations';
+import {
+  AddressFields,
+  toAddressValue,
+  type AddressValue,
+} from '@/components/Forms/AddressFields/AddressFields';
 
 interface UserData {
   id: string;
   email: string;
   name: string | null;
   phone: string | null;
+  addressLine1: string | null;
+  addressLine2: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
   role: string;
   membershipTier: string | null;
 }
@@ -35,6 +46,7 @@ export function UserForm({ user }: UserFormProps) {
   const [email, setEmail] = useState(user?.email || '');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState(user?.phone || '');
+  const [address, setAddress] = useState<AddressValue>(toAddressValue(user ?? {}));
   const [role, setRole] = useState(user?.role || 'member');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -42,6 +54,14 @@ export function UserForm({ user }: UserFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Checked here too: server action error messages are hidden in production
+    const addressResult = optionalAddressSchema.safeParse(address);
+    if (!addressResult.success) {
+      setError(addressResult.error.issues[0]?.message || 'Please complete the address');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -49,6 +69,7 @@ export function UserForm({ user }: UserFormProps) {
         await updateUser(user.id, {
           name,
           phone,
+          address,
           role,
           ...(password && { password }),
         });
@@ -63,6 +84,7 @@ export function UserForm({ user }: UserFormProps) {
           password,
           name,
           phone: phone || undefined,
+          address,
           role,
         });
       }
@@ -118,6 +140,9 @@ export function UserForm({ user }: UserFormProps) {
           value={phone}
           onChange={(e) => setPhone(e.currentTarget.value)}
         />
+
+        <Title order={5}>Mailing Address</Title>
+        <AddressFields value={address} onChange={setAddress} />
 
         <Select
           label="Role"

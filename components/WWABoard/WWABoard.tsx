@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import classes from './WWABoard.module.css';
 import NinaHeadshot from '@/assets/img/nina_headshot.jpg';
-import Generic from '@/assets/img/generic.png';
+import HarlanHeadshot from '@/assets/img/harlan.jpeg';
 import GaelHeadshot from '@/assets/img/gael_headshot.jpg';
 import GinaHeadshot from '@/assets/img/gfoglia.png';
 import DavidTate from '@/assets/img/david_tate.jpeg';
@@ -16,6 +16,8 @@ interface BoardMember {
   name: string;
   category: string;
   description: string;
+  /** CSS object-position for the circular crop, for photos whose face isn't centred */
+  imagePosition?: string;
 }
 
 const data: BoardMember[] = [
@@ -38,7 +40,8 @@ const data: BoardMember[] = [
     description: 'I have been a practicing mother for 50 years. I\'ve discovered the importance of paying attention to what I experience – my friends, family, and community. A few years ago, I had the opportunity to visit with the Dalai Lama at his home and temple compound in Dharamsala, India. Western scientists specializing in K-12 education presented to the Dalai Lama their research on the impact of mindfulness in education. The Dalai Lama provided feedback in dialogue with the scientists. I was very impressed with the benefits mindfulness can provide our children and have since been a firm supporter of making mindfulness widely accessible. Our efforts at the Mindfulness Center of Southern Utah is to that end.',
   },
   {
-    image: Generic,
+    image: HarlanHeadshot.src,
+    imagePosition: 'center 20%',
     name: 'Harlan M. Hatfield',
     category: 'Secretary',
     description: `Harlan was elected to the board of directors of the Mindfulness Center of Southern Utah in 2025 and also serves as Secretary to the organization.
@@ -118,6 +121,7 @@ export function WWABoard() {
                   src={getImageSrc(member.image)}
                   alt={member.name}
                   className={classes.avatar}
+                  style={{ objectPosition: member.imagePosition }}
                 />
               </div>
               <div className={classes.cardContent}>
@@ -149,6 +153,7 @@ export function WWABoard() {
               src={getImageSrc(selectedMember.image)}
               alt={selectedMember.name}
               className={classes.modalAvatar}
+              style={{ objectPosition: selectedMember.imagePosition }}
             />
             <Text className={classes.modalName}>{selectedMember.name}</Text>
             <Text className={classes.modalRole}>{selectedMember.category}</Text>

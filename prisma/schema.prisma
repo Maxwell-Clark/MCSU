@@ -13,6 +13,12 @@ model User {
   email     String     @unique
   name      String?
   phone     String?
+  /// US mailing address (collected at sign-up)
+  addressLine1 String?
+  addressLine2 String?
+  city         String?
+  state        String?
+  postalCode   String?
   role           String     @default("member")
   membershipTier String?
   /// pending | active | past_due | canceled (mirrors Stripe subscription status); null = managed manually
@@ -23,6 +29,27 @@ model User {
   updatedAt DateTime   @updatedAt
   blogPosts BlogPost[]
   pages     Page[]
+}
+
+/// One-time donations, saved from the Stripe webhook (Stripe Checkout collects the billing address).
+model Donation {
+  id              String   @id @default(cuid())
+  stripeSessionId String   @unique
+  name            String?
+  email           String?
+  /// Cents
+  amount          Int
+  currency        String   @default("usd")
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  state           String?
+  postalCode      String?
+  country         String?
+  donatedAt       DateTime
+  createdAt       DateTime @default(now())
+
+  @@index([donatedAt])
 }
 
 model BlogPost {

@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/supabase/auth';
 import { revalidatePath } from 'next/cache';
-import { createUserSchema, updateUserSchema } from '@/lib/validations';
+import { createUserSchema, updateUserSchema, type AddressPayload } from '@/lib/validations';
 
 function getAdminClient() {
   return createClient(
@@ -30,6 +30,7 @@ interface CreateUserData {
   password: string;
   name: string;
   phone?: string;
+  address?: AddressPayload;
   role: string;
   membershipTier?: string;
 }
@@ -74,12 +75,14 @@ export async function createUser(data: CreateUserData) {
         name: validated.name,
         role: validated.role,
         phone: validated.phone || null,
+        ...validated.address,
         membershipTier: validated.role === 'member' ? validated.membershipTier || null : null,
       },
       update: {
         name: validated.name,
         role: validated.role,
         phone: validated.phone || null,
+        ...validated.address,
         membershipTier: validated.role === 'member' ? validated.membershipTier || null : null,
       },
     });
@@ -97,6 +100,7 @@ interface UpdateUserData {
   password?: string;
   name?: string;
   phone?: string;
+  address?: AddressPayload;
   role?: string;
   membershipTier?: string | null;
 }
@@ -116,6 +120,8 @@ export async function updateUser(id: string, data: UpdateUserData) {
     data: {
       ...(validated.name !== undefined && { name: validated.name }),
       ...(validated.phone !== undefined && { phone: validated.phone || null }),
+      // undefined (not sent) leaves the stored address alone
+      ...validated.address,
       ...(validated.role !== undefined && { role: validated.role }),
       // Keep the existing tier unless one is supplied or the user stops being a member
       ...(validated.role !== undefined && validated.role !== 'member'

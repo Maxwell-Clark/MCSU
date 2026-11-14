@@ -1,3 +1,4 @@
+import { formatAddress } from '@/lib/format-address';
 import type { TierData } from '@/lib/membership-tiers';
 
 const ORG_NAME = 'Mindfulness Center of Southern Utah';
@@ -77,6 +78,15 @@ export interface DonationEmailInput {
   name?: string | null;
   amountCents: number;
   date: Date;
+  /** Stripe billing address (Stripe's field names) */
+  address?: {
+    line1?: string | null;
+    line2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postal_code?: string | null;
+    country?: string | null;
+  } | null;
   siteUrl: string;
 }
 
@@ -84,16 +94,21 @@ export function donationThankYouEmail({
   name,
   amountCents,
   date,
+  address,
   siteUrl,
 }: DonationEmailInput): RenderedEmail {
   const first = firstNameOf(name);
   const amount = formatUsd(amountCents);
   const greeting = first ? `Dear ${first},` : 'Hello,';
+  const formattedAddress = address
+    ? formatAddress({ ...address, postalCode: address.postal_code })
+    : '';
   const receiptLines = [
     `Organization: ${ORG_NAME}`,
     `Amount: ${amount}`,
     `Date: ${formatDate(date)}`,
     ...(name ? [`Donor: ${name}`] : []),
+    ...(formattedAddress ? [`Address: ${formattedAddress}`] : []),
   ];
   const acknowledgement =
     `The ${ORG_NAME} is a 501(c)(3) nonprofit organization. No goods or services were ` +

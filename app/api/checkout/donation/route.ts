@@ -27,6 +27,8 @@ export async function POST(request: Request) {
       ui_mode: 'embedded_page',
       mode: 'payment',
       submit_type: 'donate',
+      // Saved with the donation by the Stripe webhook (admin Donations page + receipt)
+      billing_address_collection: 'required',
       line_items: [
         {
           quantity: 1,

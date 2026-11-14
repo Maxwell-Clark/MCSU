@@ -16,8 +16,13 @@ import {
 } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { createClient } from '@/lib/supabase/client';
-import { passwordSchema, phoneSchema, emailSchema } from '@/lib/validations';
+import { addressSchema, passwordSchema, phoneSchema, emailSchema } from '@/lib/validations';
 import type { TierData } from '@/lib/membership-tiers';
+import {
+  AddressFields,
+  EMPTY_ADDRESS_VALUE,
+  type AddressValue,
+} from '@/components/Forms/AddressFields/AddressFields';
 import { MembershipCheckout } from '@/components/Membership/MembershipCheckout/MembershipCheckout';
 import classes from './SignupWizard.module.css';
 
@@ -37,11 +42,13 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState<AddressValue>(EMPTY_ADDRESS_VALUE);
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleNextAccount = () => {
+  const handleCreateAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError('');
     if (!name.trim()) {
       setError('Please enter your name.');
@@ -52,19 +59,19 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
       setError(emailResult.error.issues[0]?.message || 'Invalid email');
       return;
     }
-    const passwordResult = passwordSchema.safeParse(password);
-    if (!passwordResult.success) {
-      setError(passwordResult.error.issues[0]?.message || 'Invalid password');
-      return;
-    }
-    setActive(1);
-  };
-
-  const handleNextContact = async () => {
-    setError('');
     const phoneResult = phoneSchema.safeParse(phone);
     if (!phoneResult.success) {
       setError(phoneResult.error.issues[0]?.message || 'Invalid phone number');
+      return;
+    }
+    const addressResult = addressSchema.safeParse(address);
+    if (!addressResult.success) {
+      setError(addressResult.error.issues[0]?.message || 'Please enter your full address');
+      return;
+    }
+    const passwordResult = passwordSchema.safeParse(password);
+    if (!passwordResult.success) {
+      setError(passwordResult.error.issues[0]?.message || 'Invalid password');
       return;
     }
 
@@ -73,7 +80,14 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, name, phone, tier: tierSlug }),
+        body: JSON.stringify({
+          email,
+          password,
+          name,
+          phone,
+          address: addressResult.data,
+          tier: tierSlug,
+        }),
       });
 
       const data = await res.json();
@@ -87,7 +101,7 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
       const supabase = createClient();
       await supabase.auth.signInWithPassword({ email, password });
       setPassword('');
-      setActive(2);
+      setActive(1);
     } catch {
       setError('An error occurred. Please try again.');
     } finally {
@@ -179,87 +193,73 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
   // Signup wizard with stepper
   return (
     <div className={classes.wrapper} ref={formRef}>
-      <Stepper active={active} onStepClick={(step) => step < active && setActive(step)}>
-        <Stepper.Step label="Account" description="Name & credentials">
+      {/* No step clicking: once the account is created, going back would re-submit signup */}
+      <Stepper active={active}>
+        <Stepper.Step label="Account" description="Your details">
           <Paper withBorder shadow="md" p={30} mt="md" radius="md">
-            <Stack>
-              {error && (
-                <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light">
-                  {error}
-                </Alert>
-              )}
+            <form onSubmit={handleCreateAccount}>
+              <Stack>
+                {error && (
+                  <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light">
+                    {error}
+                  </Alert>
+                )}
 
-              <TextInput
-                label="Full Name"
-                placeholder="Your name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                autoComplete="name"
-              />
+                <TextInput
+                  label="Full Name"
+                  placeholder="Your name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="name"
+                />
 
-              <TextInput
-                label="Email"
-                placeholder="you@example.com"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-              />
+                <TextInput
+                  label="Email"
+                  placeholder="you@example.com"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
 
-              <PasswordInput
-                label="Password"
-                placeholder="Your password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="new-password"
-              />
+                <TextInput
+                  label="Phone Number"
+                  placeholder="(555) 123-4567"
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  autoComplete="tel"
+                />
 
-              <Group justify="space-between" mt="xl">
-                <Anchor
-                  component="button"
-                  type="button"
-                  size="sm"
-                  onClick={() => { setMode('login'); setError(''); setTimeout(() => formRef.current?.querySelector<HTMLInputElement>('input')?.focus(), 100); }}
-                >
-                  Already have an account?
-                </Anchor>
-                <Button onClick={handleNextAccount}>Next</Button>
-              </Group>
-            </Stack>
-          </Paper>
-        </Stepper.Step>
+                <AddressFields value={address} onChange={setAddress} required />
 
-        <Stepper.Step label="Contact" description="Phone number">
-          <Paper withBorder shadow="md" p={30} mt="md" radius="md">
-            <Stack>
-              {error && (
-                <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light">
-                  {error}
-                </Alert>
-              )}
+                <PasswordInput
+                  label="Password"
+                  placeholder="Your password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
 
-              <TextInput
-                label="Phone Number"
-                placeholder="(555) 123-4567"
-                type="tel"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                autoComplete="tel"
-              />
-
-              <Group justify="flex-end" mt="xl">
-                <Button variant="default" onClick={() => { setActive(0); setError(''); }}>
-                  Back
-                </Button>
-                <Button onClick={handleNextContact} loading={loading}>
-                  Next
-                </Button>
-              </Group>
-            </Stack>
+                <Group justify="space-between" mt="xl">
+                  <Anchor
+                    component="button"
+                    type="button"
+                    size="sm"
+                    onClick={() => { setMode('login'); setError(''); setTimeout(() => formRef.current?.querySelector<HTMLInputElement>('input')?.focus(), 100); }}
+                  >
+                    Already have an account?
+                  </Anchor>
+                  <Button type="submit" loading={loading}>
+                    Next
+                  </Button>
+                </Group>
+              </Stack>
+            </form>
           </Paper>
         </Stepper.Step>
 
@@ -270,7 +270,7 @@ export function SignupWizard({ tierSlug, tier }: SignupWizardProps) {
             </Title>
 
             {/* Only mount once the account exists — the checkout API requires a session */}
-            {active === 2 && <MembershipCheckout tier={tier} />}
+            {active === 1 && <MembershipCheckout tier={tier} />}
           </Paper>
 
           <Button

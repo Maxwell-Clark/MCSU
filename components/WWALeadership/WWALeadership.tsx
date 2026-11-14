@@ -3,7 +3,7 @@ import { Title, Text, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import classes from './WWALeadership.module.css';
-import Generic from '@/assets/img/generic.png';
+import HarlanHeadshot from '@/assets/img/harlan.jpeg';
 import GaelHeadshot from '@/assets/img/gael_headshot.jpg';
 import DavidTate from '@/assets/img/david_tate.jpeg';
 import KirkHeadshot from '@/assets/img/PXL_20260525_180745890.PORTRAIT.jpg';
@@ -14,6 +14,8 @@ interface TeamMember {
   name: string;
   category: string;
   description: string;
+  /** CSS object-position for the circular crop, for photos whose face isn't centred */
+  imagePosition?: string;
 }
 
 const data: TeamMember[] = [
@@ -40,7 +42,8 @@ Dr. David Tate has taught mindfulness principles and practices to thousands of p
     category: 'Treasurer',
   },
   {
-    image: Generic,
+    image: HarlanHeadshot.src,
+    imagePosition: 'center 20%',
     name: 'Harlan M. Hatfield',
     description: `Harlan was elected to the board of directors of the Mindfulness Center of Southern Utah in 2025 and also serves as Secretary to the organization.
 
@@ -96,6 +99,7 @@ export function WWALeadership() {
                   src={getImageSrc(member.image)}
                   alt={member.name}
                   className={classes.avatar}
+                  style={{ objectPosition: member.imagePosition }}
                 />
               </div>
               <Text className={classes.name}>{member.name}</Text>
@@ -125,6 +129,7 @@ export function WWALeadership() {
               src={getImageSrc(selectedMember.image)}
               alt={selectedMember.name}
               className={classes.modalAvatar}
+              style={{ objectPosition: selectedMember.imagePosition }}
             />
             <Text className={classes.modalName}>{selectedMember.name}</Text>
             <Text className={classes.modalRole}>{selectedMember.category}</Text>

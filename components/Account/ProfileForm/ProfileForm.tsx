@@ -13,12 +13,23 @@ import {
 } from '@mantine/core';
 import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
 import { updateProfile, changePassword } from '@/lib/actions/profile';
+import { optionalAddressSchema } from '@/lib/validations';
+import {
+  AddressFields,
+  toAddressValue,
+  type AddressValue,
+} from '@/components/Forms/AddressFields/AddressFields';
 
 interface ProfileFormProps {
   user: {
     name: string;
     email: string;
     phone: string | null;
+    addressLine1: string | null;
+    addressLine2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
   };
 }
 
@@ -26,6 +37,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
   // Profile fields
   const [name, setName] = useState(user.name || '');
   const [phone, setPhone] = useState(user.phone || '');
+  const [address, setAddress] = useState<AddressValue>(toAddressValue(user));
   const [profileError, setProfileError] = useState('');
   const [profileSuccess, setProfileSuccess] = useState('');
   const [profileLoading, setProfileLoading] = useState(false);
@@ -42,10 +54,18 @@ export function ProfileForm({ user }: ProfileFormProps) {
     e.preventDefault();
     setProfileError('');
     setProfileSuccess('');
+
+    // Checked here too: server action error messages are hidden in production
+    const addressResult = optionalAddressSchema.safeParse(address);
+    if (!addressResult.success) {
+      setProfileError(addressResult.error.issues[0]?.message || 'Please complete your address');
+      return;
+    }
+
     setProfileLoading(true);
 
     try {
-      await updateProfile({ name, phone });
+      await updateProfile({ name, phone, address });
       setProfileSuccess('Profile updated successfully');
     } catch (err) {
       setProfileError(err instanceof Error ? err.message : 'Failed to update profile');
@@ -123,6 +143,11 @@ export function ProfileForm({ user }: ProfileFormProps) {
               value={phone}
               onChange={(e) => setPhone(e.currentTarget.value)}
             />
+
+            <Title order={5} mt="sm">
+              Mailing Address
+            </Title>
+            <AddressFields value={address} onChange={setAddress} />
 
             <Button type="submit" loading={profileLoading}>
               Save Changes

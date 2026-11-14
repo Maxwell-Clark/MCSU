@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    const { email, password, name, phone, tier } = result.data;
+    const { email, password, name, phone, address, tier } = result.data;
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -57,12 +57,14 @@ export async function POST(request: Request) {
           name,
           role: 'member',
           phone: phone || null,
+          ...address,
           membershipTier: tier,
           membershipStatus: 'pending',
         },
         update: {
           name,
           phone: phone || null,
+          ...address,
           membershipTier: tier,
           membershipStatus: 'pending',
         },

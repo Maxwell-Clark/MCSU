@@ -9,7 +9,10 @@ const mockConstructEvent = jest.fn();
 
 jest.mock('@/lib/email/send', () => ({ sendEmail: jest.fn().mockResolvedValue(true) }));
 jest.mock('@/lib/prisma', () => ({
-  prisma: { user: { update: jest.fn(), findFirst: jest.fn() } },
+  prisma: {
+    user: { update: jest.fn(), findFirst: jest.fn() },
+    donation: { upsert: jest.fn() },
+  },
 }));
 jest.mock('@/lib/stripe', () => ({
   getStripe: () => ({ webhooks: { constructEvent: (...args: unknown[]) => mockConstructEvent(...args) } }),
@@ -20,6 +23,7 @@ jest.mock('@/lib/logger', () => ({ logger: { info: jest.fn(), warn: jest.fn(), e
 const sendMock = sendEmail as jest.Mock;
 const updateMock = prisma.user.update as jest.Mock;
 const findFirstMock = prisma.user.findFirst as jest.Mock;
+const donationUpsertMock = prisma.donation.upsert as jest.Mock;
 
 function deliver(event: unknown) {
   mockConstructEvent.mockReturnValue(event);
@@ -37,8 +41,21 @@ const donationSession = {
   mode: 'payment',
   payment_status: 'paid',
   amount_total: 2500,
+  currency: 'usd',
   created: 1_700_000_000,
-  customer_details: { email: 'donor@example.com', name: 'Jordan Lee' },
+  metadata: { type: 'donation' },
+  customer_details: {
+    email: 'donor@example.com',
+    name: 'Jordan Lee',
+    address: {
+      line1: '1 Main St',
+      line2: null,
+      city: 'St. George',
+      state: 'UT',
+      postal_code: '84770',
+      country: 'US',
+    },
+  },
 };
 
 const membershipSession = {
@@ -74,12 +91,53 @@ describe('Stripe webhook emails', () => {
     );
   });
 
-  it('skips the donation email when payment has not cleared', async () => {
+  it('skips the donation email and record when payment has not cleared', async () => {
     await deliver({
       type: 'checkout.session.completed',
       data: { object: { ...donationSession, payment_status: 'unpaid' } },
     });
     expect(sendMock).not.toHaveBeenCalled();
+    expect(donationUpsertMock).not.toHaveBeenCalled();
+  });
+
+  it('saves the donation with its billing address, keyed on the session', async () => {
+    await deliver({ type: 'checkout.session.completed', data: { object: donationSession } });
+    expect(donationUpsertMock).toHaveBeenCalledTimes(1);
+    const args = donationUpsertMock.mock.calls[0][0];
+    expect(args.where).toEqual({ stripeSessionId: 'cs_donation' });
+    expect(args.create).toEqual({
+      stripeSessionId: 'cs_donation',
+      name: 'Jordan Lee',
+      email: 'donor@example.com',
+      amount: 2500,
+      currency: 'usd',
+      addressLine1: '1 Main St',
+      addressLine2: null,
+      city: 'St. George',
+      state: 'UT',
+      postalCode: '84770',
+      country: 'US',
+      donatedAt: new Date(1_700_000_000 * 1000),
+    });
+  });
+
+  it('puts the address on the receipt', async () => {
+    await deliver({ type: 'checkout.session.completed', data: { object: donationSession } });
+    expect(sendMock.mock.calls[0][0].text).toContain('Address: 1 Main St, St. George, UT 84770');
+  });
+
+  it('returns 500 so Stripe retries when the donation cannot be saved', async () => {
+    donationUpsertMock.mockRejectedValueOnce(new Error('db down'));
+    const res = await deliver({ type: 'checkout.session.completed', data: { object: donationSession } });
+    expect(res.status).toBe(500);
+  });
+
+  it('does not record non-donation one-time payments', async () => {
+    await deliver({
+      type: 'checkout.session.completed',
+      data: { object: { ...donationSession, metadata: {} } },
+    });
+    expect(donationUpsertMock).not.toHaveBeenCalled();
   });
 
   it('sends a membership welcome keyed on the subscription', async () => {

@@ -62,11 +62,22 @@ describe('signupSchema', () => {
     password: 'Password1',
     name: 'Test User',
     phone: '(555) 123-4567',
+    address: {
+      addressLine1: '123 Main St',
+      city: 'St. George',
+      state: 'UT',
+      postalCode: '84770',
+    },
     tier: 'curious',
   };
 
   it('accepts valid signup data', () => {
     expect(signupSchema.safeParse(validData).success).toBe(true);
+  });
+
+  it('requires an address', () => {
+    const { address: _omit, ...withoutAddress } = validData;
+    expect(signupSchema.safeParse(withoutAddress).success).toBe(false);
   });
 
   it('rejects invalid tier', () => {

@@ -12,6 +12,7 @@ import {
   IconSchool,
   IconUsers,
   IconPlaylist,
+  IconHeartHandshake,
 } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -24,6 +25,7 @@ const navItems = [
   { label: 'Programs', href: '/admin/programs', icon: IconSchool },
   { label: 'Media & Resources', href: '/admin/content', icon: IconPlaylist },
   { label: 'Users', href: '/admin/users', icon: IconUsers },
+  { label: 'Donations', href: '/admin/donations', icon: IconHeartHandshake },
 ];
 
 export function AdminSidebar() {

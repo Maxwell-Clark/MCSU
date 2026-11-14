@@ -16,7 +16,16 @@ export default async function ProfilePage() {
 
   const dbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { name: true, email: true, phone: true },
+    select: {
+      name: true,
+      email: true,
+      phone: true,
+      addressLine1: true,
+      addressLine2: true,
+      city: true,
+      state: true,
+      postalCode: true,
+    },
   });
 
   // Signed in but no matching user record. Redirecting to /login would bounce a
@@ -41,7 +50,7 @@ export default async function ProfilePage() {
             Manage your personal information
           </Text>
         </div>
-        <ProfileForm user={{ name: dbUser.name || '', email: dbUser.email, phone: dbUser.phone }} />
+        <ProfileForm user={{ ...dbUser, name: dbUser.name || '' }} />
       </Stack>
     </Container>
   );

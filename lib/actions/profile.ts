@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/supabase/auth';
 import { createClient as createServerClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { optionalAddressSchema, type AddressPayload } from '@/lib/validations';
 
 function getAdminClient() {
   return createClient(
@@ -17,16 +18,24 @@ interface UpdateProfileData {
   name: string;
   phone: string;
   email?: string;
+  /** Omitted = leave unchanged; all blank = clear; otherwise must be a complete address */
+  address?: AddressPayload;
 }
 
 export async function updateProfile(data: UpdateProfileData) {
   const session = await requireAuth();
+
+  const addressResult = optionalAddressSchema.safeParse(data.address);
+  if (!addressResult.success) {
+    throw new Error(addressResult.error.issues[0]?.message || 'Invalid address');
+  }
 
   await prisma.user.update({
     where: { id: session.user.id },
     data: {
       name: data.name,
       phone: data.phone || null,
+      ...addressResult.data,
     },
   });
 

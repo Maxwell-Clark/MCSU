@@ -61,6 +61,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       email: session.customer_details?.email ?? undefined,
       amount: session.amount_total,
     });
+    if (session.metadata?.type === 'donation') {
+      await saveDonation(session);
+    }
     await sendDonationEmail(session);
     return;
   }
@@ -108,6 +111,36 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   }
 }
 
+/**
+ * Upserts on the Checkout Session id so webhook retries don't duplicate the record. Errors
+ * propagate (500 → Stripe retries); the receipt email is idempotent so it won't double-send.
+ */
+async function saveDonation(session: Stripe.Checkout.Session) {
+  if (session.payment_status !== 'paid' || session.amount_total == null) {
+    return;
+  }
+  const details = session.customer_details;
+  const address = details?.address;
+  const data = {
+    name: details?.name ?? null,
+    email: details?.email ?? null,
+    amount: session.amount_total,
+    currency: session.currency ?? 'usd',
+    addressLine1: address?.line1 ?? null,
+    addressLine2: address?.line2 ?? null,
+    city: address?.city ?? null,
+    state: address?.state ?? null,
+    postalCode: address?.postal_code ?? null,
+    country: address?.country ?? null,
+    donatedAt: new Date(session.created * 1000),
+  };
+  await prisma.donation.upsert({
+    where: { stripeSessionId: session.id },
+    create: { stripeSessionId: session.id, ...data },
+    update: data,
+  });
+}
+
 async function sendDonationEmail(session: Stripe.Checkout.Session) {
   const email = session.customer_details?.email;
   if (session.payment_status !== 'paid' || !email || session.amount_total == null) {
@@ -119,6 +152,7 @@ async function sendDonationEmail(session: Stripe.Checkout.Session) {
       name: session.customer_details?.name,
       amountCents: session.amount_total,
       date: new Date(session.created * 1000),
+      address: session.customer_details?.address,
       siteUrl: getSiteUrl(),
     }),
     idempotencyKey: `donation-thank-you/${session.id}`,
